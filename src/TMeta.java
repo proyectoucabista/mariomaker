@@ -5,11 +5,11 @@ import java.awt.image.BufferedImage;
  * @author Reed Weichler
  *
  */
-public class TGoal extends THorizontalBound{
+public class TMeta extends THorizontalBound{
 
 	private static final Sprite PREVIEW = new Sprite("Imagenes/sprites/tools/meta.png");
 	private static final Color color = new Color(0,255,0,180);
-	public TGoal(){
+	public TMeta(){
 		super(color);
 	}
 	

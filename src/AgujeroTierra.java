@@ -8,15 +8,15 @@ import java.awt.image.ImageObserver;
  * @author Reed Weichler
  *
  */
-public class GroundHole extends TColoredBlock {
+public class AgujeroTierra extends TColoredBlock {
 	
 	private static final BufferedImage preview = new Sprite("Imagenes/sprites/tools/agujero.png").getBuffer();
 	
-	private byte adjacentSkies;
+	private byte nubesAdyacentes;
 	
-	public GroundHole(){
+	public AgujeroTierra(){
 		super(Fondo.COLOR_NUBES, DESDE_NINGUNO);
-		adjacentSkies = DESDE_NINGUNO;
+		nubesAdyacentes = DESDE_NINGUNO;
 		height = height*3/2;
 	}
 	public void makeSpriteUnderground(){
@@ -38,36 +38,36 @@ public class GroundHole extends TColoredBlock {
 	}
 	
 	
-	private boolean hasAdjacentSky(byte direction){
+	private boolean tieneNubesAdyacentes(byte direction){
 		if(direction == DESDE_NINGUNO)return false;
-		return (adjacentSkies & direction) != 0;
+		return (nubesAdyacentes & direction) != 0;
 	}
 	
-	public void addAdjacent(TGridded other){
-		super.addAdjacent(other);
+	public void addAdyacente(TGridded other){
+		super.addAdyacente(other);
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
-		if(!hasAdjacentSky(direction)){
-			adjacentSkies += direction;
+		if(!tieneNubesAdyacentes(direction)){
+			nubesAdyacentes += direction;
 		}
 	}
 	
 	
 
-	public void removeAdjacent(TGridded other){
-		super.removeAdjacent(other);
+	public void removerAdyacente(TGridded other){
+		super.removerAdyacente(other);
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
-		if(hasAdjacentSky(direction)){
-			adjacentSkies -= direction;
+		if(tieneNubesAdyacentes(direction)){
+			nubesAdyacentes -= direction;
 		}
 	}
 	public void enContacto(Thing t){
-		if(t instanceof TGridded && !(t instanceof GroundHole || t instanceof TBGBlock) && getGridPos().equals(((TGridded)t).getGridPos())){
+		if(t instanceof TGridded && !(t instanceof AgujeroTierra || t instanceof TBGBloque) && getGridPos().equals(((TGridded)t).getGridPos())){
 			matar();
 		}
 		if(!t.activarGravedad()) return;
-		if((t.pos.x >= pos.x || hasAdjacentSky(DESDE_IZQUIERDA)) && (t.pos.x + t.width <= pos.x + width || hasAdjacentSky(DESDE_DERECHA))){
+		if((t.pos.x >= pos.x || tieneNubesAdyacentes(DESDE_IZQUIERDA)) && (t.pos.x + t.width <= pos.x + width || tieneNubesAdyacentes(DESDE_DERECHA))){
 			t.cayendo = true;
 		}else{
 			if(t.pos.y >= pos.y + height*2/3 - 10){

@@ -407,13 +407,13 @@ public class Heroe extends Thing{
 			if(estrella && t instanceof TEnemigo ){
 				new AePlayWave("Sonidos/patada.wav").start();
 				t.matar(new Point2D.Double(vel.x*2, Math.random()*16+3));
-			}else if(t instanceof TGoal){
+			}else if(t instanceof TMeta){
 				ganador = true;
 			}
 		}
 		/**
-		 * determines if this hit a TGoal
-		 * @return true if this hit the goal
+		 * determines if this cabezaso a TMeta
+		 * @return true if this cabezaso the goal
 		 */
 		public boolean ganador(){
 			boolean temp = ganador;

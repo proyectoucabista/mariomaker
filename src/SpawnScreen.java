@@ -32,26 +32,26 @@ public class SpawnScreen extends Pantalla {
 		new TKoopa(0,0),
 		new TPirana(),
 		new TTuberia(0,0),
-		new TBlock(0,0,TBlock.LADRILLO_MARRON,null),
-		new TBlock(TBlock.SUELO),
-		new TBlock(TBlock.PILAR),
-		new TBlock(TBlock.BLOQUE_PREGUNTA_DESACTIVADO),
+		new TBloque(0,0,TBloque.LADRILLO_MARRON,null),
+		new TBloque(TBloque.SUELO),
+		new TBloque(TBloque.PILAR),
+		new TBloque(TBloque.BLOQUE_PREGUNTA_DESACTIVADO),
 		null,
 		null,
-		new TBlock(TBlock.HONGO_IZQUIERDO),
-		new TBlock(TBlock.HONGO_MEDIO),
-		new TBlock(TBlock.HONGO_DERECHO),
-		new TBGBlock(TBlock.HONGO_ARRIBA),
-		new TBGBlock(TBlock.HONGO_ABAJO),
+		new TBloque(TBloque.HONGO_IZQUIERDO),
+		new TBloque(TBloque.HONGO_MEDIO),
+		new TBloque(TBloque.HONGO_DERECHO),
+		new TBGBloque(TBloque.HONGO_ARRIBA),
+		new TBGBloque(TBloque.HONGO_ABAJO),
                 new TStar(),
 		new TSpawn(),
-		new TGoal(),
+		new TMeta(),
 		new THorizontalBound(),
 		new TVerticalBound(),
 		new TLinker(),
 		new TRemover(),
 		new TColoredBlock(),
-		new GroundHole(),
+		new AgujeroTierra(),
 	};
 	
 	public SpawnScreen(Heroe heroe){
@@ -196,7 +196,7 @@ public class SpawnScreen extends Pantalla {
 			if(t instanceof TTuberia && ((TTuberia)t).getPirana() == null){
 				return YELLOW;
 			}
-		}else if(chosen instanceof TItem && t instanceof TBlock && ((TBlock)t).canAcceptItem()){
+		}else if(chosen instanceof TItem && t instanceof TBloque && ((TBloque)t).canAcceptItem()){
 			return GREEN;
 		}
 		return null;

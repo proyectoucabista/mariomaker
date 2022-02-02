@@ -53,7 +53,7 @@ public abstract class TItem extends Thing{
 	}
 	
 	/**
-	 * called when this exits its parent TBlock
+	 * called when this exits its parent TBloque
 	 */
 	public void onBlockExit(){
 		exited = true;

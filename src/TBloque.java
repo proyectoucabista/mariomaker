@@ -5,19 +5,19 @@
 import java.awt.*;
 import java.awt.image.*;
 
-public class TBlock extends TGridded{
+public class TBloque extends TGridded{
 
 	public static final int WIDTH = 32;
 	private double oldY,oldX;
-	private byte hit;
+	private byte cabezaso;
 	private byte image;
 	private TItem item;
-	private boolean spawning;
-	private boolean movesWhenHit;
+	private boolean apareciendo;
+	private boolean seMueveCuandoGolpea;
 	
 	public static final String BLOCK_PATH = "Imagenes/sprites/bloque/";
 	
-	private Sprite[] BLOCK = {
+	private Sprite[] BLOQUE = {
 			new Sprite(BLOCK_PATH+"ladrillo.png"),
 			new Sprite(BLOCK_PATH+"b_activado.gif"),
 			new Sprite(BLOCK_PATH+"b_desactivado.gif"),
@@ -53,44 +53,44 @@ public class TBlock extends TGridded{
 		
 	};
 	
-	public TBlock(double x, double y, byte image){
+	public TBloque(double x, double y, byte image){
 		this(x,y,image,null,false);
 	}
 	
-	public TBlock(double x, double y, byte image, TItem item){
+	public TBloque(double x, double y, byte image, TItem item){
 		this(x,y,image,item,true);
 	}
 	
-	public TBlock(byte image){
+	public TBloque(byte image){
 		this(0,0,image,null,false);
 	}
 	
-	public TBlock(){
+	public TBloque(){
 		this(PILAR);
 	}
 	/**
-	 * Creates a TBlock with the specified x and y coordinates, image, contained item, and whether or not if it moves when it's hit.
+	 * Creates a TBloque with the specified x and y coordinates, image, contained item, and whether or not if it moves when it's cabezaso.
 	 * @param x
 	 * @param y
 	 * @param image
 	 * @param item
-	 * @param movesWhenHit
+	 * @param seMueveCuandoGolpea
 	 */
-	public TBlock(double x, double y, byte image, TItem item, boolean movesWhenHit){
+	public TBloque(double x, double y, byte image, TItem item, boolean seMueveCuandoGolpea){
 		super(x,y,WIDTH,WIDTH);
-		this.movesWhenHit = movesWhenHit;
+		this.seMueveCuandoGolpea = seMueveCuandoGolpea;
 		init();
-		spawning = false;
-		hit = DESDE_NINGUNO;
+		apareciendo = false;
+		cabezaso = DESDE_NINGUNO;
 		this.image = image;
 		this.item = item;
 	}
 	
 	public void makeSpriteUnderground(){
-		for(Sprite s: BLOCK){
+		for(Sprite s: BLOQUE){
 			s.replaceColors(aboveGround,underGround);
 		}
-		//System.out.println(BLOCK[image]);
+		//System.out.println(BLOQUE[image]);
 	}
 	
 	public void init(){
@@ -100,7 +100,7 @@ public class TBlock extends TGridded{
 	}
 	public void init(Serializer s){
 		image = (byte)s.ints[super.numInts()];
-		movesWhenHit = s.bools[super.numBools()];
+		seMueveCuandoGolpea = s.bools[super.numBools()];
 		Class c = s.classes[super.numClasses()];
 		if(c != null){
 			try {
@@ -115,7 +115,7 @@ public class TBlock extends TGridded{
 	public Serializer serialize(){
 		Serializer s = super.serialize();
 		s.ints[super.numInts()] = image;
-		s.bools[super.numBools()] = movesWhenHit;
+		s.bools[super.numBools()] = seMueveCuandoGolpea;
 		if(item != null){
 			s.classes[super.numClasses()] = item.getClass();
 		}
@@ -133,22 +133,22 @@ public class TBlock extends TGridded{
 	}*/
 	
 	public BufferedImage preview(){
-		return BLOCK[image].getBuffer();
+		return BLOQUE[image].getBuffer();
 	}
 
 	public void enContacto(Thing t){
-		if(!t.isStatic() && movesWhenHit && vel.x == 0 && vel.y == 0 && hit == DESDE_NINGUNO && !spawning){
+		if(!t.isStatic() && seMueveCuandoGolpea && vel.x == 0 && vel.y == 0 && cabezaso == DESDE_NINGUNO && !apareciendo){
 			
 			//System.out.println(pos.x + " " + oldX);
 			
 			byte where = fromWhere(t);
 			
 			if(where == DESDE_ABAJO && t instanceof Heroe){
-				hit(where);
+				cabezaso(where);
 				vel.y = 3;
 			}else{
 				if( (where == DESDE_IZQUIERDA || where == DESDE_DERECHA) && t.vRapido() ){
-					hit(where);
+					cabezaso(where);
 					if(where == DESDE_IZQUIERDA){
 						vel.x = 3;
 					}else{
@@ -160,12 +160,12 @@ public class TBlock extends TGridded{
 		super.enContacto(t);
 	}
 	/**
-	 * Called when a player or a juego object hits the block (for spawning TItems)
+	 * Called when a player or a juego object hits the block (for apareciendo TItems)
 	 * @param where
-	 * Where it hit.
+	 * Where it cabezaso.
 	 */
-	public void hit(byte where){
-		hit = where;
+	public void cabezaso(byte where){
+		cabezaso = where;
 		//oldX = pos.x;
 		//oldY = pos.y;
 	}
@@ -173,13 +173,13 @@ public class TBlock extends TGridded{
 	private void spawnItem(){
 		addSpawn(item);
 		item = null;
-		spawning = false;
-		movesWhenHit = false;
+		apareciendo = false;
+		seMueveCuandoGolpea = false;
 	}
 	
 	private void beginSpawn(){
 		if(item == null)return;
-		spawning = true;
+		apareciendo = true;
 		item.setPos(pos);
 		image = BLOQUE_PREGUNTA_DESACTIVADO;
 	}
@@ -188,7 +188,7 @@ public class TBlock extends TGridded{
 	public void think(){
 		super.think();
 		
-		if(spawning){
+		if(apareciendo){
 			item.think();
 			//System.out.println(item.pos.y + " > " + pos.y + " + " + height);
 			if(item.pos.y > pos.y + height){
@@ -197,32 +197,32 @@ public class TBlock extends TGridded{
 			}
 		}
 		
-		if(pos.y > oldY + WIDTH/2 && hit == DESDE_ABAJO && vel.y > 0){
+		if(pos.y > oldY + WIDTH/2 && cabezaso == DESDE_ABAJO && vel.y > 0){
 			vel.y = -3;
-		}else if(pos.y < oldY && hit == DESDE_ABAJO && vel.y < 0){
+		}else if(pos.y < oldY && cabezaso == DESDE_ABAJO && vel.y < 0){
 			vel.y = 0;
-			hit = DESDE_NINGUNO;
+			cabezaso = DESDE_NINGUNO;
 			pos.y = oldY;
 			beginSpawn();
-		}else if(pos.x > oldX + WIDTH/2 && hit == DESDE_IZQUIERDA && vel.x > 0){
+		}else if(pos.x > oldX + WIDTH/2 && cabezaso == DESDE_IZQUIERDA && vel.x > 0){
 			vel.x = -3;
-		}else if(pos.x < oldX && hit == DESDE_IZQUIERDA && vel.x < 0){
+		}else if(pos.x < oldX && cabezaso == DESDE_IZQUIERDA && vel.x < 0){
 			vel.x = 0;
-			hit = DESDE_NINGUNO;
+			cabezaso = DESDE_NINGUNO;
 			pos.x = oldX;
 			beginSpawn();
-		}else if(pos.x < oldX - WIDTH/2 && hit == DESDE_DERECHA && vel.x < 0){
+		}else if(pos.x < oldX - WIDTH/2 && cabezaso == DESDE_DERECHA && vel.x < 0){
 			vel.x = 3;
-		}else if(pos.x > oldX && hit == DESDE_DERECHA && vel.x > 0){
+		}else if(pos.x > oldX && cabezaso == DESDE_DERECHA && vel.x > 0){
 			vel.x = 0;
-			hit = DESDE_NINGUNO;
+			cabezaso = DESDE_NINGUNO;
 			pos.x = oldX;
 			beginSpawn();
 		}
 	}
 	
 	public boolean isStatic(){
-		return !movesWhenHit;
+		return !seMueveCuandoGolpea;
 	}
 	
 	/**
@@ -230,7 +230,7 @@ public class TBlock extends TGridded{
 	 * @return true if this can contain a new TItem, false if not
 	 */
 	public boolean canAcceptItem(){
-		return item == null && (movesWhenHit || image == TBlock.BLOQUE_PREGUNTA_DESACTIVADO);
+		return item == null && (seMueveCuandoGolpea || image == TBloque.BLOQUE_PREGUNTA_DESACTIVADO);
 	}
 	
 	/**
@@ -240,17 +240,17 @@ public class TBlock extends TGridded{
 	public void addItem(TItem item){
 		if(image == BLOQUE_PREGUNTA_DESACTIVADO){
 			image = BLOQUE_PREGUNTA;
-			movesWhenHit = true;
+			seMueveCuandoGolpea = true;
 		}
 		this.item = item;
 	}	
 	
 	public BufferedImage figureOutDrawImage(){
-		return BLOCK[image].getBuffer();
+		return BLOQUE[image].getBuffer();
 	}
 	
 	public void draw(Graphics g, ImageObserver o, Heroe heroe){
-		if(inPlayerView(heroe) && spawning)
+		if(inPlayerView(heroe) && apareciendo)
 			item.draw(g,o,heroe);
 		super.draw(g,o,heroe);
 	}

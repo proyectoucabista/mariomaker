@@ -68,7 +68,7 @@ public class TGridded extends Thing{
 	 * add other to the list of adjacent blocks
 	 * @param other
 	 */
-	public void addAdjacent(TGridded other){
+	public void addAdyacente(TGridded other){
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
 		if(!hasAdjacent(direction)){
@@ -80,7 +80,7 @@ public class TGridded extends Thing{
 	 * remove other from the list of adjacent blocks
 	 * @param other
 	 */
-	public void removeAdjacent(TGridded other){
+	public void removerAdyacente(TGridded other){
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
 		if(hasAdjacent(direction)){
@@ -126,7 +126,7 @@ public class TGridded extends Thing{
 	 */
 	public byte getDirection(TGridded othergrid){
 		Rectangle other = othergrid.representation();
-		if(othergrid instanceof TBGBlock) return DESDE_NINGUNO;
+		if(othergrid instanceof TBGBloque) return DESDE_NINGUNO;
 		int x = gridPos.x;
 		int y = gridPos.y;
 		

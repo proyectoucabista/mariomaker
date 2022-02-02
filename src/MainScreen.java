@@ -58,19 +58,19 @@ public class MainScreen extends Pantalla {
 		lobby.add(koopa);
 		koopa.crearCaparazon(true);
 		koopa.vel.x = -TKoopa.VELOCIDAD_CAPARAZON;
-		lobby.add(new TBlock(32*5,32*4, TBlock.BLOQUE_PREGUNTA));
-		lobby.add(new TBlock(32*4,32*2, TBlock.LADRILLOS));
-		lobby.add(new TBlock(32*3,32*2, TBlock.LADRILLOS));
-		lobby.add(new TBlock(32*5,32*2, TBlock.LADRILLOS));
-		lobby.add(new TBlock(32*6,32*2, TBlock.BLOQUE_PREGUNTA_DESACTIVADO));
-		lobby.add(new TBlock(32*7,32*2, TBlock.LADRILLOS));
+		lobby.add(new TBloque(32*5,32*4, TBloque.BLOQUE_PREGUNTA));
+		lobby.add(new TBloque(32*4,32*2, TBloque.LADRILLOS));
+		lobby.add(new TBloque(32*3,32*2, TBloque.LADRILLOS));
+		lobby.add(new TBloque(32*5,32*2, TBloque.LADRILLOS));
+		lobby.add(new TBloque(32*6,32*2, TBloque.BLOQUE_PREGUNTA_DESACTIVADO));
+		lobby.add(new TBloque(32*7,32*2, TBloque.LADRILLOS));
 		TTuberia tuberia = new TTuberia();
 		tuberia.setPos(-32*7, 32*5);
 		TPirana pirana = new TPirana();
 		lobby.add(tuberia);
 		lobby.add(pirana);
 		tuberia.addPirana(pirana);
-		lobby.add(new TBlock(-32*5, 0, TBlock.LADRILLOS, null, true));
+		lobby.add(new TBloque(-32*5, 0, TBloque.LADRILLOS, null, true));
 		
 		nuevoJuego = new TextButton("NUEVO JUEGO", JGameMaker.FONT_GRANDE);
 		cargarJuego = new TextButton("CARGAR JUEGO", JGameMaker.FONT_GRANDE);
