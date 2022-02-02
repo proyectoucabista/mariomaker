@@ -3,9 +3,9 @@ import java.awt.image.BufferedImage;
 
 /**
  * Represents a tool used in the level editor. By default, it has a width and height of 1 and is killed right after
- * it is put into the room (after it performs the desired action, of course).<br/>
+ * it is put into the lobby (after it performs the desired action, of course).<br/>
  * <br/>
- * These are visible in the Level Editor but are invisible in SinglePlayer
+ * These are visible in the Level Editor but are invisible in UnJugador
  * @author Reed Weichler
  *
  */

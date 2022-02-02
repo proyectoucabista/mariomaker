@@ -15,28 +15,28 @@ import java.awt.Color;
  * @author Reed Weichler
  *
  */
-public class Backdrop{
+public class Fondo{
 	
 	private static final Image
-		SKY = (new ImageIcon("Imagenes/nubes.gif")).getImage(),
-		BRICK = (new ImageIcon("Imagenes/bloqueOscuro.gif")).getImage(),
-		GRASS = (new ImageIcon("Imagenes/suelo.jpg")).getImage();
+		NUBES = (new ImageIcon("Imagenes/nubes.gif")).getImage(),
+		LADRILLOS = (new ImageIcon("Imagenes/bloqueOscuro.gif")).getImage(),
+		SUELO = (new ImageIcon("Imagenes/suelo.jpg")).getImage();
 	
 	private boolean underground;
 	
 	public static final Color
-		SKY_COLOR = new Color(63,191,255),
+		COLOR_NUBES = new Color(63,191,255),
 		UNDERGROUND_COLOR = Color.BLACK;
 	
 	private static final double
-		SKY_MULTI = 0.1,
-		GROUND_MULTI = 1.0;
+		NUBES_MULTI = 0.1,
+		TIERRA_MULTI = 1.0;
 	
 	/**
-	 * Creates a new Backdrop.
+	 * Creates a new Fondo.
 	 * @param underground true if it should be an underground theme, false if not
 	 */
-	public Backdrop(boolean underground){
+	public Fondo(boolean underground){
 		this.underground = underground;
     }
 	
@@ -59,26 +59,26 @@ public class Backdrop{
 		if(underground)
 			g.setColor(UNDERGROUND_COLOR);
 		else
-			g.setColor(Backdrop.SKY_COLOR);
+			g.setColor(Fondo.COLOR_NUBES);
 		g.fillRect(0, 0, JGameMaker.screenWidth, JGameMaker.screenHeight);
     	Image ground;
     	int groundHeight,groundWidth;
-    	//g.setColor(SKY_COLOR);
+    	//g.setColor(COLOR_NUBES);
     	if(!underground){
-    		ground = GRASS;
+    		ground = SUELO;
 	    	groundHeight = ground.getHeight(o);
 	    	groundWidth = ground.getWidth(o);
-	    	int skyHeight = SKY.getHeight(o)*3,
-	    		skyWidth = SKY.getWidth(o)*3;
+	    	int skyHeight = NUBES.getHeight(o)*3,
+	    		skyWidth = NUBES.getWidth(o)*3;
 	    		
 	    	
-	    	double x = -viewX*SKY_MULTI;
-	    	double y = (viewY - (JGameMaker.screenHeight - JGameMaker.NIVEL_SUELO))*SKY_MULTI;
+	    	double x = -viewX*NUBES_MULTI;
+	    	double y = (viewY - (JGameMaker.screenHeight - JGameMaker.NIVEL_SUELO))*NUBES_MULTI;
 	    	while(x > 0)
 	    		x -= skyWidth;
 	    	((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 	    	for(; x < JGameMaker.screenWidth; x+=skyWidth){
-	    		g.drawImage(SKY, JGameMaker.scaleW(x),JGameMaker.scaleH(y),JGameMaker.scaleW(skyWidth),JGameMaker.scaleH(skyHeight),o);
+	    		g.drawImage(NUBES, JGameMaker.scaleW(x),JGameMaker.scaleH(y),JGameMaker.scaleW(skyWidth),JGameMaker.scaleH(skyHeight),o);
 	    	}
 	    	((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
@@ -97,7 +97,7 @@ public class Backdrop{
 			((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.00f));
 			*/
     	}else{
-    		ground = BRICK;
+    		ground = LADRILLOS;
 	    	groundHeight = ground.getHeight(o)*2;
 	    	groundWidth = ground.getWidth(o)*2;
     	}
@@ -105,7 +105,7 @@ public class Backdrop{
     	
     	for(double y = viewY; y < JGameMaker.screenHeight; y+=groundHeight){
     		double x = viewX;
-	    	x *= -GROUND_MULTI;
+	    	x *= -TIERRA_MULTI;
 	    	while(x > 0)
 	    		x -= groundWidth;
 	    		

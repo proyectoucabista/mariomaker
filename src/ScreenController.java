@@ -1,7 +1,7 @@
 import java.io.File;
 
 /**
- * This class controls the ScreenManager. Every Screen has one of these.
+ * This class controls the ScreenManager. Every Pantalla has one of these.
  * @author Reed Weichler
  *
  */
@@ -39,7 +39,7 @@ public class ScreenController {
 	}
 	
 	/**
-	 * creates a new SinglePlayer
+	 * creates a new UnJugador
 	 * @param marioImage the color of the Hero
 	 */
 	public void singlePlayer(int marioImage){
@@ -50,7 +50,7 @@ public class ScreenController {
 	}
 	
 	/**
-	 * called when RESET LEVEL is pressed in the PauseScreen in SinglePlayer. It resets the current level back to what it originally was so it can be played through again
+	 * called when RESET LEVEL is pressed in the PauseScreen in UnJugador. It resets the current level back to what it originally was so it can be played through again
 	 */
 	public void resetSinglePlayer(){
 		screenPanel.singlePlayer(marioImage, currentLevel);
@@ -67,8 +67,8 @@ public class ScreenController {
 	 * If in level editor mode, prompts the user to select a file and saves the level to that file
 	 * @return true if game was saved, false if not
 	 */
-	public boolean saveGame(){
-		return screenPanel.saveGame(opener.saveFile());
+	public boolean guardarJuego(){
+		return screenPanel.guardarJuego(opener.saveFile());
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class ScreenController {
 	}
 	
 	/**
-	 * called when in SinglePlayer the Hero reaches the goal. Tries to open the next level using the .wcfg. If it cannot be found then it returns to the main menu
+	 * called when in UnJugador the Hero reaches the goal. Tries to open the next level using the .wcfg. If it cannot be found then it returns to the main menu
 	 */
 	public void nextLevel(){
 		
@@ -103,15 +103,15 @@ public class ScreenController {
 		String file = path + filename.substring(0,filename.length() - "jgamemaker".length()) + "wcfg";
 		boolean loaded = false;
 		if(opener.readFile(file)){
-			String linea;
-			while((linea = opener.readLine()) != null){
-				if(linea.equals(currentLevel.getName())){
-					linea = opener.readLine();
-					if(linea == null){
+			String line;
+			while((line = opener.readLine()) != null){
+				if(line.equals(currentLevel.getName())){
+					line = opener.readLine();
+					if(line == null){
 						break;
 					}
 					try {
-						File fcLevel = new File(path + linea);
+						File fcLevel = new File(path + line);
 						if(!fcLevel.getPath().equals(currentLevel.getPath()) && opener.readFile(fcLevel)){	
 							currentLevel = fcLevel;
 							screenPanel.singlePlayer(marioImage, currentLevel);

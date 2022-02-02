@@ -42,7 +42,7 @@ public class JGameMaker extends JPanel{
 		return d;
 	}
 	
-	public static void updateTime(){
+	public static void actualizarTiempo(){
 		tiempoPasado = System.nanoTime() - ultimoTiempo;
 		ultimoTiempo = System.nanoTime();
 	}
@@ -80,7 +80,7 @@ public class JGameMaker extends JPanel{
 	 * makes the game go full screen
 	 * @param w JFrame to be made full screen
 	 */
-	public void makeFullScreen(JFrame w){
+	public void colocarPantallaCompleta(JFrame w){
 		w.setUndecorated(true);
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
 		screenWidth = screensize.width;
@@ -99,7 +99,7 @@ public class JGameMaker extends JPanel{
 		this.addMouseListener(manager);
 		this.addKeyListener(manager);
 		JFrame w = new JFrame("JGameMaker");
-		makeFullScreen(w);
+		colocarPantallaCompleta(w);
 		w.setBounds(0, 0, screenWidth, screenHeight);
 		w.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		w.getContentPane().add(this);
@@ -115,7 +115,7 @@ public class JGameMaker extends JPanel{
 		//FileOpener opener = new FileOpener(w);
 		//opener.saveFile("heh");
 		while(true){
-			updateTime();
+			actualizarTiempo();
 			//try {
 			manager.think();
 			//} catch (Exception e) {

@@ -3,7 +3,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
- * A tool that is not removed instantly from the room after creation. By default it has a width and height of 32.
+ * A tool that is not removed instantly from the lobby after creation. By default it has a width and height of 32.
  * @author Reed Weichler
  *
  */

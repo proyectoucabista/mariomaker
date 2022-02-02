@@ -70,7 +70,7 @@ public class TPirhana extends TEnemy{
 		}
 	}
 	/**
-	 * called when a hero is touching the parent TPipe
+	 * called when a hero is touching the parent TTuberia
 	 */
 	public void warnHero(){
 		hasHero = true;
@@ -137,8 +137,8 @@ public class TPirhana extends TEnemy{
 	}
 
 	public void thingTouch(Thing t){
-		if(t instanceof TPipe){
-			TPipe tuberia = (TPipe)t;
+		if(t instanceof TTuberia){
+			TTuberia tuberia = (TTuberia)t;
 			if(tuberia.getPirhana() == null){
 				tuberia.addPirhana(this);
 			}

@@ -10,14 +10,14 @@ import java.awt.image.BufferedImage;
 
 
 
-public class MainScreen extends Screen {
+public class MainScreen extends Pantalla {
 	
 	///private boolean choosingMultiplayer = false;
 	
-	private Room room;
+	private Lobby lobby;
 	
 	//private String ip = null; //ip you're trying to connect to. when null, you're not trying to connect to a server, when initialized, this means you're trying to connect to a server.
-	private int selectedMario;
+	private int marioSeleccionado;
 	
 	private final BufferedImage[] MARIO_COLORS = {
 		null,
@@ -29,90 +29,89 @@ public class MainScreen extends Screen {
 	};
 	
 	private TextButton	editorButton,
-						newGame,
-						loadGame,
-						singleButton,
-						//multiButton,
-						title,
-						couldntLoad,
+						nuevoJuego,
+						cargarJuego,
+						botonUnico,
+						titulo,
+						errorCargar,
 						salir;
 	
-	private static final int SPACE_FROM_TOP = 150, SPACE_BETWEEN = 2;
+	private static final int ESPACIO_ARRIBA = 150, ESPACIO_ENTRE_TITULOS = 2;
 	
-	private static final Font FONT_TITLE = new Font("Courier", Font.PLAIN, 100);
+	private static final Font FONT_TITULO = new Font("Courier", Font.PLAIN, 100);
 	
-	private boolean editorSelected, loadFailed;
+	private boolean editorSeleccionado, cargaFallida;
 	
 	public MainScreen(){
-		editorSelected = false;
-		loadFailed = false;
+		editorSeleccionado = false;
+		cargaFallida = false;
 		for(int i = 0; i < MARIO_COLORS.length; i++){
 			Hero h = new Hero();
 			h.setSpriteColor(i);
 			MARIO_COLORS[i] = (h.IMAGE[0]).getBuffer();
 		}
-		selectedMario = (int)(Math.random()*6);
+		marioSeleccionado = (int)(Math.random()*6);
 		boolean underground = Math.random() > 0.5;
-		room = new Room(underground, -1);
-		room.add(new TGoomba(500,0,32,32));
+		lobby = new Lobby(underground, -1);
+		lobby.add(new TGoomba(500,0,32,32));
 		TKoopa koopa = new TKoopa(3000,0);
-		room.add(koopa);
+		lobby.add(koopa);
 		koopa.makeShell(true);
-		koopa.vel.x = -TKoopa.SHELL_SPEED;
-		room.add(new TBlock(32*5,32*4, TBlock.QUESTION_BLOCK));
-		room.add(new TBlock(32*4,32*2, TBlock.BRICK));
-		room.add(new TBlock(32*3,32*2, TBlock.BRICK));
-		room.add(new TBlock(32*5,32*2, TBlock.BRICK));
-		room.add(new TBlock(32*6,32*2, TBlock.QUESTION_BLOCK_DEACTIVATED));
-		room.add(new TBlock(32*7,32*2, TBlock.BRICK));
-		TPipe tuberia = new TPipe();
+		koopa.vel.x = -TKoopa.VELOCIDAD_CAPARAZON;
+		lobby.add(new TBlock(32*5,32*4, TBlock.BLOQUE_PREGUNTA));
+		lobby.add(new TBlock(32*4,32*2, TBlock.LADRILLOS));
+		lobby.add(new TBlock(32*3,32*2, TBlock.LADRILLOS));
+		lobby.add(new TBlock(32*5,32*2, TBlock.LADRILLOS));
+		lobby.add(new TBlock(32*6,32*2, TBlock.BLOQUE_PREGUNTA_DESACTIVADO));
+		lobby.add(new TBlock(32*7,32*2, TBlock.LADRILLOS));
+		TTuberia tuberia = new TTuberia();
 		tuberia.setPos(-32*7, 32*5);
 		TPirhana pirana = new TPirhana();
-		room.add(tuberia);
-		room.add(pirana);
+		lobby.add(tuberia);
+		lobby.add(pirana);
 		tuberia.addPirhana(pirana);
-		room.add(new TBlock(-32*5, 0, TBlock.BRICK, null, true));
+		lobby.add(new TBlock(-32*5, 0, TBlock.LADRILLOS, null, true));
 		
-		newGame = new TextButton("NEW", JGameMaker.FONT_GRANDE);
-		loadGame = new TextButton("LOAD", JGameMaker.FONT_GRANDE);
-		editorButton = new TextButton("LEVEL EDITOR", JGameMaker.FONT_GRANDE);
-		singleButton = new TextButton("SINGLEPLAYER", JGameMaker.FONT_GRANDE);
-		couldntLoad = new TextButton("LOAD FAILED", JGameMaker.FONT_GRANDE, TextButton.TITULO);
+		nuevoJuego = new TextButton("NUEVO JUEGO", JGameMaker.FONT_GRANDE);
+		cargarJuego = new TextButton("CARGAR JUEGO", JGameMaker.FONT_GRANDE);
+		editorButton = new TextButton("CREAR MAPA", JGameMaker.FONT_GRANDE);
+		botonUnico = new TextButton("UN SOLO JUGADOR", JGameMaker.FONT_GRANDE);
+		errorCargar = new TextButton("CARGAR JUEGO FAILED", JGameMaker.FONT_GRANDE, TextButton.TITULO);
 		//multiButton = new TextRect("ONLINE", JGameMaker.FONT_GRANDE);
-		title = new TextButton("WUIGI", FONT_TITLE, Color.WHITE);
-		salir = new TextButton("QUIT", JGameMaker.FONT_GRANDE);
+		titulo = new TextButton("JGameMaker", FONT_TITULO, Color.WHITE);
+		salir = new TextButton("SALIR", JGameMaker.FONT_GRANDE);
 		int height = editorButton.getHeight();
 		
-		title.setPos(0, SPACE_FROM_TOP - title.getHeight() - 50);
-		editorButton.setPos(0, SPACE_FROM_TOP);
-		newGame.setPos(0, SPACE_FROM_TOP);
-		loadGame.setPos(newGame.getWidth() + SPACE_BETWEEN*20, SPACE_FROM_TOP);
-		singleButton.setPos(0, SPACE_FROM_TOP + height + SPACE_BETWEEN);
-		//multiButton.setPos(0, SPACE_FROM_TOP + (height + SPACE_BETWEEN)*2);
-		couldntLoad.setPos(0,SPACE_FROM_TOP + (height + SPACE_BETWEEN) * 2);
-		salir.setPos(0, SPACE_FROM_TOP + (height + SPACE_BETWEEN)*4);
+		titulo.setPos(0, ESPACIO_ARRIBA - titulo.getHeight() - 50);
+		editorButton.setPos(0, ESPACIO_ARRIBA);
+		nuevoJuego.setPos(0, ESPACIO_ARRIBA);
+		cargarJuego.setPos(nuevoJuego.getWidth() + ESPACIO_ENTRE_TITULOS*20, ESPACIO_ARRIBA);
+		botonUnico.setPos(0, ESPACIO_ARRIBA + height + ESPACIO_ENTRE_TITULOS);
+		//multiButton.setPos(0, ESPACIO_ARRIBA + (height + ESPACIO_ENTRE_TITULOS)*2);
+		errorCargar.setPos(0,ESPACIO_ARRIBA + (height + ESPACIO_ENTRE_TITULOS) * 2);
+		salir.setPos(0, ESPACIO_ARRIBA + (height + ESPACIO_ENTRE_TITULOS)*4);
 	}
 	
-	public void loadFailed(){
-		loadFailed = true;
-		editorSelected = false;
+	public void cargaFallida(){
+		cargaFallida = true;
+		editorSeleccionado = false;
 	}
 	
 	public void draw(Graphics g) {
-		room.draw(g,null,null);
+		lobby.draw(g,null,null);
     	
-    	title.draw(g);
+    	titulo.draw(g);
     	
-		if(!editorSelected){
+		if(!editorSeleccionado){
 	    	editorButton.draw(g);
 		}else{
-			loadGame.draw(g);
-			newGame.draw(g);
+			cargarJuego.draw(g);
+			nuevoJuego.draw(g);
 		}
-		if(loadFailed){
-			couldntLoad.draw(g);
+		if(cargaFallida){
+			errorCargar.draw(g);
 		}
-	    singleButton.draw(g);
+	    botonUnico.draw(g);
 	    salir.draw(g);
 	    
 	    
@@ -124,7 +123,7 @@ public class MainScreen extends Screen {
 				y = 1;
 			}
 
-			if(i == selectedMario)
+			if(i == marioSeleccionado)
 				((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 			//draw the mario itself
 			g.drawImage(
@@ -136,7 +135,7 @@ public class MainScreen extends Screen {
 				null//(java.awt.image.ImageObserver)this
 			);
 
-			if(i == selectedMario)
+			if(i == marioSeleccionado)
 				((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
 		}
 		((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
@@ -154,7 +153,7 @@ public class MainScreen extends Screen {
 		
 		//if(ip == null){
 		if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE || code == KeyEvent.VK_ESCAPE){
-			controller.levelEditor(selectedMario);
+			controller.levelEditor(marioSeleccionado);
 		}
 		return; //continue only if you're typing the IP of the server to connect to
 		//}
@@ -168,22 +167,22 @@ public class MainScreen extends Screen {
 		if(salir.contains(x,y)){
 			System.exit(0);
 		}
-		if(!editorSelected){
+		if(!editorSeleccionado){
 			if(editorButton.contains(x,y)){
-				//controller.loadGame(selectedMario);
-				editorSelected = true;
+				//controller.cargarJuego(marioSeleccionado);
+				editorSeleccionado = true;
 			}
 		}else{
-			if(loadGame.contains(x,y)){
-				loadFailed = false;
-				controller.loadLevelEditor(selectedMario);
-			}else if(newGame.contains(x,y)){
-				controller.levelEditor(selectedMario);
+			if(cargarJuego.contains(x,y)){
+				cargaFallida = false;
+				controller.loadLevelEditor(marioSeleccionado);
+			}else if(nuevoJuego.contains(x,y)){
+				controller.levelEditor(marioSeleccionado);
 			}
 		}
-		if(singleButton.contains(x,y)){
-			loadFailed = false;
-			controller.singlePlayer(selectedMario);
+		if(botonUnico.contains(x,y)){
+			cargaFallida = false;
+			controller.singlePlayer(marioSeleccionado);
 		}
 		
 		
@@ -195,7 +194,7 @@ public class MainScreen extends Screen {
 			}
 			if(x > 428 + xpos*128 && x < 508 + xpos*128 &&
 				y > 100 + ypos*80 && y < 180 + ypos*80){
-				selectedMario = i;
+				marioSeleccionado = i;
 				break;
 			}
 		}
@@ -204,7 +203,7 @@ public class MainScreen extends Screen {
 
 	public void think() {
 		
-		room.think(null,true);
+		lobby.think(null,true);
 
 	}
 

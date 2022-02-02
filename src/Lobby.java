@@ -4,14 +4,14 @@ import java.awt.geom.Point2D;
 import java.awt.image.ImageObserver;
 
 /**
- * This represents a room that contains all of the Things that are in the game. This handles all interactions between each Thing and also the Hero, if there is one.
+ * This represents a lobby that contains all of the Things that are in the game. This handles all interactions between each Thing and also the Hero, if there is one.
  * @author Reed Weichler
  *
  */
-public class Room {
+public class Lobby {
 	
 	private Vector<Thing> things;
-	private Backdrop backdrop;
+	private Fondo backdrop;
 	
 	private int index;
 	private Class removeSpawn;
@@ -19,13 +19,13 @@ public class Room {
 	private int numRemoves;
 	
 	/**
-	 * creates a new Room
+	 * creates a new Lobby
 	 * @param underground true if the theme is underground, false if not
 	 * @param index the index in the array of the parent GameScreen
 	 */
-	public Room(boolean underground, int index){
+	public Lobby(boolean underground, int index){
 		this.index = index;
-		backdrop = new Backdrop(underground);
+		backdrop = new Fondo(underground);
 		things = new Vector<Thing>();
 		numRemoves = 0;
 		removeSpawn = null;
@@ -211,8 +211,8 @@ public class Room {
 			}
 			item.onBlockExit();
 		}
-		if(add instanceof TPipe){
-			((TPipe)add).room = index;
+		if(add instanceof TTuberia){
+			((TTuberia)add).lobby = index;
 		}
 		if(add instanceof TSpawn || add instanceof TGoal){
 			removeSpawnFromOtherRooms(add.getClass());
@@ -224,7 +224,7 @@ public class Room {
 		}
 	}
 	/**
-	 * makes every other Room contained in the parent GameScreen remove its spawn if it contains any
+	 * makes every other Lobby contained in the parent GameScreen remove its spawn if it contains any
 	 * @param spawn
 	 */
 	public void removeSpawnFromOtherRooms(Class spawn){

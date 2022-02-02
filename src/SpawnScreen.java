@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * @author Reed Weichler
  *
  */
-public class SpawnScreen extends Screen {
+public class SpawnScreen extends Pantalla {
 	
 	private boolean visible;
 	private int chosenThing;
@@ -33,11 +33,11 @@ public class SpawnScreen extends Screen {
 		new TGoomba(0, 0),
 		new TKoopa(0,0),
 		new TPirhana(),
-		new TPipe(0,0),
+		new TTuberia(0,0),
 		new TBlock(0,0,TBlock.BRICK_BROWN,null),
 		new TBlock(TBlock.FLOOR),
 		new TBlock(TBlock.STEP),
-		new TBlock(TBlock.QUESTION_BLOCK_DEACTIVATED),
+		new TBlock(TBlock.BLOQUE_PREGUNTA_DESACTIVADO),
 		null,
 		null,
 		new TBlock(TBlock.SHROOM_LEFT),
@@ -202,7 +202,7 @@ public class SpawnScreen extends Screen {
 				return YELLOW;
 			}
 		}else if(chosen instanceof TPirhana){
-			if(t instanceof TPipe && ((TPipe)t).getPirhana() == null){
+			if(t instanceof TTuberia && ((TTuberia)t).getPirhana() == null){
 				return YELLOW;
 			}
 		}else if(chosen instanceof TItem && t instanceof TBlock && ((TBlock)t).canAcceptItem()){
@@ -276,8 +276,8 @@ public class SpawnScreen extends Screen {
 			if(things[i] == null)continue;
 			int tx = 160+(i%10)*48;
 			int ty = 160+(i/10)*48;
-			Rectangle rect = new Rectangle(tx,ty,32,32);
-			if(rect.contains(x,y)){
+			Rectangle mensaje1 = new Rectangle(tx,ty,32,32);
+			if(mensaje1.contains(x,y)){
 				return i;
 			}
 		}

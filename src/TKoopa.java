@@ -15,7 +15,7 @@ public class TKoopa extends TEnemy{
 	/**
 	 * speed of the shell when jumped on top of
 	 */
-	public static final double SHELL_SPEED = 6;
+	public static final double VELOCIDAD_CAPARAZON = 6;
 	private static final AePlayWave KICK = new AePlayWave("Sonidos/patada.wav");
 	private boolean isShell;
 	private boolean rightFoot;
@@ -168,9 +168,9 @@ public class TKoopa extends TEnemy{
 		if(isShell && vel.x == 0){
 			//project self to wherever i please.
 			if(hero.pos.x + hero.width/2 > pos.x + width/2){
-				vel.x = -SHELL_SPEED;
+				vel.x = -VELOCIDAD_CAPARAZON;
 			}else{
-				vel.x = SHELL_SPEED;
+				vel.x = VELOCIDAD_CAPARAZON;
 			}
 			KICK.start();
 		}

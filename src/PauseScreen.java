@@ -11,7 +11,7 @@ import java.awt.event.MouseEvent;
  * @author Reed Weichler
  *
  */
-public class PauseScreen extends Screen {
+public class PauseScreen extends Pantalla {
 	
 	private static final int TOP = 150,ESPACIADO = 5;
 	
@@ -102,7 +102,7 @@ public class PauseScreen extends Screen {
 				quitSelected = true;
 			}else if(guardar.contains(mouse)){
 				if(puedeGuardar)
-					controller.saveGame();
+					controller.guardarJuego();
 				else
 					controller.resetSinglePlayer();
 			}

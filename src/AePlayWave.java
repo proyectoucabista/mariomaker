@@ -13,10 +13,10 @@ import javax.sound.sampled.SourceDataLine;
  *
  */
 public class AePlayWave{
-private SourceDataLine linea = null;
+private SourceDataLine line = null;
 private byte[] audioBytes;
 	private int numBytes;
-	private AudioFormat audioFormat;
+	private AudioFormat audioFormato;
 	private DataLine.Info info;
         public static AePlayWave fondoMusica; // musica de fondo del juego
 
@@ -34,18 +34,17 @@ private byte[] audioBytes;
 			//System.exit(1);
 		}
 		if(audioInputStream == null)return;
-		audioFormat = audioInputStream.getFormat();
-		info = new DataLine.Info(SourceDataLine.class,
-								 audioFormat);
+		audioFormato = audioInputStream.getFormat();
+		info = new DataLine.Info(SourceDataLine.class,audioFormato);
 		try{
-			linea = (SourceDataLine)AudioSystem.getLine(info);
-			linea.open(audioFormat);
+			line = (SourceDataLine)AudioSystem.getLine(info);
+			line.open(audioFormato);
 		}catch (LineUnavailableException ex){
-			//System.out.println("*** Audio linea unavailable ***");
+			//System.out.println("*** Audio line unavailable ***");
 			//System.exit(1);
 		}
 
-		linea.start();
+		line.start();
 
 		audioBytes = new byte[(int)soundFile.length()];
 
@@ -64,19 +63,19 @@ private byte[] audioBytes;
 		new Thread(){
 			public void run(){
 				try{
-					linea = (SourceDataLine)AudioSystem.getLine(info);
-					linea.open(audioFormat);
+					line = (SourceDataLine)AudioSystem.getLine(info);
+					line.open(audioFormato);
 				}catch (LineUnavailableException ex){
-					//System.out.println("*** Audio linea unavailable ***");
+					//System.out.println("*** Audio line unavailable ***");
 					//System.exit(1);
 				}
-				linea.start();
-				linea.write(audioBytes, 0, numBytes);
+				line.start();
+				line.write(audioBytes, 0, numBytes);
 			}
 		}.start();
 	}
         
         public void finalizarMusica(){
-            linea.close();
+            line.close();
         }
 }

@@ -14,16 +14,16 @@ import javax.swing.ImageIcon;
  * @author rweichler
  *
  */
-public class TPipe extends TGridded{
+public class TTuberia extends TGridded{
 	
 	public static final String PIPE_PATH = "Imagenes/sprites/tuberia/";
 	
 	public static final int SQUARE_WIDTH = 32;
 	
 	/**
-	 * the room this tuberia is in
+	 * the lobby this tuberia is in
 	 */
-	public int room;
+	public int lobby;
 	private int teleRoom;
 	private Point2D.Double telePos;
 	
@@ -37,13 +37,13 @@ public class TPipe extends TGridded{
 	
 	private TPirhana pirana;
 	
-	public TPipe(){
+	public TTuberia(){
 		this(0,0);
 	}
 	
-	public TPipe(double x, double y){
+	public TTuberia(double x, double y){
 		super(x,0,SQUARE_WIDTH*2,(int)y);
-		room = 0;
+		lobby = 0;
 		teleRoom = -1;
 		telePos = null;
 		pirana = null;
@@ -148,7 +148,7 @@ public class TPipe extends TGridded{
 			if(pirana != null){
 				pirana.warnHero();
 			}
-			if(room != -1 && telePos != null && !((Hero)t).piping()){
+			if(lobby != -1 && telePos != null && !((Hero)t).piping()){
 				if(/*fromWhere(t) == facing() &&*/ t.pos.x - 4 > pos.x && t.pos.x + t.width + 4 < pos.x + width){
 					Hero h = (Hero)t;
 					h.tuberia(pos.y + height, teleRoom, telePos);
@@ -182,8 +182,8 @@ public class TPipe extends TGridded{
 		if(t == this)return false;
 		if(telePos != null)return false;
 		if(t == null)return true;
-		if(t instanceof TPipe){
-			if(!((TPipe)t).isTeleporter()){
+		if(t instanceof TTuberia){
+			if(!((TTuberia)t).isTeleporter()){
 				return true;
 			}
 		}
@@ -195,8 +195,8 @@ public class TPipe extends TGridded{
 	}
 	
 	public void link(Thing t){
-		TPipe tuberia = (TPipe)t;
-		teleRoom = tuberia.room;
+		TTuberia tuberia = (TTuberia)t;
+		teleRoom = tuberia.lobby;
 		telePos = new Point2D.Double(tuberia.pos.x + (tuberia.width - Hero.WIDTH)/2, tuberia.pos.y + tuberia.height - Hero.HEIGHT);
 	}
 	

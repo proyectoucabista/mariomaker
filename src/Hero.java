@@ -54,7 +54,7 @@ public class Hero extends Thing{
 		
 		boolean metal;
 		
-		private int room = -1;
+		private int lobby = -1;
 		private Point2D.Double telePos = new Point2D.Double();
 		
 		private byte move;
@@ -263,10 +263,10 @@ public class Hero extends Thing{
 		/**
 		 * called when this wants to move through a tuberia
 		 * @param lineToCross the y coordinate this must pass before teleporting to its new position
-		 * @param room room to move to
+		 * @param lobby lobby to move to
 		 * @param telePos position to move to
 		 */
-		public void tuberia(double lineToCross, int room, Point2D.Double telePos){
+		public void tuberia(double lineToCross, int lobby, Point2D.Double telePos){
 			if(crouched){
 				new AePlayWave("Sonidos/tuberia.wav").start();
 				crouched = false;
@@ -274,13 +274,13 @@ public class Hero extends Thing{
 				vel.y = -1;
 				vel.x = 0;
 				this.lineToCross = lineToCross;
-				this.room = room;
+				this.lobby = lobby;
 				this.telePos.setLocation(telePos);
 			}
 		}
 		/**
 		 * sets this position to that of the new tuberia it should move to
-		 * @return room this should move to
+		 * @return lobby this should move to
 		 */
 		public int getRoomAndSetNewPosition(){
 			this.setPos(telePos.x,telePos.y);
@@ -288,7 +288,7 @@ public class Hero extends Thing{
 			vel.x = 0;
 			piped = true;
 			lineToCross = (int)(pos.y + height);
-			return room;
+			return lobby;
 		}
 		/**
 		 * determines if the player finished moving through a tuberia and needs to change to the connected tuberia

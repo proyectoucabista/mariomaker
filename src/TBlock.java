@@ -32,9 +32,9 @@ public class TBlock extends TGridded{
 	
 	public static final byte
 		BRICK_BROWN = 0,
-		BRICK = 0,
-		QUESTION_BLOCK = 1,
-		QUESTION_BLOCK_DEACTIVATED = 2,
+		LADRILLOS = 0,
+		BLOQUE_PREGUNTA = 1,
+		BLOQUE_PREGUNTA_DESACTIVADO = 2,
 		FLOOR = 3,
 		STEP = 4,
 		SHROOM_LEFT = 5,
@@ -181,7 +181,7 @@ public class TBlock extends TGridded{
 		if(item == null)return;
 		spawning = true;
 		item.setPos(pos);
-		image = QUESTION_BLOCK_DEACTIVATED;
+		image = BLOQUE_PREGUNTA_DESACTIVADO;
 	}
 	
 	
@@ -230,7 +230,7 @@ public class TBlock extends TGridded{
 	 * @return true if this can contain a new TItem, false if not
 	 */
 	public boolean canAcceptItem(){
-		return item == null && (movesWhenHit || image == TBlock.QUESTION_BLOCK_DEACTIVATED);
+		return item == null && (movesWhenHit || image == TBlock.BLOQUE_PREGUNTA_DESACTIVADO);
 	}
 	
 	/**
@@ -238,8 +238,8 @@ public class TBlock extends TGridded{
 	 * @param item the TItem to contain
 	 */
 	public void addItem(TItem item){
-		if(image == QUESTION_BLOCK_DEACTIVATED){
-			image = QUESTION_BLOCK;
+		if(image == BLOQUE_PREGUNTA_DESACTIVADO){
+			image = BLOQUE_PREGUNTA;
 			movesWhenHit = true;
 		}
 		this.item = item;

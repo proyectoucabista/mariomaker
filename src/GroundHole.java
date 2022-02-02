@@ -15,15 +15,15 @@ public class GroundHole extends TColoredBlock {
 	private byte adjacentSkies;
 	
 	public GroundHole(){
-		super(Backdrop.SKY_COLOR, FROM_NONE);
+		super(Fondo.COLOR_NUBES, FROM_NONE);
 		adjacentSkies = FROM_NONE;
 		height = height*3/2;
 	}
 	public void makeSpriteUnderground(){
-		setColor(Backdrop.UNDERGROUND_COLOR);
+		setColor(Fondo.UNDERGROUND_COLOR);
 	}
 	public void init(){
-		init(Backdrop.SKY_COLOR,FROM_NONE);
+		init(Fondo.COLOR_NUBES,FROM_NONE);
 		revive();
 	}
 	public void think(){

@@ -10,17 +10,17 @@ import java.util.Vector;
  * @author Reed Weichler
  *
  */
-public class GameScreen extends Screen{
+public class GameScreen extends Pantalla{
 	/**
 	 * The Rooms in the game
 	 */
-	public Vector<Room> rooms;
+	public Vector<Lobby> lobbys;
 	/**
-	 * The Hero to be displayed and interact with the Things in each Room
+	 * The Hero to be displayed and interact with the Things in each Lobby
 	 */
 	public Hero hero;
 	/**
-	 * the index of the current Room in rooms
+	 * the index of the current Lobby in lobbys
 	 */
 	public int roomIndex;
 	
@@ -32,18 +32,18 @@ public class GameScreen extends Screen{
 	private TextButton loadingLabel;
 	
 	public GameScreen(){
-		rooms = new Vector<Room>();
+		lobbys = new Vector<Lobby>();
 		hero = new Hero();
 		loadingLabel = new TextButton("LOADING", JGameMaker.FONT_GRANDE, Color.WHITE);
 		loadingLabel.setPos((JGameMaker.screenWidth - loadingLabel.getWidth())/2, (JGameMaker.screenHeight - loadingLabel.getHeight())/2);
 		loading = false;
 	}
 	/**
-	 * Returns the current room the Hero is in
-	 * @return the current room the Hero is in
+	 * Returns the current lobby the Hero is in
+	 * @return the current lobby the Hero is in
 	 */
-	public Room currentRoom(){
-		return rooms.get(roomIndex);
+	public Lobby currentRoom(){
+		return lobbys.get(roomIndex);
 	}
 	
 	public void draw(Graphics g) {
@@ -61,8 +61,8 @@ public class GameScreen extends Screen{
 	 * makes the Hero set its position to wherever a TSpawn is
 	 */
 	public void setSpawn(){
-		for(int i = 0; i < rooms.size(); i++){
-			if(rooms.get(i).setSpawn(hero)){
+		for(int i = 0; i < lobbys.size(); i++){
+			if(lobbys.get(i).setSpawn(hero)){
 				roomIndex = i;
 				break;
 			}
@@ -102,16 +102,16 @@ public class GameScreen extends Screen{
 		for(Serializer s: s1){
 			Thing t = (Thing)s.getInstance().newInstance();
 			t.init(s);
-			rooms.get(0).add(t, false);
+			lobbys.get(0).add(t, false);
 			
 		}
 		for(Serializer s: s2){
 			Thing t = (Thing)s.getInstance().newInstance();
 			t.init(s);
-			rooms.get(1).add(t, false);
+			lobbys.get(1).add(t, false);
 		}
-		reset();
-		JGameMaker.updateTime();
+		reiniciar();
+		JGameMaker.actualizarTiempo();
 		return true;
 	}
 	
@@ -120,10 +120,10 @@ public class GameScreen extends Screen{
 	 * @param f File to be written to
 	 * @return true if successful, false if unsuccessful
 	 */
-	public boolean saveGame(File f){
+	public boolean guardarJuego(File f){
 		Vector<Vector<Serializer>> serializers = new Vector<Vector<Serializer>>();
-		serializers.add(rooms.get(0).serialize());
-		serializers.add(rooms.get(1).serialize());
+		serializers.add(lobbys.get(0).serialize());
+		serializers.add(lobbys.get(1).serialize());
 		return Serializer.toFile(f, serializers);
 	}
 	/**
@@ -131,14 +131,14 @@ public class GameScreen extends Screen{
 	 */
 	public void init(){
 		hero.init();
-		rooms = new Vector<Room>();
-		Room overworld = new Room(false, rooms.size());
-		rooms.add(overworld);
-		Room underground = new Room(true, rooms.size());
-		rooms.add(underground);
+		lobbys = new Vector<Lobby>();
+		Lobby overworld = new Lobby(false, lobbys.size());
+		lobbys.add(overworld);
+		Lobby underground = new Lobby(true, lobbys.size());
+		lobbys.add(underground);
 
 		roomIndex = 0;
-		reset();
+		reiniciar();
 		loading = false;
                 if(AePlayWave.fondoMusica != null){
                   AePlayWave.fondoMusica.finalizarMusica();// quitar musica del lobby si se ha jugado una partida  
@@ -183,7 +183,7 @@ public class GameScreen extends Screen{
 	/**
 	 * Called after initialization and when the Hero dies
 	 */
-	public void reset(){
+	public void reiniciar(){
 		
 	}
 	
@@ -204,7 +204,7 @@ public class GameScreen extends Screen{
 			//hero.vel = new Point2D.Double();
 		}
 		if(hero.isDead()){
-			reset();
+			reiniciar();
 		}
 	}
 }

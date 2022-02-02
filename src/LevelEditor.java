@@ -35,7 +35,7 @@ public class LevelEditor extends GameScreen{
 		hero.setSpriteColor(marioColor);
 		resetHero();
 	}*/
-	public void reset(){
+	public void reiniciar(){
 		hero.init();
 		hero.setDeathPos();
 		hero.startInvulnerable();
@@ -70,7 +70,7 @@ public class LevelEditor extends GameScreen{
 		spawnScreen.mouse(e,down);
 		if(spawnScreen.shouldToggleLevel()){
 			roomIndex++;
-			if(roomIndex == rooms.size()){
+			if(roomIndex == lobbys.size()){
 				roomIndex = 0;
 			}
 			hero.init();
@@ -102,9 +102,9 @@ public class LevelEditor extends GameScreen{
 		currentRoom().think(hero,true,freeze);
 		Class spawn = currentRoom().shouldRemoveSpawnFromOtherRooms();
 		if(spawn != null){
-			for(Room room: rooms){
-				if(room != currentRoom()){
-					room.removeSpawns(spawn);
+			for(Lobby lobby: lobbys){
+				if(lobby != currentRoom()){
+					lobby.removeSpawns(spawn);
 				}
 			}
 		}

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ScreenManager implements MouseListener, MouseMotionListener,KeyListener{
 	
 	private GameScreen game;
-	private Screen menu;
+	private Pantalla menu;
 	
 	private boolean paused;
 	private ScreenController controller;
@@ -68,7 +68,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	}
 	
 	/**
-	 * draws the menu Screen and game GameScreen
+	 * draws the menu Pantalla and game GameScreen
 	 * @param g the Graphics to be drawn to
 	 */
 	public void draw(Graphics g){
@@ -122,7 +122,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 			init = game.init(marioColor, f);
 		}catch(Exception ex){
 			if(menu instanceof MainScreen)
-				((MainScreen)menu).loadFailed();
+				((MainScreen)menu).cargaFallida();
 			game = null;
 			return;
 		}
@@ -142,9 +142,9 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param f the file to be written to
 	 * @return true if successfully written, false if not
 	 */
-	public boolean saveGame(File f){
+	public boolean guardarJuego(File f){
 		if(game != null){
-			return game.saveGame(f);
+			return game.guardarJuego(f);
 		}
 		return false;
 	}
@@ -156,15 +156,15 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param f the file to be opened and read
 	 */
 	public void singlePlayer(int marioColor, File f){
-		if(game == null || !(game instanceof SinglePlayer))
-			game = new SinglePlayer();
+		if(game == null || !(game instanceof UnJugador))
+			game = new UnJugador();
 		boolean init;
 		game.loading = true;
 		try{
 			init = game.init(marioColor, f);
 		}catch(Exception ex){
 			if(menu instanceof MainScreen)
-				((MainScreen)menu).loadFailed();
+				((MainScreen)menu).cargaFallida();
 			game = null;
 			return;
 		}
@@ -179,7 +179,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	}
 	
 	/**
-	 * called every frame, updates think in the GameScreen and menu Screen.
+	 * called every frame, updates think in the GameScreen and menu Pantalla.
 	 */
 	public void think(){
 		//System.out.println("Think");

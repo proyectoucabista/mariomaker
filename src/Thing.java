@@ -171,7 +171,7 @@ public class Thing{
 		init();
 	}
 	/**
-	 * called when added to the room and to the spawn menu, intializes fields
+	 * called when added to the lobby and to the spawn menu, intializes fields
 	 */
 	public void init(){
 		if(vel == null)
@@ -189,7 +189,7 @@ public class Thing{
 	}
 	/**
 	 * removes the item from the spawn queue from this and returns it
-	 * @return a Thing that should be added to the room. If there is none, null
+	 * @return a Thing that should be added to the lobby. If there is none, null
 	 */
 	public Thing getSpawn(){
 		Thing temp = spawn;
@@ -338,19 +338,19 @@ public class Thing{
 		return FROM_NONE;
 	}
 	/**
-	 * queues the parent Room, if any, to remove this
+	 * queues the parent Lobby, if any, to remove this
 	 */
 	public void kill(){
 		killed = true;
 	}
 	/**
-	 * queues the room to not remove this Thing if previously told to do so
+	 * queues the lobby to not remove this Thing if previously told to do so
 	 */
 	public void revive(){
 		killed = false;
 	}
 	/**
-	 * sets the velocity of the object to a value, once it is off screen then it is removed from the room
+	 * sets the velocity of the object to a value, once it is off screen then it is removed from the lobby
 	 * @param vel the velocity that it will move
 	 */
 	public void kill(Point2D.Double vel){
@@ -380,8 +380,8 @@ public class Thing{
 		return null;
 	}
 	/**
-	 * returns whether or not this should be removed from its parent Room
-	 * @return whether or not this should be removed from its parent Room
+	 * returns whether or not this should be removed from its parent Lobby
+	 * @return whether or not this should be removed from its parent Lobby
 	 */
 	public boolean killed(){
 		return killed;

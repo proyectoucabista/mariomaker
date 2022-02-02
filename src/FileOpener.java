@@ -71,7 +71,7 @@ public class FileOpener{
 			file.createNewFile();
 			return file;
 		}catch(Exception ex){
-			System.err.println("COULDN'T READ THE SHIT");
+			System.err.println("Error al cargar");
 			return null;
 		}
 	}
@@ -100,8 +100,8 @@ public class FileOpener{
 	}
 	
 	/**
-	 * gets the next linea from the FileReader after calling readFile
-	 * @return the next linea if it can be read, null if not
+	 * gets the next line from the FileReader after calling readFile
+	 * @return the next line if it can be read, null if not
 	 */
 	public String readLine(){
 		if(reader == null)return null;
