@@ -35,7 +35,7 @@ public class PauseScreen extends Pantalla {
 			guardar = new TextButton("Guardar nivel", JGameMaker.FONT_GRANDE);
 		}else{
 			datosNoGuardados = new TextButton("TODOS LOS PROGRESOS SE PERDERAN", JGameMaker.FONT_MEDIO, TextButton.TITULO,TextButton.TITULO);
-			guardar = new TextButton("REINICIAR NIVEL", JGameMaker.FONT_GRANDE);
+			guardar = new TextButton("Reiniciar Nivel", JGameMaker.FONT_GRANDE);
 		}
 		aceptar = new TextButton("Aceptar", JGameMaker.FONT_GRANDE);
 		cancelar = new TextButton("Cancelar", JGameMaker.FONT_GRANDE);

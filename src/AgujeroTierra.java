@@ -8,7 +8,7 @@ import java.awt.image.ImageObserver;
  * @author Reed Weichler
  *
  */
-public class AgujeroTierra extends TColoredBlock {
+public class AgujeroTierra extends TBloquesColores {
 	
 	private static final BufferedImage preview = new Sprite("Imagenes/sprites/tools/agujero.png").getBuffer();
 	

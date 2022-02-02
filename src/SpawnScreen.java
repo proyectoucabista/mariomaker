@@ -50,7 +50,6 @@ public class SpawnScreen extends Pantalla {
 		new TVerticalBound(),
 		new TLinker(),
 		new TRemover(),
-		new TColoredBlock(),
 		new AgujeroTierra(),
 	};
 	
@@ -145,7 +144,7 @@ public class SpawnScreen extends Pantalla {
 				break;
 				case KeyEvent.VK_C:
 					if(cosaElegida == 26){
-						TColoredBlock.cycleColors();
+						TBloquesColores.cycleColors();
 						things[cosaElegida].init();
 					}else{
 						cosaElegida = 26;
@@ -236,8 +235,8 @@ public class SpawnScreen extends Pantalla {
 		if(down && visible){
 			int temp = getIndex(x, y);
 			if(temp == cosaElegida){
-				if(things[cosaElegida] instanceof TColoredBlock){
-					TColoredBlock.cycleDirections();
+				if(things[cosaElegida] instanceof TBloquesColores){
+					TBloquesColores.cycleDirections();
 					things[cosaElegida].init();
 				}
 			}else if(temp != -1){

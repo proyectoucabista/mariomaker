@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  * @author Reed Weichler
  *
  */
-public class TVerticalBound extends TBound {
+public class TVerticalBound extends TUnido {
 
 	private static final Sprite PREVIEW = new Sprite("Imagenes/sprites/tools/vbound.png");
 

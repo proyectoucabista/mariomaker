@@ -218,7 +218,7 @@ public class Thing{
 	 * @return true if this is tocando t
 	 */
 	public boolean tocando(Thing t){
-		if(t instanceof TBound){
+		if(t instanceof TUnido){
 			return t.tocando(this);
 		}
 		if(muriendo() || t.muriendo())return false;

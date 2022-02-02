@@ -5,13 +5,13 @@ import java.awt.Color;
  * @author Reed Weichler
  *
  */
-public abstract class TBound extends TVisibleTool {
+public abstract class TUnido extends TVisibleTool {
 
 	private static final Color COLOR = new Color(255,140,0,180);
-	public TBound(){
+	public TUnido(){
 		this(COLOR);
 	}
-	public TBound(Color color){
+	public TUnido(Color color){
 		super(32,32,color);
 	}
 }
