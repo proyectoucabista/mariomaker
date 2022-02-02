@@ -58,7 +58,7 @@ public abstract class TEnemy extends Thing {
 	 * gives the player the ability for an extra saltar, usually called when this is hit from above
 	 * @param heroe
 	 */
-	public void stomp(Heroe heroe){
+	public void pisar(Heroe heroe){
 		heroe.setPos(heroe.pos.x, pos.y+height + 1);
 		if(heroe.saltoAbajo()){
 			heroe.vel.y = 0;

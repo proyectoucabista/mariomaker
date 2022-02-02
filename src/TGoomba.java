@@ -15,14 +15,14 @@ import java.awt.image.*;
  */
 public class TGoomba extends TEnemy{
 	
-	private boolean gotHit;
+	private boolean fueGolpeado;
 	private boolean pieDerecho;
-	private double time2Dai;
+	private double tiempo2Dai;
 	private double ultimaX;
 	
-	private static final int DIE_TIME = 20;
+	private static final int TIEMPO_MORIR = 20;
 	
-	private static final AePlayWave STOMP = new AePlayWave("Sonidos/pisar.wav");
+	private static final AePlayWave PISAR = new AePlayWave("Sonidos/pisar.wav");
 	private static final String GOOMBA_SPRITE_PATH = "Imagenes/sprites/goomba/";
 	
 	private Sprite[] GOOMBA = {
@@ -54,7 +54,7 @@ public class TGoomba extends TEnemy{
 	
 	public TGoomba(double x, double y, int width, int height){
 		super(x,y,width,height);
-		gotHit = false;
+		fueGolpeado = false;
 		ultimaX = 0;
 		pieDerecho = true;
 	}
@@ -78,12 +78,12 @@ public class TGoomba extends TEnemy{
 		
 		Sprite img;
 		
-		if(gotHit){
+		if(fueGolpeado){
 			img = GOOMBA[1];
 		}else{
 			img = GOOMBA[0];
 		}
-		if(muriendo() && !gotHit){
+		if(muriendo() && !fueGolpeado){
 			if(pieDerecho)
 				return img.flipXY();
 			else
@@ -103,9 +103,9 @@ public class TGoomba extends TEnemy{
 	public boolean activarGravedad(){return true;}
 	
 	public void think(){
-		if(gotHit){
-			time2Dai -= JGameMaker.time();
-			if(time2Dai < 1)
+		if(fueGolpeado){
+			tiempo2Dai -= JGameMaker.time();
+			if(tiempo2Dai < 1)
 				matar();
 		}else{
 			super.think();
@@ -120,20 +120,20 @@ public class TGoomba extends TEnemy{
 	}
 	
 	public void enContacto(Thing t){
-		if(gotHit) return;
+		if(fueGolpeado) return;
 		super.enContacto(t);
 	}
 	public void heroeContacto(Heroe heroe){
 		if(heroe.vel.y < -1){
-			STOMP.start();
-			gotHit();
-			stomp(heroe);
+			PISAR.start();
+			fueGolpeado();
+			pisar(heroe);
 		}
 	}
 	
-	private void gotHit(){
-		gotHit = true;
-		time2Dai = DIE_TIME;
+	private void fueGolpeado(){
+		fueGolpeado = true;
+		tiempo2Dai = TIEMPO_MORIR;
 	}
 	
 	

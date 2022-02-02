@@ -176,7 +176,7 @@ public class TKoopa extends TEnemy{
 		}
 		//stomping on walking koopa || stomping on moving shell
 		else if(where == DESDE_ARRIBA && !vCaparazon || vCaparazon && vel.x != 0 && !(new Thing(heroe.ultimaPos.x, heroe.ultimaPos.y, heroe.width, heroe.height)).tocando(new Thing(this.ultimaPos.x,this.ultimaPos.y,width,height))){
-			stomp(heroe);
+			pisar(heroe);
 			vel.x = 0;
 			crearCaparazon(true);
 		}
