@@ -56,7 +56,7 @@ public class MainScreen extends Pantalla {
 		lobby.add(new TGoomba(500,0,32,32));
 		TKoopa koopa = new TKoopa(3000,0);
 		lobby.add(koopa);
-		koopa.makeShell(true);
+		koopa.crearCaparazon(true);
 		koopa.vel.x = -TKoopa.VELOCIDAD_CAPARAZON;
 		lobby.add(new TBlock(32*5,32*4, TBlock.BLOQUE_PREGUNTA));
 		lobby.add(new TBlock(32*4,32*2, TBlock.LADRILLOS));

@@ -539,13 +539,13 @@ public class Heroe extends Thing{
 			
 
 			actualizarPosicion();
-			xOffset += pos.x - posLast.x;
+			xOffset += pos.x - ultimaPos.x;
 			if(xOffset > X_OFFSET)
 				xOffset = X_OFFSET;
 			else if(xOffset < -X_OFFSET)
 				xOffset = -X_OFFSET;
 				
-			yOffset += pos.y - posLast.y;
+			yOffset += pos.y - ultimaPos.y;
 			if(!(muerte || cayendo)){
 				if(yOffset > Y_OFFSET)
 					yOffset = Y_OFFSET;

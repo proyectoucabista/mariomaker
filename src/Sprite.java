@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 public class Sprite{
 	private BufferedImage imgB;
 	
-	private BufferedImage transparency;
+	private BufferedImage transparencia;
 	
 	private Image img;
 	int width,height;

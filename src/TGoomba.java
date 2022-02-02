@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.*;
 
 /**
- * It's a Goomba. It kills a player if it touches it from the side or bottom. If the heroe hits it on top, it is killed.
+ * It's a Goomba. It kills a player if it touches it from the side or bottom. If the heroe hits it on top, it is asesinado.
  * @author Reed Weichler
  *
  */
@@ -96,7 +96,7 @@ public class TGoomba extends TEnemy{
 		}
 	}
 	
-	public boolean isInanimate(){
+	public boolean vInanimado(){
 		return false;
 	}
 	
@@ -115,15 +115,15 @@ public class TGoomba extends TEnemy{
 			}
 		}
 	}
-	public byte killDirection(){
-		return FROM_BELOW | FROM_SIDE;
+	public byte direccionMuerte(){
+		return DESDE_ABAJO | DE_LADO;
 	}
 	
 	public void enContacto(Thing t){
 		if(gotHit) return;
 		super.enContacto(t);
 	}
-	public void heroTouch(Heroe heroe){
+	public void heroeContacto(Heroe heroe){
 		if(heroe.vel.y < -1){
 			STOMP.start();
 			gotHit();

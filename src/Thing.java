@@ -8,19 +8,19 @@ import java.awt.geom.*;
  */
 public class Thing{
 
-	public static final byte FROM_NONE = 1;
+	public static final byte DESDE_NINGUNO = 1;
 
-	public static final byte FROM_ABOVE = 2;
+	public static final byte DESDE_ARRIBA = 2;
 
-	public static final byte FROM_BELOW = 4;
+	public static final byte DESDE_ABAJO = 4;
 
-	public static final byte FROM_LEFT = 8;
+	public static final byte DESDE_IZQUIERDA = 8;
 
-	public static final byte FROM_RIGHT = 16;
+	public static final byte DESDE_DERECHA = 16;
 	
-	public static final byte FROM_EVERYWHERE = FROM_ABOVE + FROM_BELOW + FROM_LEFT + FROM_RIGHT;
+	public static final byte DE_TODASPARTES = DESDE_ARRIBA + DESDE_ABAJO + DESDE_IZQUIERDA + DESDE_DERECHA;
 	
-	public static final byte FROM_SIDE = FROM_LEFT + FROM_RIGHT;
+	public static final byte DE_LADO = DESDE_IZQUIERDA + DESDE_DERECHA;
 	
 	private Thing spawn = null;
 	
@@ -31,7 +31,7 @@ public class Thing{
 	/**
 	 * last position
 	 */
-	public Point2D.Double posLast;
+	public Point2D.Double ultimaPos;
 	/**
 	 * velocity
 	 */
@@ -49,7 +49,7 @@ public class Thing{
 	
 	
 	public int width,height;
-	private boolean killed,muriendo;
+	private boolean asesinado,muriendo;
 	
 	/**
 	 * returns an array of values that is used to determine where this should be drawn on the screen
@@ -106,10 +106,10 @@ public class Thing{
 	public Thing(double x, double y, int width, int height){
 		pos = new Point2D.Double(x,y);
 		sprite = new Sprite(width,height);
-		posLast = new Point2D.Double(x,y);
+		ultimaPos = new Point2D.Double(x,y);
 		this.width=width;
 		this.height=height;
-		killed = false;
+		asesinado = false;
 		cayendo = false;
 		init();
 	}
@@ -200,7 +200,7 @@ public class Thing{
 	 * writes the last position to memory
 	 */
 	public void updatePosLast(){
-		posLast.setLocation(pos);
+		ultimaPos.setLocation(pos);
 	}
 	/**
 	 * returns true if this is moving through the air as a result of matar(double x, double y), false if not
@@ -269,24 +269,24 @@ public class Thing{
 			
 			byte where = fromWhere(t);
 			
-			if( where == FROM_ABOVE ){
+			if( where == DESDE_ARRIBA ){
 				t.setPos(t.pos.x,pos.y + height);
 				if(t.vel.y < 0)
 					t.bumpY();
 				if(t.acc.y < 0)
 					t.acc.y = 0;
-			}else if( where == FROM_BELOW ){
+			}else if( where == DESDE_ABAJO ){
 				t.setPos(t.pos.x,pos.y - t.height);
 				if(t.vel.y > 0)
 					t.bumpY();
 				if(t.acc.y > 0)
 					t.acc.y = 0;
-			}else if( where == FROM_LEFT ){
+			}else if( where == DESDE_IZQUIERDA ){
 				t.setPos(pos.x - t.width,t.pos.y);
 				t.bumpX();
 				if(t.acc.x > 0)
 					t.acc.y = 0;
-			}else if( where == FROM_RIGHT ){
+			}else if( where == DESDE_DERECHA ){
 				t.setPos(pos.x + width,t.pos.y);
 				t.bumpX();
 				if(t.acc.x < 0)
@@ -298,56 +298,56 @@ public class Thing{
 	/**
 	 * determines where a Thing came from when a collision occurs
 	 * @param t the other Thing
-	 * @return the direction where t came from, if it can't be determined, returns Thing.FROM_NONE
+	 * @return the direction where t came from, if it can't be determined, returns Thing.DESDE_NINGUNO
 	 */
 	public byte fromWhere(Thing t){
 		
 		//they moved into us
-		if( t.posLast.y + 2 >= pos.y + height && t.vel.y <= 0 ){
-			return FROM_ABOVE;
-		}else if( t.posLast.y + t.height <= pos.y && t.vel.y > 0 ){
-			return FROM_BELOW;
-		}else if( t.posLast.x + t.width <= pos.x && t.vel.x > 0 ){
-			return FROM_LEFT;
-		}else if( t.posLast.x >= pos.x + width && t.vel.x < 0 ){
-			return FROM_RIGHT;
+		if( t.ultimaPos.y + 2 >= pos.y + height && t.vel.y <= 0 ){
+			return DESDE_ARRIBA;
+		}else if( t.ultimaPos.y + t.height <= pos.y && t.vel.y > 0 ){
+			return DESDE_ABAJO;
+		}else if( t.ultimaPos.x + t.width <= pos.x && t.vel.x > 0 ){
+			return DESDE_IZQUIERDA;
+		}else if( t.ultimaPos.x >= pos.x + width && t.vel.x < 0 ){
+			return DESDE_DERECHA;
 		}
 		
 		//we moved into them
-		if( t.pos.y >= posLast.y + height && vel.y > 0 ){
-			return FROM_ABOVE;
-		}else if( t.pos.y + t.height <= posLast.y && vel.y < 0 ){
-			return FROM_BELOW;
-		}else if( t.pos.x + t.width <= posLast.x && vel.x < 0 ){
-			return FROM_LEFT;
-		}else if( t.pos.x >= posLast.x + width && vel.x > 0 ){
-			return FROM_RIGHT;
+		if( t.pos.y >= ultimaPos.y + height && vel.y > 0 ){
+			return DESDE_ARRIBA;
+		}else if( t.pos.y + t.height <= ultimaPos.y && vel.y < 0 ){
+			return DESDE_ABAJO;
+		}else if( t.pos.x + t.width <= ultimaPos.x && vel.x < 0 ){
+			return DESDE_IZQUIERDA;
+		}else if( t.pos.x >= ultimaPos.x + width && vel.x > 0 ){
+			return DESDE_DERECHA;
 		}
 		
 		//both at same time
 		if( t.pos.y <= pos.y + height && t.pos.y+10 >= pos.y && vel.y > t.vel.y && vel.y != 0 && t.vel.y != 0 ){
-			return FROM_ABOVE;
+			return DESDE_ARRIBA;
 		}else if( t.pos.y + t.height >= pos.y && t.pos.y + t.height <= pos.y + height && vel.y <  t.vel.y && vel.y != 0 && t.vel.y != 0 ){
-			return FROM_BELOW;
+			return DESDE_ABAJO;
 		}else if( t.pos.x + t.width >= pos.x && t.pos.x <= pos.x && vel.x != 0 && t.vel.x != 0 ){
-			return FROM_LEFT;
+			return DESDE_IZQUIERDA;
 		}else if( t.pos.x <= pos.x + width && t.pos.x >= pos.x && vel.x != 0 && t.vel.x != 0 ){
-			return FROM_RIGHT;
+			return DESDE_DERECHA;
 		}
 		
-		return FROM_NONE;
+		return DESDE_NINGUNO;
 	}
 	/**
 	 * queues the parent Room, if any, to remove this
 	 */
 	public void matar(){
-		killed = true;
+		asesinado = true;
 	}
 	/**
 	 * queues the room to not remove this Thing if previously told to do so
 	 */
 	public void revive(){
-		killed = false;
+		asesinado = false;
 	}
 	/**
 	 * sets the velocity of the object to a value, once it is off screen then it is removed from the room
@@ -383,8 +383,8 @@ public class Thing{
 	 * returns whether or not this should be removed from its parent Room
 	 * @return whether or not this should be removed from its parent Room
 	 */
-	public boolean killed(){
-		return killed;
+	public boolean asesinado(){
+		return asesinado;
 	}
 	
 	/**
@@ -441,7 +441,7 @@ public class Thing{
 	 * determines if this is fast enough to matar TEnemies
 	 * @return true if this Thing moves fast enough to matar TEnemies, false if it does not
 	 */
-	public boolean isFast(){
+	public boolean vRapido(){
 		return false;
 	}
 	

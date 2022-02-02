@@ -16,14 +16,14 @@ public class TKoopa extends TEnemy{
 	 * speed of the shell when jumped on top of
 	 */
 	public static final double VELOCIDAD_CAPARAZON = 6;
-	private static final AePlayWave KICK = new AePlayWave("Sonidos/patada.wav");
-	private boolean isShell;
+	private static final AePlayWave PATADA = new AePlayWave("Sonidos/patada.wav");
+	private boolean vCaparazon;
 	private boolean pieDerecho;
 	private double ultimaX;
-	private double backOpenTimer;
-	private Point2D.Double livingVel;
+	private double tiempoVolverAbrir;
+	private Point2D.Double viviendoVel;
 	
-	private static final int TIME_TO_BACK_OPEN = 400;
+	private static final int TIEMPO_VOLVER_ABRIR = 400;
 	
 	private static final String KOOPA_SPRITE_PATH = "Imagenes/sprites/koopa/";
 	
@@ -48,7 +48,7 @@ public class TKoopa extends TEnemy{
 	};
 	public TKoopa(double x, double y, int w, int h){
 		super(x,y,w,h);
-		livingVel = new Point2D.Double();
+		viviendoVel = new Point2D.Double();
 	}
 	public TKoopa(double x, double y){
 		this(x,y,32,46);
@@ -60,10 +60,10 @@ public class TKoopa extends TEnemy{
 	public void init(){
 		super.init();
 		vel.x = -1;
-		isShell = false;
+		vCaparazon = false;
 		ultimaX = 0;
 		pieDerecho = true;
-		backOpenTimer = 0;
+		tiempoVolverAbrir = 0;
 	}
 	
 
@@ -87,9 +87,9 @@ public class TKoopa extends TEnemy{
 			return img.flipY();
 		}
 		
-		if(isShell){
+		if(vCaparazon){
 			
-			if(backOpenTimer < 150 && backOpenTimer != 0)
+			if(tiempoVolverAbrir < 150 && tiempoVolverAbrir != 0)
 				img = KOOPA[3];
 			else
 				img = KOOPA[2];
@@ -107,7 +107,7 @@ public class TKoopa extends TEnemy{
 		return img.getBuffer();
 	}
 	
-	public boolean isInanimate(){
+	public boolean vInanimado(){
 		return false;
 	}
 
@@ -120,15 +120,15 @@ public class TKoopa extends TEnemy{
 			super.think();
 			return;
 		}
-		if(backOpenTimer > 0 && vel.x == 0){
-			backOpenTimer-= JGameMaker.time();
-			if(backOpenTimer <= 0){
-				makeShell(false);
+		if(tiempoVolverAbrir > 0 && vel.x == 0){
+			tiempoVolverAbrir-= JGameMaker.time();
+			if(tiempoVolverAbrir <= 0){
+				crearCaparazon(false);
 				vel.x = -1;
 			}
 		}
 		super.think();
-		if(!isShell){
+		if(!vCaparazon){
 			if(pos.x > ultimaX + 10 || pos.x < ultimaX - 10){
 				pieDerecho = !pieDerecho;
 				ultimaX = pos.x;
@@ -136,23 +136,23 @@ public class TKoopa extends TEnemy{
 		}
 	}
 	
-	public byte killDirection(){
-		if(!isShell || vel.x != 0){
+	public byte direccionMuerte(){
+		if(!vCaparazon || vel.x != 0){
 			if(vel.x > 0){
-				return FROM_RIGHT | FROM_BELOW;
+				return DESDE_DERECHA | DESDE_ABAJO;
 			}else{
-				return FROM_LEFT | FROM_BELOW;
+				return DESDE_IZQUIERDA | DESDE_ABAJO;
 			}
 			
 		}else{
-			return FROM_NONE;
+			return DESDE_NINGUNO;
 		}
 	}
 	
-	public void blockHit(Thing block){
+	public void golpeBloque(Thing block){
 		vel.x = (pos.x - block.pos.x)/5;
 		vel.y = Math.random()*3 + 6;
-		makeShell(true);
+		crearCaparazon(true);
 		if(vel.x > 0 && vel.x < 2){
 			vel.x = 2;
 		}else if(vel.x < 0 && vel.x > -2){
@@ -161,24 +161,24 @@ public class TKoopa extends TEnemy{
 	}
 	
 	
-	public void heroTouch(Heroe heroe){
+	public void heroeContacto(Heroe heroe){
 		byte where = fromWhere(heroe);
 		
 		//shell is standing still
-		if(isShell && vel.x == 0){
+		if(vCaparazon && vel.x == 0){
 			//project self to wherever i please.
 			if(heroe.pos.x + heroe.width/2 > pos.x + width/2){
 				vel.x = -VELOCIDAD_CAPARAZON;
 			}else{
 				vel.x = VELOCIDAD_CAPARAZON;
 			}
-			KICK.start();
+			PATADA.start();
 		}
 		//stomping on walking koopa || stomping on moving shell
-		else if(where == FROM_ABOVE && !isShell || isShell && vel.x != 0 && !(new Thing(heroe.posLast.x, heroe.posLast.y, heroe.width, heroe.height)).tocando(new Thing(this.posLast.x,this.posLast.y,width,height))){
+		else if(where == DESDE_ARRIBA && !vCaparazon || vCaparazon && vel.x != 0 && !(new Thing(heroe.ultimaPos.x, heroe.ultimaPos.y, heroe.width, heroe.height)).tocando(new Thing(this.ultimaPos.x,this.ultimaPos.y,width,height))){
 			stomp(heroe);
 			vel.x = 0;
-			makeShell(true);
+			crearCaparazon(true);
 		}
 		
 	}
@@ -187,12 +187,12 @@ public class TKoopa extends TEnemy{
 	public void thingTouch(Thing t){
 		byte where = fromWhere(t);
 
-		if((where & FROM_SIDE) > 0 && t instanceof TEnemy && isShell && vel.x != 0){//collided with a moving enemy to murderize painfully and not so nicily lololol
+		if((where & DE_LADO) > 0 && t instanceof TEnemy && vCaparazon && vel.x != 0){//collided with a moving enemy to murderize painfully and not so nicily lololol
 			
 			double x = vel.x;
-			if(livingVel != null)
-				x = livingVel.x;
-			KICK.start();
+			if(viviendoVel != null)
+				x = viviendoVel.x;
+			PATADA.start();
 			
 			
 			t.matar(new Point2D.Double(vel.x*2, Math.random()*16+3));
@@ -209,23 +209,23 @@ public class TKoopa extends TEnemy{
 		return s;
 	}
 	
-	public void makeShell(boolean shell){
-		isShell = shell;
+	public void crearCaparazon(boolean shell){
+		vCaparazon = shell;
 		if(shell){
 			height = 28;
-			backOpenTimer = TIME_TO_BACK_OPEN;
+			tiempoVolverAbrir = TIEMPO_VOLVER_ABRIR;
 		}else{
 			height = 46;
 		}
 	}
 	
 	public void matar(Point2D.Double vel){
-		livingVel.setLocation(this.vel);
+		viviendoVel.setLocation(this.vel);
 		super.matar(vel);
 	}
 	
-	public boolean isFast(){
-		return isShell && vel.x != 0;
+	public boolean vRapido(){
+		return vCaparazon && vel.x != 0;
 	}
 	
 }

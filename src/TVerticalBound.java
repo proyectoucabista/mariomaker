@@ -14,7 +14,7 @@ public class TVerticalBound extends TBound {
 		return PREVIEW.getBuffer();
 	}
 	public void think(){
-		boolean muerte = this.killed();
+		boolean muerte = this.asesinado();
 		super.think();
 		if(!muerte){
 			revive();
@@ -47,12 +47,12 @@ public class TVerticalBound extends TBound {
 	}
 	
 	public byte fromWhere(Thing t){
-		if(pos.y + height <= t.posLast.y && t.vel.y < 0){
-			return FROM_ABOVE;
-		}else if(pos.y >= t.posLast.y + t.height && t.vel.y > 0){
-			return FROM_BELOW;
+		if(pos.y + height <= t.ultimaPos.y && t.vel.y < 0){
+			return DESDE_ARRIBA;
+		}else if(pos.y >= t.ultimaPos.y + t.height && t.vel.y > 0){
+			return DESDE_ABAJO;
 		}
-		return FROM_NONE;
+		return DESDE_NINGUNO;
 	}
 	
 	public int[] getDrawCoords(Heroe heroe){

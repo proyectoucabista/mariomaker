@@ -18,41 +18,32 @@ import java.awt.image.BufferedImage;
 public class SpawnScreen extends Pantalla {
 	
 	private boolean visible;
-	private int chosenThing;
+	private int cosaElegida;
 	private Heroe heroe;
-	private int hoveredThing;
-	private boolean toggleLevel, toggleFreeze;
+	private int cosaFlotante;
+	private boolean nivelPartida, congelarPartida;
 	
-	private TextButton changeLevel, freezeTime;
+	private TextButton cambiarNivel, congelarTiempo;
 	
-	private static final Color  YELLOW = new Color(255,255,0,120),
-								GREEN = new Color(0,255,0,120),
-								RED = new Color(255,0,0,120);
+	private static final Color  YELLOW = new Color(255,255,0,120),GREEN = new Color(0,255,0,120),RED = new Color(255,0,0,120);
 	
 	private Thing[] things = {
 		new TGoomba(0, 0),
 		new TKoopa(0,0),
 		new TPirhana(),
 		new TTuberia(0,0),
-		new TBlock(0,0,TBlock.BRICK_BROWN,null),
-		new TBlock(TBlock.FLOOR),
-		new TBlock(TBlock.STEP),
+		new TBlock(0,0,TBlock.LADRILLO_MARRON,null),
+		new TBlock(TBlock.SUELO),
+		new TBlock(TBlock.PILAR),
 		new TBlock(TBlock.BLOQUE_PREGUNTA_DESACTIVADO),
 		null,
 		null,
-		new TBlock(TBlock.SHROOM_LEFT),
-		new TBlock(TBlock.SHROOM_MID),
-		new TBlock(TBlock.SHROOM_RIGHT),
-		new TBGBlock(TBlock.SHROOM_TOP),
-		new TBGBlock(TBlock.SHROOM_BOTTOM),
+		new TBlock(TBlock.HONGO_IZQUIERDO),
+		new TBlock(TBlock.HONGO_MEDIO),
+		new TBlock(TBlock.HONGO_DERECHO),
+		new TBGBlock(TBlock.HONGO_ARRIBA),
+		new TBGBlock(TBlock.HONGO_ABAJO),
                 new TStar(),
-		
-		null,
-		null,
-		null,
-		null,
-		null,
-		null,
 		new TSpawn(),
 		new TGoal(),
 		new THorizontalBound(),
@@ -65,11 +56,11 @@ public class SpawnScreen extends Pantalla {
 	
 	public SpawnScreen(Heroe heroe){
 		visible = false;
-		toggleLevel = false;
-		chosenThing = 0;
-		hoveredThing = -1;
-		changeLevel = new TextButton("CAMBIAR FONDO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10);
-		freezeTime = new TextButton("CONGELAR TIEMPO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10 + 20 + changeLevel.getHeight());
+		nivelPartida = false;
+		cosaElegida = 0;
+		cosaFlotante = -1;
+		cambiarNivel = new TextButton("CAMBIAR FONDO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10);
+		congelarTiempo = new TextButton("CONGELAR TIEMPO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10 + 20 + cambiarNivel.getHeight());
 		this.heroe = heroe;
 	}
 
@@ -81,10 +72,10 @@ public class SpawnScreen extends Pantalla {
 				BufferedImage img = things[i].preview();
 				int x = 160+(i%10)*48;
 				int y = 160+(i/10)*48;
-				if(i == hoveredThing)
+				if(i == cosaFlotante)
 					((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 				int width = 32, height = 32*img.getHeight()/img.getWidth();
-				if(i == chosenThing){
+				if(i == cosaElegida){
 					x -= width/2;
 					y -= height/2;
 					width *= 2;
@@ -92,12 +83,12 @@ public class SpawnScreen extends Pantalla {
 				}
 				
 				g.drawImage(img,x,y,width,height,null);
-				if(i == hoveredThing)
+				if(i == cosaFlotante)
 					((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
 			}
-		}else if(chosenThing != -1){
+		}else if(cosaElegida != -1){
 		
-			Thing t = things[chosenThing];
+			Thing t = things[cosaElegida];
 			//makes the graphics object draw opaquely
 			((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
 			t.draw((Graphics2D)g,null,heroe);
@@ -105,8 +96,8 @@ public class SpawnScreen extends Pantalla {
 		//set it back to normal
 		((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 		if(visible){
-			changeLevel.draw(g);
-			freezeTime.draw(g);
+			cambiarNivel.draw(g);
+			congelarTiempo.draw(g);
 		}
 	}
 	/**
@@ -134,30 +125,30 @@ public class SpawnScreen extends Pantalla {
 				//convenience shortcut buttons
 				case KeyEvent.VK_BACK_SPACE:
 				case KeyEvent.VK_R:
-					chosenThing =25; //remover index
+					cosaElegida =25; //remover index
 				break;
 				case KeyEvent.VK_G:
-					chosenThing = 0; //goomba index
+					cosaElegida = 0; //goomba index
 				break;
 				case KeyEvent.VK_K:
-					chosenThing = 1; //koopa index
+					cosaElegida = 1; //koopa index
 				break;
 				case KeyEvent.VK_P:
-					chosenThing = 3; //tuberia index
+					cosaElegida = 3; //tuberia index
 				break;
 				case KeyEvent.VK_B:
 					
-					if(chosenThing < 4 || chosenThing > 6)
-						chosenThing = 4; //q block index
+					if(cosaElegida < 4 || cosaElegida > 6)
+						cosaElegida = 4; //q block index
 					else
-						chosenThing++;
+						cosaElegida++;
 				break;
 				case KeyEvent.VK_C:
-					if(chosenThing == 26){
+					if(cosaElegida == 26){
 						TColoredBlock.cycleColors();
-						things[chosenThing].init();
+						things[cosaElegida].init();
 					}else{
-						chosenThing = 26;
+						cosaElegida = 26;
 					}
 				break;
 			}
@@ -168,8 +159,8 @@ public class SpawnScreen extends Pantalla {
 	 * @return
 	 */
 	public boolean shouldToggleFreeze(){
-		boolean temp = toggleFreeze;
-		toggleFreeze = false;
+		boolean temp = congelarPartida;
+		congelarPartida = false;
 		return temp;
 	}
 	
@@ -178,8 +169,8 @@ public class SpawnScreen extends Pantalla {
 	 * @return
 	 */
 	public boolean shouldToggleLevel(){
-		boolean temp = toggleLevel;
-		toggleLevel = false;
+		boolean temp = nivelPartida;
+		nivelPartida = false;
 		return temp;
 	}
 	
@@ -190,7 +181,7 @@ public class SpawnScreen extends Pantalla {
 	 * @return a color if <b>t</b> should be highlighted, null if it shouldn't
 	 */
 	public Color highlightColor(Thing t){
-		Thing chosen = things[chosenThing];
+		Thing chosen = things[cosaElegida];
 		if(!(chosen.tocando(t) && t.tocando(chosen))){
 			return null;
 		}
@@ -217,51 +208,51 @@ public class SpawnScreen extends Pantalla {
 	 */
 	public Thing getSpawn(){
 		if(visible)return null;
-		Thing temp = things[chosenThing];
+		Thing temp = things[cosaElegida];
 		if(temp instanceof TLinker && ((TLinker)temp).getLink() == null){
 			//do not make a new one.
 		//	((TLinker)temp).makeInWorld();
 		}else{
 			try {
-				things[chosenThing] = temp.getClass().newInstance();
+				things[cosaElegida] = temp.getClass().newInstance();
 			} catch (Exception e) {
-				things[chosenThing] = null;
+				things[cosaElegida] = null;
 				e.printStackTrace();
 			}
 		}	
-		things[chosenThing].init(temp.serialize());
+		things[cosaElegida].init(temp.serialize());
 		return temp;
 	}
 	/**
 	 * returns the Thing that is selected in the SpawnScreen
 	 * @return the Thing that is selected in the SpawnScreen
 	 */
-	public Thing peekSpawn(){
-		return things[chosenThing];
+	public Thing pasarSpawn(){
+		return things[cosaElegida];
 	}
 
 	public void mouse(MouseEvent e, boolean down) {
 		int x = e.getX(), y = e.getY();
 		if(down && visible){
 			int temp = getIndex(x, y);
-			if(temp == chosenThing){
-				if(things[chosenThing] instanceof TColoredBlock){
+			if(temp == cosaElegida){
+				if(things[cosaElegida] instanceof TColoredBlock){
 					TColoredBlock.cycleDirections();
-					things[chosenThing].init();
+					things[cosaElegida].init();
 				}
 			}else if(temp != -1){
-				chosenThing = temp;
+				cosaElegida = temp;
 			}
-			if(changeLevel.contains(x,y)){
-				toggleLevel = true;
-			}else if(freezeTime.contains(x,y)){
-				toggleFreeze =  true;
+			if(cambiarNivel.contains(x,y)){
+				nivelPartida = true;
+			}else if(congelarTiempo.contains(x,y)){
+				congelarPartida =  true;
 			}
 		}
 	}
 
 	public void think() {
-		Thing t = things[chosenThing];
+		Thing t = things[cosaElegida];
 		t.setSpawnPos(ScreenManager.mouse.x +heroe.pos.x - (JGameMaker.screenWidth/2.0 + heroe.xOffset()),JGameMaker.screenHeight + heroe.pos.y + 32 - (ScreenManager.mouse.y + heroe.yOffset()));
 		t.vel.x = 0;
 		t.vel.y = 0;
@@ -269,7 +260,7 @@ public class SpawnScreen extends Pantalla {
 		t.acc.y = 0;
 		t.think();
 		if(!visible)return;
-		hoveredThing = getIndex(ScreenManager.mouse.x, ScreenManager.mouse.y);
+		cosaFlotante = getIndex(ScreenManager.mouse.x, ScreenManager.mouse.y);
 	}
 	private int getIndex(int x, int y){
 		for(int i = 0; i < things.length; i++){

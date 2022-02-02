@@ -23,21 +23,21 @@ public abstract class TEnemy extends Thing {
 	 * determines the direction(s) in which when touched, this will matar a player.
 	 * @return the direction(s) in which when touched, this will matar a player.
 	 */
-	public byte killDirection(){
-		return FROM_EVERYWHERE;
+	public byte direccionMuerte(){
+		return DE_TODASPARTES;
 	}
 	/**
-	 * Called when this is hit by a block from below. By default, it is killed.
+	 * Called when this is hit by a block from below. By default, it is asesinado.
 	 * @param block the block that hit it
 	 */
-	public void blockHit(Thing block){
+	public void golpeBloque(Thing block){
 		matar(new Point2D.Double((pos.x - block.pos.x)/10, Math.random()*3 + 6));
 	}
 	/**
-	 * called when a heroe touches this from a non-lethal direction, as indicated by killDirection(). By default, this is killed.
+	 * called when a heroe touches this from a non-lethal direction, as indicated by direccionMuerte(). By default, this is asesinado.
 	 * @param heroe
 	 */
-	public void heroTouch(Heroe heroe){
+	public void heroeContacto(Heroe heroe){
 		matar();
 	}
 	/**
@@ -48,7 +48,7 @@ public abstract class TEnemy extends Thing {
 		
 	}
 	/**
-	 * called when a heroe touches this from a lethal direction, as indicated by killDirection(). By default, the heroe is killed.
+	 * called when a heroe touches this from a lethal direction, as indicated by direccionMuerte(). By default, the heroe is asesinado.
 	 * @param heroe
 	 */
 	public void heroKill(Heroe heroe){
@@ -71,14 +71,14 @@ public abstract class TEnemy extends Thing {
 	public void enContacto(Thing t){
 		if(muriendo())return;
 		byte where = fromWhere(t);
-		if(t instanceof TBlock && where == FROM_BELOW && t.vel.y > 1){
-			blockHit(t);
+		if(t instanceof TBlock && where == DESDE_ABAJO && t.vel.y > 1){
+			golpeBloque(t);
 		}else if(t instanceof Heroe){
 			Heroe heroe = (Heroe)t;
-			if((where & killDirection()) > 0){
+			if((where & direccionMuerte()) > 0){
 				heroKill(heroe);
 			}else if(!heroe.vModoEstrella()){
-				heroTouch(heroe);
+				heroeContacto(heroe);
 			}
 		}
 		thingTouch(t);

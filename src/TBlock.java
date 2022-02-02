@@ -31,17 +31,17 @@ public class TBlock extends TGridded{
 	};
 	
 	public static final byte
-		BRICK_BROWN = 0,
+		LADRILLO_MARRON = 0,
 		LADRILLOS = 0,
 		BLOQUE_PREGUNTA = 1,
 		BLOQUE_PREGUNTA_DESACTIVADO = 2,
-		FLOOR = 3,
-		STEP = 4,
-		SHROOM_LEFT = 5,
-		SHROOM_MID = 6,
-		SHROOM_RIGHT = 7,
-		SHROOM_TOP = 8,
-		SHROOM_BOTTOM = 9;
+		SUELO = 3,
+		PILAR = 4,
+		HONGO_IZQUIERDO = 5,
+		HONGO_MEDIO = 6,
+		HONGO_DERECHO = 7,
+		HONGO_ARRIBA = 8,
+		HONGO_ABAJO = 9;
 
 	private static final Color[] aboveGround = {
 		new Color(200,76,12),
@@ -66,7 +66,7 @@ public class TBlock extends TGridded{
 	}
 	
 	public TBlock(){
-		this(STEP);
+		this(PILAR);
 	}
 	/**
 	 * Creates a TBlock with the specified x and y coordinates, image, contained item, and whether or not if it moves when it's hit.
@@ -81,7 +81,7 @@ public class TBlock extends TGridded{
 		this.movesWhenHit = movesWhenHit;
 		init();
 		spawning = false;
-		hit = FROM_NONE;
+		hit = DESDE_NINGUNO;
 		this.image = image;
 		this.item = item;
 	}
@@ -137,19 +137,19 @@ public class TBlock extends TGridded{
 	}
 
 	public void enContacto(Thing t){
-		if(!t.isStatic() && movesWhenHit && vel.x == 0 && vel.y == 0 && hit == FROM_NONE && !spawning){
+		if(!t.isStatic() && movesWhenHit && vel.x == 0 && vel.y == 0 && hit == DESDE_NINGUNO && !spawning){
 			
 			//System.out.println(pos.x + " " + oldX);
 			
 			byte where = fromWhere(t);
 			
-			if(where == FROM_BELOW && t instanceof Heroe){
+			if(where == DESDE_ABAJO && t instanceof Heroe){
 				hit(where);
 				vel.y = 3;
 			}else{
-				if( (where == FROM_LEFT || where == FROM_RIGHT) && t.isFast() ){
+				if( (where == DESDE_IZQUIERDA || where == DESDE_DERECHA) && t.vRapido() ){
 					hit(where);
-					if(where == FROM_LEFT){
+					if(where == DESDE_IZQUIERDA){
 						vel.x = 3;
 					}else{
 						vel.x = -3;
@@ -197,25 +197,25 @@ public class TBlock extends TGridded{
 			}
 		}
 		
-		if(pos.y > oldY + WIDTH/2 && hit == FROM_BELOW && vel.y > 0){
+		if(pos.y > oldY + WIDTH/2 && hit == DESDE_ABAJO && vel.y > 0){
 			vel.y = -3;
-		}else if(pos.y < oldY && hit == FROM_BELOW && vel.y < 0){
+		}else if(pos.y < oldY && hit == DESDE_ABAJO && vel.y < 0){
 			vel.y = 0;
-			hit = FROM_NONE;
+			hit = DESDE_NINGUNO;
 			pos.y = oldY;
 			beginSpawn();
-		}else if(pos.x > oldX + WIDTH/2 && hit == FROM_LEFT && vel.x > 0){
+		}else if(pos.x > oldX + WIDTH/2 && hit == DESDE_IZQUIERDA && vel.x > 0){
 			vel.x = -3;
-		}else if(pos.x < oldX && hit == FROM_LEFT && vel.x < 0){
+		}else if(pos.x < oldX && hit == DESDE_IZQUIERDA && vel.x < 0){
 			vel.x = 0;
-			hit = FROM_NONE;
+			hit = DESDE_NINGUNO;
 			pos.x = oldX;
 			beginSpawn();
-		}else if(pos.x < oldX - WIDTH/2 && hit == FROM_RIGHT && vel.x < 0){
+		}else if(pos.x < oldX - WIDTH/2 && hit == DESDE_DERECHA && vel.x < 0){
 			vel.x = 3;
-		}else if(pos.x > oldX && hit == FROM_RIGHT && vel.x > 0){
+		}else if(pos.x > oldX && hit == DESDE_DERECHA && vel.x > 0){
 			vel.x = 0;
-			hit = FROM_NONE;
+			hit = DESDE_NINGUNO;
 			pos.x = oldX;
 			beginSpawn();
 		}

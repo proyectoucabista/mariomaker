@@ -109,8 +109,8 @@ public class LevelEditor extends GameScreen{
 			}
 		}
 		
-		if(mouseAbajo && arrastreSpawn != null && arrastreSpawn.size() > 0 && pantallaSpawn.peekSpawn() != null && pantallaSpawn.peekSpawn() instanceof TGridded){
-			TGridded peek = (TGridded)pantallaSpawn.peekSpawn();
+		if(mouseAbajo && arrastreSpawn != null && arrastreSpawn.size() > 0 && pantallaSpawn.pasarSpawn() != null && pantallaSpawn.pasarSpawn() instanceof TGridded){
+			TGridded peek = (TGridded)pantallaSpawn.pasarSpawn();
 			boolean touchingSomething = false;
 			for(TGridded grid: arrastreSpawn){
 				if(peek.representation().contains(grid.representation())){
@@ -123,8 +123,8 @@ public class LevelEditor extends GameScreen{
 				lobbyActual().add(pantallaSpawn.getSpawn());
 			}
 		}
-		if(mouseAbajo && pantallaSpawn.peekSpawn() != null && pantallaSpawn.peekSpawn() instanceof TRemover){
-			lobbyActual().add(pantallaSpawn.peekSpawn());
+		if(mouseAbajo && pantallaSpawn.pasarSpawn() != null && pantallaSpawn.pasarSpawn() instanceof TRemover){
+			lobbyActual().add(pantallaSpawn.pasarSpawn());
 		}
 		
 	}

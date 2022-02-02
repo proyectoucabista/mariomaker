@@ -18,7 +18,7 @@ public class TGridded extends Thing{
 	public TGridded(double x, double y, int width, int height){
 		super(x,y,width,height);
 		gridPos = new Point(getGridCoord(x),getGridCoord(y));
-		adjacents = Thing.FROM_NONE;
+		adjacents = Thing.DESDE_NINGUNO;
 		this.width = getGridCoord(width)*32;
 		this.height = getGridCoord(height)*32;
 		setPos(x,y);
@@ -60,7 +60,7 @@ public class TGridded extends Thing{
 	 * @return true if there is a  gridded Thing in the specified direction, false if not
 	 */
 	public boolean hasAdjacent(byte direction){
-		if(direction == FROM_NONE)return false;
+		if(direction == DESDE_NINGUNO)return false;
 		return (adjacents & direction) != 0;
 	}
 
@@ -70,7 +70,7 @@ public class TGridded extends Thing{
 	 */
 	public void addAdjacent(TGridded other){
 		byte direction = getDirection(other);
-		if(direction == FROM_NONE)return;
+		if(direction == DESDE_NINGUNO)return;
 		if(!hasAdjacent(direction)){
 			adjacents += direction;
 		}
@@ -82,7 +82,7 @@ public class TGridded extends Thing{
 	 */
 	public void removeAdjacent(TGridded other){
 		byte direction = getDirection(other);
-		if(direction == FROM_NONE)return;
+		if(direction == DESDE_NINGUNO)return;
 		if(hasAdjacent(direction)){
 			adjacents -= direction;
 		}
@@ -126,7 +126,7 @@ public class TGridded extends Thing{
 	 */
 	public byte getDirection(TGridded othergrid){
 		Rectangle other = othergrid.representation();
-		if(othergrid instanceof TBGBlock) return FROM_NONE;
+		if(othergrid instanceof TBGBlock) return DESDE_NINGUNO;
 		int x = gridPos.x;
 		int y = gridPos.y;
 		
@@ -136,14 +136,14 @@ public class TGridded extends Thing{
 				left = new Point(x - 1, y),
 				right = new Point(x + 1, y);
 		if(other.contains(up))
-			return FROM_ABOVE;
+			return DESDE_ARRIBA;
 		if(other.contains(down))
-			return FROM_BELOW;
+			return DESDE_ABAJO;
 		if(other.contains(left))
-			return FROM_LEFT;
+			return DESDE_IZQUIERDA;
 		if(other.contains(right))
-			return FROM_RIGHT;
-		return FROM_NONE;
+			return DESDE_DERECHA;
+		return DESDE_NINGUNO;
 	}
 	/**
 	 * determines the grid coordinate from a world coordinate

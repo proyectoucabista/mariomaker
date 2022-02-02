@@ -11,7 +11,7 @@ public class TColoredBlock extends TGridded {
 	/**
 	 * The type of TColoredBlock the SpawnScreen representation is
 	 */
-	public static byte direction = FROM_ABOVE + FROM_LEFT;
+	public static byte direction = DESDE_ARRIBA + DESDE_IZQUIERDA;
 	
 	/**
 	 * The index of the Color in the array of preset colors in the SpawnScreen
@@ -157,26 +157,26 @@ public class TColoredBlock extends TGridded {
 	public static void cycleDirections(){
 		switch(direction){
 		//corners
-		case FROM_LEFT + FROM_ABOVE:
-			direction = FROM_ABOVE;
-		break; case FROM_LEFT + FROM_BELOW:
-			direction = FROM_BELOW;
-		break; case FROM_RIGHT + FROM_ABOVE:
-			direction = FROM_LEFT;
-		break; case FROM_RIGHT + FROM_BELOW:
-			direction = FROM_LEFT + FROM_ABOVE;
+		case DESDE_IZQUIERDA + DESDE_ARRIBA:
+			direction = DESDE_ARRIBA;
+		break; case DESDE_IZQUIERDA + DESDE_ABAJO:
+			direction = DESDE_ABAJO;
+		break; case DESDE_DERECHA + DESDE_ARRIBA:
+			direction = DESDE_IZQUIERDA;
+		break; case DESDE_DERECHA + DESDE_ABAJO:
+			direction = DESDE_IZQUIERDA + DESDE_ARRIBA;
 		//side
-		break; case FROM_ABOVE:
-			direction = FROM_ABOVE + FROM_RIGHT;
-		break; case FROM_BELOW:
-			direction = FROM_BELOW + FROM_RIGHT;
-		break; case FROM_LEFT:
-			direction = FROM_NONE;
-		break; case FROM_RIGHT:
-			direction = FROM_LEFT + FROM_BELOW;
+		break; case DESDE_ARRIBA:
+			direction = DESDE_ARRIBA + DESDE_DERECHA;
+		break; case DESDE_ABAJO:
+			direction = DESDE_ABAJO + DESDE_DERECHA;
+		break; case DESDE_IZQUIERDA:
+			direction = DESDE_NINGUNO;
+		break; case DESDE_DERECHA:
+			direction = DESDE_IZQUIERDA + DESDE_ABAJO;
 		//center
 		break;default:
-			direction = FROM_RIGHT;
+			direction = DESDE_DERECHA;
 		break; 
 		}
 	}
@@ -202,22 +202,22 @@ public class TColoredBlock extends TGridded {
 	private BufferedImage getBuffer(byte dir, Sprite[] corners){
 		switch(dir){
 		//corners
-		case FROM_LEFT + FROM_ABOVE:
+		case DESDE_IZQUIERDA + DESDE_ARRIBA:
 			return corners[0].getBuffer();
-		case FROM_LEFT + FROM_BELOW:
+		case DESDE_IZQUIERDA + DESDE_ABAJO:
 			return corners[0].flipY();
-		case FROM_RIGHT + FROM_ABOVE:
+		case DESDE_DERECHA + DESDE_ARRIBA:
 			return corners[0].flipX();
-		case FROM_RIGHT + FROM_BELOW:
+		case DESDE_DERECHA + DESDE_ABAJO:
 			return corners[0].flipXY();
 		//side
-		case FROM_ABOVE:
+		case DESDE_ARRIBA:
 			return corners[1].getBuffer();
-		case FROM_BELOW:
+		case DESDE_ABAJO:
 			return corners[1].flipY();
-		case FROM_LEFT:
+		case DESDE_IZQUIERDA:
 			return corners[2].getBuffer();
-		case FROM_RIGHT:
+		case DESDE_DERECHA:
 			return corners[2].flipX();
 		//center
 		default:

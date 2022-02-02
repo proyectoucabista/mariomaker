@@ -48,12 +48,12 @@ public class THorizontalBound extends TBound {
 	}
 	
 	public byte fromWhere(Thing t){
-		if(pos.x + width <= t.posLast.x && t.vel.x < 0){
-			return FROM_RIGHT;
-		}else if(pos.x >= t.posLast.x + t.width && t.vel.x > 0){
-			return FROM_LEFT;
+		if(pos.x + width <= t.ultimaPos.x && t.vel.x < 0){
+			return DESDE_DERECHA;
+		}else if(pos.x >= t.ultimaPos.x + t.width && t.vel.x > 0){
+			return DESDE_IZQUIERDA;
 		}
-		return FROM_NONE;
+		return DESDE_NINGUNO;
 	}
 	
 	public int[] getDrawCoords(Heroe heroe){

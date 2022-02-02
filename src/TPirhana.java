@@ -51,14 +51,14 @@ public class TPirhana extends TEnemy{
 	}
 	
 
-	public byte killDirection(){
+	public byte direccionMuerte(){
 		if(harmless)
-			return FROM_NONE;
+			return DESDE_NINGUNO;
 		else
-			return FROM_EVERYWHERE;
+			return DE_TODASPARTES;
 	}
-	public void heroTouch(Heroe heroe){
-		//super.heroTouch(heroe);
+	public void heroeContacto(Heroe heroe){
+		//super.heroeContacto(heroe);
 	}
 	
 	public BufferedImage figureOutDrawImage(){

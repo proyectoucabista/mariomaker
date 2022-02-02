@@ -15,15 +15,15 @@ public class GroundHole extends TColoredBlock {
 	private byte adjacentSkies;
 	
 	public GroundHole(){
-		super(Fondo.COLOR_NUBES, FROM_NONE);
-		adjacentSkies = FROM_NONE;
+		super(Fondo.COLOR_NUBES, DESDE_NINGUNO);
+		adjacentSkies = DESDE_NINGUNO;
 		height = height*3/2;
 	}
 	public void makeSpriteUnderground(){
 		setColor(Fondo.UNDERGROUND_COLOR);
 	}
 	public void init(){
-		init(Fondo.COLOR_NUBES,FROM_NONE);
+		init(Fondo.COLOR_NUBES,DESDE_NINGUNO);
 		revive();
 	}
 	public void think(){
@@ -39,14 +39,14 @@ public class GroundHole extends TColoredBlock {
 	
 	
 	private boolean hasAdjacentSky(byte direction){
-		if(direction == FROM_NONE)return false;
+		if(direction == DESDE_NINGUNO)return false;
 		return (adjacentSkies & direction) != 0;
 	}
 	
 	public void addAdjacent(TGridded other){
 		super.addAdjacent(other);
 		byte direction = getDirection(other);
-		if(direction == FROM_NONE)return;
+		if(direction == DESDE_NINGUNO)return;
 		if(!hasAdjacentSky(direction)){
 			adjacentSkies += direction;
 		}
@@ -57,7 +57,7 @@ public class GroundHole extends TColoredBlock {
 	public void removeAdjacent(TGridded other){
 		super.removeAdjacent(other);
 		byte direction = getDirection(other);
-		if(direction == FROM_NONE)return;
+		if(direction == DESDE_NINGUNO)return;
 		if(hasAdjacentSky(direction)){
 			adjacentSkies -= direction;
 		}
@@ -67,7 +67,7 @@ public class GroundHole extends TColoredBlock {
 			matar();
 		}
 		if(!t.activarGravedad()) return;
-		if((t.pos.x >= pos.x || hasAdjacentSky(FROM_LEFT)) && (t.pos.x + t.width <= pos.x + width || hasAdjacentSky(FROM_RIGHT))){
+		if((t.pos.x >= pos.x || hasAdjacentSky(DESDE_IZQUIERDA)) && (t.pos.x + t.width <= pos.x + width || hasAdjacentSky(DESDE_DERECHA))){
 			t.cayendo = true;
 		}else{
 			if(t.pos.y >= pos.y + height*2/3 - 10){

@@ -95,7 +95,7 @@ public class TTuberia extends TGridded{
 	
 	public byte getDirection(TGridded othergrid){
 		Rectangle other = othergrid.representation();
-		if(other == null)return FROM_NONE;
+		if(other == null)return DESDE_NINGUNO;
 		Point gridPos = getGridPos();
 		int x = gridPos.x;
 		int y = gridPos.y + height/32 - 1;
@@ -105,12 +105,12 @@ public class TTuberia extends TGridded{
 				left = new Point(x - 1, y),
 				right = new Point(x + 2, y);
 		if(other.contains(up1) || other.contains(up2))
-			return FROM_ABOVE;
+			return DESDE_ARRIBA;
 		if(other.contains(left))
-			return FROM_LEFT;
+			return DESDE_IZQUIERDA;
 		if(other.contains(right))
-			return FROM_RIGHT;
-		return FROM_NONE;
+			return DESDE_DERECHA;
+		return DESDE_NINGUNO;
 	}
 	
 	
@@ -173,7 +173,7 @@ public class TTuberia extends TGridded{
 	
 	public void think(){
 		super.think();
-		if(pirana != null && pirana.killed()){
+		if(pirana != null && pirana.asesinado()){
 			pirana = null;
 		}
 	}

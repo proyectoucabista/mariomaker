@@ -109,7 +109,7 @@ public class Lobby {
 		for( int i = 0; i < things.size(); i++ ){
 			Thing t = things.get(i);
 			if(t == null) continue;
-			if(t.killed()){
+			if(t.asesinado()){
 				//removeQueue.add(t);
 				remove(t);
 				i--;
