@@ -4,24 +4,24 @@
 
 import java.awt.image.*;
 /**
- * When equipped, the player becomes invulerable for a short period of time and flashes seizure-inducing colors.
+ * When equipped, the player becomes invulnerable for a short period of time and flashes seizure-inducing colors.
  * @author Reed Weichler
  *
  */
 public class TStar extends TItem{
-	private Sprite IMAGE = new Sprite("Imagenes/sprites/estrella.gif");
+	private Sprite IMAGEN = new Sprite("Imagenes/sprites/estrella.gif");
 	
 	
-	public void giveItem(Hero h){
+	public void giveItem(Heroe h){
 		h.startStar();
 	}
 	
 	public BufferedImage preview(){
-		return IMAGE.getBuffer();
+		return IMAGEN.getBuffer();
 	}
 	
 	public BufferedImage figureOutDrawImage(){
-		return IMAGE.getBuffer();
+		return IMAGEN.getBuffer();
 	}
 	
 	public void onBlockExit(){

@@ -20,7 +20,7 @@ public class TPirhana extends TEnemy{
 	private boolean harmless;
 	private double biteYCoord;
 	private double idleTime;
-	private Sprite[] IMAGE = {
+	private Sprite[] IMAGEN = {
 			new Sprite(PATH+"open.png"),
 			new Sprite(PATH+"closed.png"),
 			new Sprite(PATH+"preview.png"),
@@ -57,20 +57,20 @@ public class TPirhana extends TEnemy{
 		else
 			return FROM_EVERYWHERE;
 	}
-	public void heroTouch(Hero hero){
-		//super.heroTouch(hero);
+	public void heroTouch(Heroe heroe){
+		//super.heroTouch(heroe);
 	}
 	
 	public BufferedImage figureOutDrawImage(){
-		Sprite image = IMAGE[(System.currentTimeMillis() % 400 > 200)?1:0];
-		if(dying()){
+		Sprite image = IMAGEN[(System.currentTimeMillis() % 400 > 200)?1:0];
+		if(muriendo()){
 			return image.flipY();
 		}else{
 			return image.getBuffer();
 		}
 	}
 	/**
-	 * called when a hero is touching the parent TTuberia
+	 * called when a heroe is tocando the parent TTuberia
 	 */
 	public void warnHero(){
 		hasHero = true;
@@ -83,7 +83,7 @@ public class TPirhana extends TEnemy{
 	public void think(){
 		super.think();
 		if(!hasPipe){
-			kill();
+			matar();
 			return;
 		}
 
@@ -122,15 +122,15 @@ public class TPirhana extends TEnemy{
 		harmless = true;
 	}
 	
-	public boolean enableGravity(){
-		return dying();
+	public boolean activarGravedad(){
+		return muriendo();
 	}
 	
 	
-	public void heroKill(Hero hero){
+	public void heroKill(Heroe heroe){
 		if(harmless)return;
-		super.heroKill(hero);
-		if(hero.piping()){
+		super.heroKill(heroe);
+		if(heroe.piping()){
 			hide();
 			hasHero = true;
 		}
@@ -149,26 +149,26 @@ public class TPirhana extends TEnemy{
 		}
 	}
 	
-	public void draw(Graphics g, ImageObserver o, Hero hero){
+	public void draw(Graphics g, ImageObserver o, Heroe heroe){
 		if(hasPipe)return;
-		super.draw(g,o,hero);
+		super.draw(g,o,heroe);
 	}
 	
 	/**
 	 * parent tuberia calls this so this is drawn under it on the screen
 	 */
-	public void drawPipe(Graphics g, ImageObserver o, Hero hero){
-		super.draw(g,o,hero);
+	public void drawPipe(Graphics g, ImageObserver o, Heroe heroe){
+		super.draw(g,o,heroe);
 	}
 	
 	public void makeSpriteUnderground(){
-		for(Sprite s: IMAGE){
+		for(Sprite s: IMAGEN){
 			s.replaceColors(aboveGround,underGround);
 		}
 		//System.out.println(KOOPA[0]);
 	}
 	
 	public BufferedImage preview(){
-		return IMAGE[2].getBuffer();
+		return IMAGEN[2].getBuffer();
 	}
 }

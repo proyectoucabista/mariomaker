@@ -23,7 +23,7 @@ public class TBGBlock extends TBlock {
 	public TBGBlock(double x, double y, byte img, TItem item){
 		super(x,y,img,item);
 	}
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		return;
 	}
 }

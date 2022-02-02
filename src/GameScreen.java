@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Vector;
 
 /**
- * Draws any current game going on. It has a Hero and an array of Rooms that can be drawn and interacted with.
+ * Draws any current game going on. It has a Heroe and an array of Rooms that can be drawn and interacted with.
  * @author Reed Weichler
  *
  */
@@ -16,61 +16,61 @@ public class GameScreen extends Pantalla{
 	 */
 	public Vector<Lobby> lobbys;
 	/**
-	 * The Hero to be displayed and interact with the Things in each Lobby
+	 * The Heroe to be displayed and interact with the Things in each Lobby
 	 */
-	public Hero hero;
+	public Heroe heroe;
 	/**
 	 * the index of the current Lobby in lobbys
 	 */
-	public int roomIndex;
+	public int lobbyIndex;
 	
 	/**
-	 * true if the another level is loading, false if not
+	 * true if the another nivel is cargando, false if not
 	 */
-	public boolean loading;
+	public boolean cargando;
 	
-	private TextButton loadingLabel;
+	private TextButton etiquetaCarga;
 	
 	public GameScreen(){
 		lobbys = new Vector<Lobby>();
-		hero = new Hero();
-		loadingLabel = new TextButton("LOADING", JGameMaker.FONT_GRANDE, Color.WHITE);
-		loadingLabel.setPos((JGameMaker.screenWidth - loadingLabel.getWidth())/2, (JGameMaker.screenHeight - loadingLabel.getHeight())/2);
-		loading = false;
+		heroe = new Heroe();
+		etiquetaCarga = new TextButton("CARGANDO", JGameMaker.FONT_GRANDE, Color.WHITE);
+		etiquetaCarga.setPos((JGameMaker.screenWidth - etiquetaCarga.getWidth())/2, (JGameMaker.screenHeight - etiquetaCarga.getHeight())/2);
+		cargando = false;
 	}
 	/**
-	 * Returns the current lobby the Hero is in
-	 * @return the current lobby the Hero is in
+	 * Returns the current lobby the Heroe is in
+	 * @return the current lobby the Heroe is in
 	 */
-	public Lobby currentRoom(){
-		return lobbys.get(roomIndex);
+	public Lobby lobbyActual(){
+		return lobbys.get(lobbyIndex);
 	}
 	
 	public void draw(Graphics g) {
-		if(loading){
+		if(cargando){
 			g.setColor(Color.BLACK);
 			g.fillRect(0,0,JGameMaker.WIDTH,JGameMaker.HEIGHT);
-			loadingLabel.draw(g);
+			etiquetaCarga.draw(g);
 		}else{
-			currentRoom().draw(g, null, hero);
+			lobbyActual().draw(g, null, heroe);
 		}
 		
 	}
 	
 	/**
-	 * makes the Hero set its position to wherever a TSpawn is
+	 * makes the Heroe set its position to wherever a TSpawn is
 	 */
 	public void setSpawn(){
 		for(int i = 0; i < lobbys.size(); i++){
-			if(lobbys.get(i).setSpawn(hero)){
-				roomIndex = i;
+			if(lobbys.get(i).setSpawn(heroe)){
+				lobbyIndex = i;
 				break;
 			}
 		}
 	}
 	
 	/**
-	 * Initializes the game by loading a file
+	 * Initializes the game by cargando a file
 	 * @param f file to be opened
 	 * @return true if successful, false if not
 	 * @throws Exception if could not be initialized
@@ -80,8 +80,8 @@ public class GameScreen extends Pantalla{
 	}
 	
 	/**
-	 * Initializes the game by loading a file and changing the color of the Hero
-	 * @param marioColor the color of the Hero
+	 * Initializes the game by cargando a file and changing the color of the Heroe
+	 * @param marioColor the color of the Heroe
 	 * @param f file to be opened
 	 * @return true if successful, false if not
 	 * @throws Exception if could not be initialized
@@ -116,7 +116,7 @@ public class GameScreen extends Pantalla{
 	}
 	
 	/**
-	 * saves the current level to a File
+	 * saves the current nivel to a File
 	 * @param f File to be written to
 	 * @return true if successful, false if unsuccessful
 	 */
@@ -130,16 +130,16 @@ public class GameScreen extends Pantalla{
 	 * initializes the game (no opening of files)
 	 */
 	public void init(){
-		hero.init();
+		heroe.init();
 		lobbys = new Vector<Lobby>();
 		Lobby overworld = new Lobby(false, lobbys.size());
 		lobbys.add(overworld);
 		Lobby underground = new Lobby(true, lobbys.size());
 		lobbys.add(underground);
 
-		roomIndex = 0;
+		lobbyIndex = 0;
 		reiniciar();
-		loading = false;
+		cargando = false;
                 if(AePlayWave.fondoMusica != null){
                   AePlayWave.fondoMusica.finalizarMusica();// quitar musica del lobby si se ha jugado una partida  
                 }
@@ -149,39 +149,39 @@ public class GameScreen extends Pantalla{
 
 	}
 	/**
-	 * initializes the game (no opening of files) while setting the color of the Hero
-	 * @param marioColor the color of the Hero
+	 * initializes the game (no opening of files) while setting the color of the Heroe
+	 * @param marioColor the color of the Heroe
 	 */
 	public void init(int marioColor) {
 		//ObjectOutputStream obj_out;
 		init();
-		hero.setSpriteColor(marioColor);
+		heroe.setSpriteColor(marioColor);
 	}
 	public void key(KeyEvent e, boolean pressed){
-		if(loading)return;
+		if(cargando)return;
 		int code = e.getKeyCode();
 		if(code == KeyEvent.VK_ESCAPE && pressed){
 			controller.pause(true);
 		}else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){
 			if(pressed){
-				hero.move(true);
+				heroe.move(true);
 			}else{
-				hero.stop(true);
+				heroe.stop(true);
 			}
 		}else if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT){
 			if(pressed){
-				hero.move(false);
+				heroe.move(false);
 			}else{
-				hero.stop(false);
+				heroe.stop(false);
 			}
 		}else if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_SPACE){
-			hero.saltar(pressed);
+			heroe.saltar(pressed);
 		}else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
-			hero.crouch(pressed);
+			heroe.crouch(pressed);
 		}
 	}
 	/**
-	 * Called after initialization and when the Hero dies
+	 * Called after initialization and when the Heroe dies
 	 */
 	public void reiniciar(){
 		
@@ -192,18 +192,18 @@ public class GameScreen extends Pantalla{
 	}
 	
 	public void think(){
-		if(hero.piped()){
-			//hero.pipeLocations.get(roomIndex).setLocation(hero.pos);
-			roomIndex = hero.getRoomAndSetNewPosition();
-			//if(roomIndex == 0){
-			//	roomIndex = 1;
+		if(heroe.tuberiado()){
+			//heroe.pipeLocations.get(lobbyIndex).setLocation(heroe.pos);
+			lobbyIndex = heroe.getRoomAndSetNewPosition();
+			//if(lobbyIndex == 0){
+			//	lobbyIndex = 1;
 			//}else{
-			//	roomIndex = 0;
+			//	lobbyIndex = 0;
 			//}
-			//hero.setPos(hero.pipeLocations.get(roomIndex));
-			//hero.vel = new Point2D.Double();
+			//heroe.setPos(heroe.pipeLocations.get(lobbyIndex));
+			//heroe.vel = new Point2D.Double();
 		}
-		if(hero.isDead()){
+		if(heroe.vMuerte()){
 			reiniciar();
 		}
 	}

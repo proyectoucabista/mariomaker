@@ -9,16 +9,16 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.*;
 
 /**
- * It's a Goomba. It kills a player if it touches it from the side or bottom. If the hero hits it on top, it is killed.
+ * It's a Goomba. It kills a player if it touches it from the side or bottom. If the heroe hits it on top, it is killed.
  * @author Reed Weichler
  *
  */
 public class TGoomba extends TEnemy{
 	
 	private boolean gotHit;
-	private boolean rightFoot;
+	private boolean pieDerecho;
 	private double time2Dai;
-	private double lastX;
+	private double ultimaX;
 	
 	private static final int DIE_TIME = 20;
 	
@@ -55,8 +55,8 @@ public class TGoomba extends TEnemy{
 	public TGoomba(double x, double y, int width, int height){
 		super(x,y,width,height);
 		gotHit = false;
-		lastX = 0;
-		rightFoot = true;
+		ultimaX = 0;
+		pieDerecho = true;
 	}
 	
 	public void init(){
@@ -83,13 +83,13 @@ public class TGoomba extends TEnemy{
 		}else{
 			img = GOOMBA[0];
 		}
-		if(dying() && !gotHit){
-			if(rightFoot)
+		if(muriendo() && !gotHit){
+			if(pieDerecho)
 				return img.flipXY();
 			else
 				return img.flipY();
 		}else{
-			if(rightFoot)
+			if(pieDerecho)
 				return img.flipX();
 			else
 				return img.getBuffer();
@@ -100,18 +100,18 @@ public class TGoomba extends TEnemy{
 		return false;
 	}
 	
-	public boolean enableGravity(){return true;}
+	public boolean activarGravedad(){return true;}
 	
 	public void think(){
 		if(gotHit){
 			time2Dai -= JGameMaker.time();
 			if(time2Dai < 1)
-				kill();
+				matar();
 		}else{
 			super.think();
-			if(pos.x > lastX + 10 || pos.x < lastX - 10){
-				rightFoot = !rightFoot;
-				lastX = pos.x;
+			if(pos.x > ultimaX + 10 || pos.x < ultimaX - 10){
+				pieDerecho = !pieDerecho;
+				ultimaX = pos.x;
 			}
 		}
 	}
@@ -119,15 +119,15 @@ public class TGoomba extends TEnemy{
 		return FROM_BELOW | FROM_SIDE;
 	}
 	
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		if(gotHit) return;
-		super.onTouch(t);
+		super.enContacto(t);
 	}
-	public void heroTouch(Hero hero){
-		if(hero.vel.y < -1){
+	public void heroTouch(Heroe heroe){
+		if(heroe.vel.y < -1){
 			STOMP.start();
 			gotHit();
-			stomp(hero);
+			stomp(heroe);
 		}
 	}
 	

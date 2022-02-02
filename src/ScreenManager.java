@@ -98,10 +98,10 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	}
 	
 	/**
-	 * starts level editor mode (new file)
-	 * @param marioColor the color the Hero should be
+	 * starts nivel editor mode (new file)
+	 * @param marioColor the color the Heroe should be
 	 */
-	public void levelEditor(int marioColor){
+	public void nivelEditor(int marioColor){
 		game = new LevelEditor();
 		menu = new PauseScreen(true);
 		game.controller = controller;
@@ -111,11 +111,11 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	}
 	
 	/**
-	 * starts level editor mode (open file)
-	 * @param marioColor the color the Hero should be
-	 * @param f the file to be opened which contains the level data
+	 * starts nivel editor mode (open file)
+	 * @param marioColor the color the Heroe should be
+	 * @param f the file to be opened which contains the nivel data
 	 */
-	public void levelEditor(int marioColor, File f){
+	public void nivelEditor(int marioColor, File f){
 		game = new LevelEditor();
 		boolean init;
 		try{
@@ -138,7 +138,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	}
 	
 	/**
-	 * saves the level, if any to file
+	 * saves the nivel, if any to file
 	 * @param f the file to be written to
 	 * @return true if successfully written, false if not
 	 */
@@ -152,14 +152,14 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 
 	/**
 	 * starts single player mode
-	 * @param marioColor the color the Hero should be
+	 * @param marioColor the color the Heroe should be
 	 * @param f the file to be opened and read
 	 */
-	public void singlePlayer(int marioColor, File f){
+	public void unJugador(int marioColor, File f){
 		if(game == null || !(game instanceof UnJugador))
 			game = new UnJugador();
 		boolean init;
-		game.loading = true;
+		game.cargando = true;
 		try{
 			init = game.init(marioColor, f);
 		}catch(Exception ex){

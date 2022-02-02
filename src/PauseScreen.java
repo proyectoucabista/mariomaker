@@ -104,7 +104,7 @@ public class PauseScreen extends Pantalla {
 				if(puedeGuardar)
 					controller.guardarJuego();
 				else
-					controller.resetSinglePlayer();
+					controller.reiniciarUnJugador();
 			}
 		}
 	}

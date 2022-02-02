@@ -7,7 +7,7 @@ import java.awt.image.*;
 import java.awt.geom.*;
 
 /**
- * This represents a Koopa in game. It can be jumped on top of to turn it into a shell. The shell can be made to move quickly left or right if a Hero jumps on it again.
+ * This represents a Koopa in game. It can be jumped on top of to turn it into a shell. The shell can be made to move quickly left or right if a Heroe jumps on it again.
  * @author Reed Weichler
  *
  */
@@ -18,8 +18,8 @@ public class TKoopa extends TEnemy{
 	public static final double VELOCIDAD_CAPARAZON = 6;
 	private static final AePlayWave KICK = new AePlayWave("Sonidos/patada.wav");
 	private boolean isShell;
-	private boolean rightFoot;
-	private double lastX;
+	private boolean pieDerecho;
+	private double ultimaX;
 	private double backOpenTimer;
 	private Point2D.Double livingVel;
 	
@@ -61,8 +61,8 @@ public class TKoopa extends TEnemy{
 		super.init();
 		vel.x = -1;
 		isShell = false;
-		lastX = 0;
-		rightFoot = true;
+		ultimaX = 0;
+		pieDerecho = true;
 		backOpenTimer = 0;
 	}
 	
@@ -82,7 +82,7 @@ public class TKoopa extends TEnemy{
 	public BufferedImage figureOutDrawImage(){
 		Sprite img;
 		
-		if(dying()){
+		if(muriendo()){
 			img = KOOPA[2];
 			return img.flipY();
 		}
@@ -95,7 +95,7 @@ public class TKoopa extends TEnemy{
 				img = KOOPA[2];
 			
 		}else{
-			if(rightFoot)
+			if(pieDerecho)
 				img = KOOPA[0];
 			else
 				img = KOOPA[1];
@@ -111,11 +111,11 @@ public class TKoopa extends TEnemy{
 		return false;
 	}
 
-	public boolean enableGravity(){return true;}
+	public boolean activarGravedad(){return true;}
 	public boolean isEnemy(){return true;}
 	
 	public void think(){
-		if(dying()){
+		if(muriendo()){
 			height = 28;
 			super.think();
 			return;
@@ -129,9 +129,9 @@ public class TKoopa extends TEnemy{
 		}
 		super.think();
 		if(!isShell){
-			if(pos.x > lastX + 10 || pos.x < lastX - 10){
-				rightFoot = !rightFoot;
-				lastX = pos.x;
+			if(pos.x > ultimaX + 10 || pos.x < ultimaX - 10){
+				pieDerecho = !pieDerecho;
+				ultimaX = pos.x;
 			}
 		}
 	}
@@ -161,13 +161,13 @@ public class TKoopa extends TEnemy{
 	}
 	
 	
-	public void heroTouch(Hero hero){
-		byte where = fromWhere(hero);
+	public void heroTouch(Heroe heroe){
+		byte where = fromWhere(heroe);
 		
 		//shell is standing still
 		if(isShell && vel.x == 0){
 			//project self to wherever i please.
-			if(hero.pos.x + hero.width/2 > pos.x + width/2){
+			if(heroe.pos.x + heroe.width/2 > pos.x + width/2){
 				vel.x = -VELOCIDAD_CAPARAZON;
 			}else{
 				vel.x = VELOCIDAD_CAPARAZON;
@@ -175,8 +175,8 @@ public class TKoopa extends TEnemy{
 			KICK.start();
 		}
 		//stomping on walking koopa || stomping on moving shell
-		else if(where == FROM_ABOVE && !isShell || isShell && vel.x != 0 && !(new Thing(hero.posLast.x, hero.posLast.y, hero.width, hero.height)).touching(new Thing(this.posLast.x,this.posLast.y,width,height))){
-			stomp(hero);
+		else if(where == FROM_ABOVE && !isShell || isShell && vel.x != 0 && !(new Thing(heroe.posLast.x, heroe.posLast.y, heroe.width, heroe.height)).tocando(new Thing(this.posLast.x,this.posLast.y,width,height))){
+			stomp(heroe);
 			vel.x = 0;
 			makeShell(true);
 		}
@@ -195,7 +195,7 @@ public class TKoopa extends TEnemy{
 			KICK.start();
 			
 			
-			t.kill(new Point2D.Double(vel.x*2, Math.random()*16+3));
+			t.matar(new Point2D.Double(vel.x*2, Math.random()*16+3));
 			
 			
 		}
@@ -219,9 +219,9 @@ public class TKoopa extends TEnemy{
 		}
 	}
 	
-	public void kill(Point2D.Double vel){
+	public void matar(Point2D.Double vel){
 		livingVel.setLocation(this.vel);
-		super.kill(vel);
+		super.matar(vel);
 	}
 	
 	public boolean isFast(){

@@ -18,113 +18,113 @@ import java.io.Serializable;
  */
 public class LevelEditor extends GameScreen{
 	//private CreativeBox box;
-	private SpawnScreen spawnScreen;
-	private boolean mouseDown;
-	private Vector<TGridded> dragSpawn;
-	private boolean freeze;
+	private SpawnScreen pantallaSpawn;
+	private boolean mouseAbajo;
+	private Vector<TGridded> arrastreSpawn;
+	private boolean congelar;
 	
 	public LevelEditor(){
 		super();
-		spawnScreen = new SpawnScreen(hero);
-		mouseDown = false;
-		dragSpawn = null;
-		freeze = false;
+		pantallaSpawn = new SpawnScreen(heroe);
+		mouseAbajo = false;
+		arrastreSpawn = null;
+		congelar = false;
 	}
 	
 	/*public void resetHero(int marioColor){
-		hero.setSpriteColor(marioColor);
+		heroe.setSpriteColor(marioColor);
 		resetHero();
 	}*/
 	public void reiniciar(){
-		hero.init();
-		hero.setDeathPos();
-		hero.startInvulnerable();
+		heroe.init();
+		heroe.setMuertePos();
+		heroe.startInvulnerable();
 		setSpawn();
 	}
 	
 	public boolean init(int marioColor, File f) throws Exception{
 		boolean b = super.init(marioColor, f);
-		freeze = true;
+		congelar = true;
 		return b;
 	}
 	
 	public void init(int marioColor){
 		super.init(marioColor);
-		freeze = false;
+		congelar = false;
 	}
 
 
 	public void draw(Graphics g) {
-		currentRoom().draw(g, null, hero, spawnScreen);
-		//box.draw(g,hero);
-		spawnScreen.draw(g);
+		lobbyActual().draw(g, null, heroe, pantallaSpawn);
+		//box.draw(g,heroe);
+		pantallaSpawn.draw(g);
 		
 	}
 	public void key(KeyEvent e, boolean pressed) {
 		super.key(e,pressed);
-		spawnScreen.key(e,pressed);
+		pantallaSpawn.key(e,pressed);
 		
 	}
 
 	public void mouse(MouseEvent e, boolean down) {
-		spawnScreen.mouse(e,down);
-		if(spawnScreen.shouldToggleLevel()){
-			roomIndex++;
-			if(roomIndex == lobbys.size()){
-				roomIndex = 0;
+		pantallaSpawn.mouse(e,down);
+		if(pantallaSpawn.shouldToggleLevel()){
+			lobbyIndex++;
+			if(lobbyIndex == lobbys.size()){
+				lobbyIndex = 0;
 			}
-			hero.init();
-			hero.startInvulnerable();
-		}else if(spawnScreen.shouldToggleFreeze()){
-			freeze = !freeze;
+			heroe.init();
+			heroe.startInvulnerable();
+		}else if(pantallaSpawn.shouldToggleFreeze()){
+			congelar = !congelar;
 		}
 		if(down){
-			mouseDown = true;
+			mouseAbajo = true;
 			//box.start(e.getX(), e.getY());
-			Thing spawn = spawnScreen.getSpawn();
+			Thing spawn = pantallaSpawn.getSpawn();
 			if(spawn != null){
-				currentRoom().add(spawn);
+				lobbyActual().add(spawn);
 				if(spawn instanceof TGridded){
-					dragSpawn = new Vector<TGridded>();
-					dragSpawn.add((TGridded)spawn);
+					arrastreSpawn = new Vector<TGridded>();
+					arrastreSpawn.add((TGridded)spawn);
 				}
 			}
 		}else{
-			mouseDown = false;
-			dragSpawn = null;
+			mouseAbajo = false;
+			arrastreSpawn = null;
 		}
 		
 	}
 
 	public void think() {
 		super.think();
-		spawnScreen.think();
-		currentRoom().think(hero,true,freeze);
-		Class spawn = currentRoom().shouldRemoveSpawnFromOtherRooms();
+		pantallaSpawn.think();
+		lobbyActual().think(heroe,true,congelar);
+		Class spawn = lobbyActual().shouldRemoveSpawnFromOtherRooms();
 		if(spawn != null){
 			for(Lobby lobby: lobbys){
-				if(lobby != currentRoom()){
+				if(lobby != lobbyActual()){
 					lobby.removeSpawns(spawn);
 				}
 			}
 		}
 		
-		if(mouseDown && dragSpawn != null && dragSpawn.size() > 0 && spawnScreen.peekSpawn() != null && spawnScreen.peekSpawn() instanceof TGridded){
-			TGridded peek = (TGridded)spawnScreen.peekSpawn();
+		if(mouseAbajo && arrastreSpawn != null && arrastreSpawn.size() > 0 && pantallaSpawn.peekSpawn() != null && pantallaSpawn.peekSpawn() instanceof TGridded){
+			TGridded peek = (TGridded)pantallaSpawn.peekSpawn();
 			boolean touchingSomething = false;
-			for(TGridded grid: dragSpawn){
+			for(TGridded grid: arrastreSpawn){
 				if(peek.representation().contains(grid.representation())){
 					touchingSomething = true;
 					break;
 				}
 			}
 			if(!touchingSomething){
-				dragSpawn.add(peek);
-				currentRoom().add(spawnScreen.getSpawn());
+				arrastreSpawn.add(peek);
+				lobbyActual().add(pantallaSpawn.getSpawn());
 			}
 		}
-		if(mouseDown && spawnScreen.peekSpawn() != null && spawnScreen.peekSpawn() instanceof TRemover){
-			currentRoom().add(spawnScreen.peekSpawn());
+		if(mouseAbajo && pantallaSpawn.peekSpawn() != null && pantallaSpawn.peekSpawn() instanceof TRemover){
+			lobbyActual().add(pantallaSpawn.peekSpawn());
 		}
 		
 	}

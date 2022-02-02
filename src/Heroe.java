@@ -8,24 +8,24 @@ import java.awt.geom.*;
 import java.util.ArrayList;
 
 
-public class Hero extends Thing{
+public class Heroe extends Thing{
 	
 	
 	//FIELDS
 	
-		private static final AePlayWave JUMP = new AePlayWave("mario_salta.wav");
+		private static final AePlayWave SALTAR = new AePlayWave("mario_salta.wav");
 		private static final String MARIO_SPRITE_PATH = "Imagenes/sprites/mario/";
 		
 		
-		private boolean jumpDown;
+		private boolean saltoAbajo;
 		
 		private boolean muerte;
-		private double deadTime;
+		private double tiempoMuerto;
 		
 		/**
 		 * draw images
 		 */
-		public final Sprite[] IMAGE = {
+		public final Sprite[] IMAGEN = {
 			new Sprite(MARIO_SPRITE_PATH+"stand.gif"),
 			new Sprite(MARIO_SPRITE_PATH+"saltar.gif"),
 			new Sprite(MARIO_SPRITE_PATH+"caminar.gif"),
@@ -35,24 +35,22 @@ public class Hero extends Thing{
 			
 		};
 		
-		private final Color[] IMAGE_COLORS = {
+		private final Color[] COLOR_IMAGEN = {
 			new Color(248,48,80), //light
 			new Color(216,0,40),
 			new Color(176,0,0),//dark
 		};
 		
-		private boolean movingUp;
+		private boolean movimientoArriba;
 		
-		private boolean star;
-		private double starTime;
+		private boolean estrella;
+		private double tiempoEstrella;
 		
-		private boolean cape;
-		private double capeTime;
 		
-		private boolean invulerable;
-		private double invulerableTime;
 		
-		boolean metal;
+		private boolean invulnerable;
+		private double tiempoInvulnerable;
+		
 		
 		private int lobby = -1;
 		private Point2D.Double telePos = new Point2D.Double();
@@ -60,19 +58,19 @@ public class Hero extends Thing{
 		private byte move;
 		private double xOffset;
 		private double yOffset;
-		private boolean jumping,crouched,piped,changeWorlds,infSpeed;
+		private boolean saltando,agachado,tuberiado,cambiarMundos,infVelocidad;
 		
-		private Point2D.Double deathPos;
+		private Point2D.Double muertePos;
 		
-		private double jumpAdd;
-		private double lineToCross;
+		private double addSalto;
+		private double lineaMeta;
 		
 		private static final double
 			X_OFFSET = 100,
 			Y_OFFSET = JGameMaker.screenHeight - 30,
 			MAX_X_VEL = 5,
-			X_VEL_PER_TICK = 0.1,
-			JUMP_VEL = 3;
+			X_VEL_POR_T = 0.1,
+			SALTO_VEL = 3;
 		
 		public static final int
 			WIDTH = 24,
@@ -81,50 +79,46 @@ public class Hero extends Thing{
 		private int spriteColor = 0;
 		
 		private boolean ganador;
-		private static TextButton ammo;
 		
-		private int numBullets;
-		private long shotTime;
 		
-		private boolean facingRight,movingRight,movingLeft,rightFoot;
+		private boolean frenteDerecha,movimientoDerecha,movimientoIzquierda,pieDerecho;
 		
-		private double lastX;
+		private double ultimaX;
 		
 	
 	//CONSTRUCTOR
-		public Hero(){
+		public Heroe(){
 			super(0,0,WIDTH,HEIGHT);
-			deathPos = new Point2D.Double();
+			muertePos = new Point2D.Double();
 		}
 		
 		public void init(){
-			jumpDown = false;
-			movingUp = false;
+			saltoAbajo = false;
+			movimientoArriba = false;
 			
 			muerte = false;
-			deadTime = 0;
+			tiempoMuerto = 0;
 			
-			star = false;
-			starTime = 0;
+			estrella = false;
+			tiempoEstrella = 0;
 			
 			ganador = false;
 			
-			cape = false;
-			capeTime = 0;
+			
 			
 			pos = new Point2D.Double();
 			vel = new Point2D.Double();
 			acc = new Point2D.Double();
 			
-			invulerable = false;
-			invulerableTime = 0;
+			invulnerable = false;
+			tiempoInvulnerable = 0;
 			xOffset = 0;
 			yOffset = Y_OFFSET/8;
 			move = 0;
-			jumpAdd = 0;
-			facingRight = true;
-			lastX = 0;
-			rightFoot = true;
+			addSalto = 0;
+			frenteDerecha = true;
+			ultimaX = 0;
+			pieDerecho = true;
 			
 		}
 	
@@ -136,22 +130,22 @@ public class Hero extends Thing{
 		
 		/**
 		 * 
-		 * @param override true if should kill even if invulerable, false if not
+		 * @param override true if should matar even if invulnerable, false if not
 		 */
-		public void kill(boolean override){
+		public void matar(boolean override){
 			if(!override){
-				if(star || invulerable || piped)return;
+				if(estrella || invulnerable || tuberiado)return;
 			}
-			deathPos.setLocation(pos);
-			if(deathPos.y < 0){
-				deathPos.y = 0;
+			muertePos.setLocation(pos);
+			if(muertePos.y < 0){
+				muertePos.y = 0;
 			}
 			
 			muerte = true;
-			falling = false;
+			cayendo = false;
 			acc = new Point2D.Double();
 			vel = new Point2D.Double();
-			deadTime = 25;
+			tiempoMuerto = 25;
                         
                         AePlayWave.fondoMusica.finalizarMusica();// si se muere, quitar musica de fondo
                         
@@ -160,41 +154,41 @@ public class Hero extends Thing{
 		}
 		
 		/**
-		 * determines if in star mode
-		 * @return true if in star mode
+		 * determines if in estrella mode
+		 * @return true if in estrella mode
 		 */
-		public boolean isInStarMode(){
-			return star;
+		public boolean vModoEstrella(){
+			return estrella;
 		}
 		
-		public void kill(){
-			kill(false);
+		public void matar(){
+			matar(false);
 		}
 		
-		public boolean enableGravity(){
+		public boolean activarGravedad(){
 			return true;
 		}
 		
 		/**
 		 * sets the respawn position
 		 */
-		public void setDeathPos(){
-			setPos(deathPos.x,deathPos.y);
+		public void setMuertePos(){
+			setPos(muertePos.x,muertePos.y);
 		}
 		
 		/**
 		 * changes the sprite color
 		 * @param color color that should be changed to <br/>&nbsp;&nbsp;1: green<br/>&nbsp;&nbsp;2:blue<br/>&nbsp;&nbsp;3:yellow<br/>&nbsp;&nbsp;4:purple<br/>&nbsp;&nbsp;5:gray
-		 * @param star whether or not this is just for the starman sequence
+		 * @param estrella whether or not this is just for the starman sequence
 		 */
-		public void setSpriteColor(int color, boolean star){
-			if(!star)
+		public void setSpriteColor(int color, boolean estrella){
+			if(!estrella)
 				spriteColor = color;
 			Color[] replace = new Color[3];
 			switch(color){
 				case 0: //red
-					for(int i = 0; i < IMAGE.length; i++)
-						(IMAGE[i]).renew();
+					for(int i = 0; i < IMAGEN.length; i++)
+						(IMAGEN[i]).renew();
 					return; //the image is already red so why go through all sorts of bullshit?
 				//break;
 				
@@ -229,51 +223,46 @@ public class Hero extends Thing{
 				break;
 			}
 			
-			for(int i = 0; i < IMAGE.length; i++){
-				Sprite limg = IMAGE[i];
+			for(int i = 0; i < IMAGEN.length; i++){
+				Sprite limg = IMAGEN[i];
 				limg.renew();
-				limg.replaceColors(IMAGE_COLORS, replace);
+				limg.replaceColors(COLOR_IMAGEN, replace);
 			}
 		}
-		/**
-		 * starts the metal cap sequence
-		 */
-		public void startMetal(){
-			metal = true;
-		}
+		
 		
 		/**
 		 * starts the starman sequence
 		 */
 		public void startStar(){
-			star = true;
-			starTime = 0;
+			estrella = true;
+			tiempoEstrella = 0;
 		}
 		
 		/**
 		 * starts temporary invulerability
 		 */
 		public void startInvulnerable(){
-			invulerable = true;
-			invulerableTime = 0;
+			invulnerable = true;
+			tiempoInvulnerable = 0;
 		}
 		
 		
 		
 		/**
 		 * called when this wants to move through a tuberia
-		 * @param lineToCross the y coordinate this must pass before teleporting to its new position
+		 * @param lineaMeta the y coordinate this must pass before teleporting to its new position
 		 * @param lobby lobby to move to
 		 * @param telePos position to move to
 		 */
-		public void tuberia(double lineToCross, int lobby, Point2D.Double telePos){
-			if(crouched){
+		public void tuberia(double lineaMeta, int lobby, Point2D.Double telePos){
+			if(agachado){
 				new AePlayWave("Sonidos/tuberia.wav").start();
-				crouched = false;
-				piped = true;
+				agachado = false;
+				tuberiado = true;
 				vel.y = -1;
 				vel.x = 0;
-				this.lineToCross = lineToCross;
+				this.lineaMeta = lineaMeta;
 				this.lobby = lobby;
 				this.telePos.setLocation(telePos);
 			}
@@ -286,22 +275,22 @@ public class Hero extends Thing{
 			this.setPos(telePos.x,telePos.y);
 			vel.y = 1;
 			vel.x = 0;
-			piped = true;
-			lineToCross = (int)(pos.y + height);
+			tuberiado = true;
+			lineaMeta = (int)(pos.y + height);
 			return lobby;
 		}
 		/**
 		 * determines if the player finished moving through a tuberia and needs to change to the connected tuberia
 		 * @return true if finished moving through a tuberia, false if not
 		 */
-		public boolean piped(){
-			boolean p = changeWorlds;
+		public boolean tuberiado(){
+			boolean p = cambiarMundos;
 			if(p){
-				piped = false;
-				setPos(pos.x, (double)lineToCross);
+				tuberiado = false;
+				setPos(pos.x, (double)lineaMeta);
 				vel.y = 0;
 			}
-			changeWorlds = false;
+			cambiarMundos = false;
 			return p;
 		}
 		/**
@@ -309,14 +298,14 @@ public class Hero extends Thing{
 		 * @return true if moving through a tuberia
 		 */
 		public boolean piping(){
-			return piped;
+			return tuberiado;
 		}
 		/**
 		 * makes this crouch (for pipes)
-		 * @param crouched
+		 * @param agachado
 		 */
-		public void crouch(boolean crouched){
-			this.crouched = crouched;
+		public void crouch(boolean agachado){
+			this.agachado = agachado;
 		}
 		/**
 		 * makes this accelerate horizontally
@@ -328,9 +317,9 @@ public class Hero extends Thing{
 			}else{
 				move = -1;
 			}
-			movingRight = rightward;
-			movingLeft = !rightward;
-			facingRight = rightward;
+			movimientoDerecha = rightward;
+			movimientoIzquierda = !rightward;
+			frenteDerecha = rightward;
 		}
 		/**
 		 * makes this stop accelerating horizontally
@@ -340,16 +329,16 @@ public class Hero extends Thing{
 			if(move == -1 && !rightward || move == 1 && rightward)
 				move = 0;
 			if(rightward)
-				movingRight = false;
+				movimientoDerecha = false;
 			else
-				movingLeft = false;
+				movimientoIzquierda = false;
 		}
 		/**
 		 * determines if the saltar key is down or not (used when stomping on enemies)
 		 * @return true if the saltar button is down, false if not
 		 */
-		public boolean jumpDown(){
-			return jumpDown;
+		public boolean saltoAbajo(){
+			return saltoAbajo;
 		}
 
 		/**
@@ -367,40 +356,29 @@ public class Hero extends Thing{
 		public void saltar(boolean pressed, boolean sound){
 			if(muerte) return;
 			if(pressed)
-				jumpDown = true;
+				saltoAbajo = true;
 			else
-				jumpDown = false;
-			if(cape){
-				if(pressed){
-					movingUp = true;
-					acc.y = JGameMaker.GRAVEDAD;
-					jumping = true;
-				}else{
-					movingUp = false;
-					jumping = false;
-					acc.y = 0;
-				}
-				return;
-			}
+				saltoAbajo = false;
+			
 			
 			if(pressed){
 				if(vel.y == 0 ){
-					vel.y = JUMP_VEL + JGameMaker.GRAVEDAD;
-					jumping = true;
-					jumpAdd = JGameMaker.TIEMPO_SALTO_COMPLETO;
+					vel.y = SALTO_VEL + JGameMaker.GRAVEDAD;
+					saltando = true;
+					addSalto = JGameMaker.TIEMPO_SALTO_COMPLETO;
 					if(sound)
-						JUMP.start();
+						SALTAR.start();
 				}
 			}else{
-				jumpAdd = -JGameMaker.TIEMPO_SALTO_COMPLETO;
+				addSalto = -JGameMaker.TIEMPO_SALTO_COMPLETO;
 			}
 		}
 		//double jolt = 
-		private void jumpAdd(){
+		private void addSalto(){
 			if(vel.y == 0 || muerte){
-				jumpAdd = 0;
+				addSalto = 0;
 			}else{
-				double add = 0.4*jumpAdd/JGameMaker.TIEMPO_SALTO_COMPLETO*JGameMaker.time();
+				double add = 0.4*addSalto/JGameMaker.TIEMPO_SALTO_COMPLETO*JGameMaker.time();
 				vel.y += add;
 			}
 		}
@@ -417,18 +395,18 @@ public class Hero extends Thing{
 			setPos(pos.x,pos.y);
 		}
 		
-		public boolean touching(Thing t){
-			if(piped && vel.y < 0 || muerte)
+		public boolean tocando(Thing t){
+			if(tuberiado && vel.y < 0 || muerte)
 				return false;
 			else
-				return super.touching(t);
+				return super.tocando(t);
 		}
 		
-		public void onTouch(Thing t){
+		public void enContacto(Thing t){
 			if(muerte) return;
-			if(star && t instanceof TEnemy ){
+			if(estrella && t instanceof TEnemy ){
 				new AePlayWave("Sonidos/patada.wav").start();
-				t.kill(new Point2D.Double(vel.x*2, Math.random()*16+3));
+				t.matar(new Point2D.Double(vel.x*2, Math.random()*16+3));
 			}else if(t instanceof TGoal){
 				ganador = true;
 			}
@@ -446,7 +424,7 @@ public class Hero extends Thing{
 	//CONSTANT METHODS
 		public void draw(Graphics g, ImageObserver o){
 			
-			boolean transparent = invulerable && (invulerableTime < 3000/15 || System.currentTimeMillis() % 60 > 30);
+			boolean transparent = invulnerable && (tiempoInvulnerable < 3000/15 || System.currentTimeMillis() % 60 > 30);
 			if(transparent)
 				((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 			int x = JGameMaker.scaleW(JGameMaker.screenWidth/2.0 + xOffset - 4);
@@ -455,7 +433,7 @@ public class Hero extends Thing{
 			
 			
 			g.drawImage(
-				figureOutDrawImage(IMAGE),
+				figureOutDrawImage(IMAGEN),
 				x,
 				//(int)(Global.H-H-pos.y-Global.NIVEL_SUELO),
 				y,
@@ -478,22 +456,22 @@ public class Hero extends Thing{
 				return imgs[5].getBuffer();
 			}
 			
-			if(Math.abs((int)(vel.y*100)) > 0 && !piped){
+			if(Math.abs((int)(vel.y*100)) > 0 && !tuberiado){
 				img = imgs[1];
-			}else if( !(movingRight || movingLeft) && vel.x == 0 )
+			}else if( !(movimientoDerecha || movimientoIzquierda) && vel.x == 0 )
 				img = imgs[0];
 			else{
-				if(movingRight && vel.x < 0 || movingLeft && vel.x > 0)
+				if(movimientoDerecha && vel.x < 0 || movimientoIzquierda && vel.x > 0)
 					img = imgs[4];
 				else{
-					if(rightFoot)
+					if(pieDerecho)
 						img = imgs[3];
 					else
 						img = imgs[2];
 				}
 			}
 
-			if(star && (starTime < 8000/15 || System.currentTimeMillis() % 60 > 30)){
+			if(estrella && (tiempoEstrella < 8000/15 || System.currentTimeMillis() % 60 > 30)){
 				int	width = img.getBuffer().getWidth(),
 					height = img.getBuffer().getHeight();
 				Sprite limg = new Sprite(img.getBuffer());
@@ -506,44 +484,30 @@ public class Hero extends Thing{
 					}
 				}
 				img = limg;
-			}else if(metal){
-				int	width = img.getBuffer().getWidth(),
-					height = img.getBuffer().getHeight();
-				Sprite limg = new Sprite(img.getBuffer());
-				for(int x = 0; x < width; x++){
-					for(int y = 0; y < height; y++){
-						Color pixel = limg.getPixel(x,y);
-						if(pixel.getAlpha() != 0){
-							int gray = (pixel.getRed() + pixel.getBlue() + pixel.getGreen())/3;
-							limg.setPixel(x,y,new Color(gray,gray,gray, pixel.getAlpha()));
-						}
-					}
-				}
-				img = limg;
 			}
 			
-			if(facingRight){
+			if(frenteDerecha){
 				return img.flipX();
 			}else{
 				return img.getBuffer();
 			}
 		}
 		
-		public boolean dying(){
+		public boolean muriendo(){
 			return muerte;
 		}
 		/**
 		 * determines if the player died, and already went to the bottom of the screen after the little saltar upward
 		 * @return true if muerte, false if not
 		 */
-		public boolean isDead(){
+		public boolean vMuerte(){
 			return muerte && yOffset < -300;
 		}
 		
 		public void think(){
-			if(muerte && deadTime > 0){
-				deadTime -= JGameMaker.time();
-				if(deadTime < 0){
+			if(muerte && tiempoMuerto > 0){
+				tiempoMuerto -= JGameMaker.time();
+				if(tiempoMuerto < 0){
 					vel.x = 0;
 					vel.y = 15;
 				}
@@ -551,36 +515,30 @@ public class Hero extends Thing{
 			}
 			
 
-			if(star){
-				starTime += JGameMaker.time();
-				if(starTime > 10000/15){ //if you've been in starman mode for more than 10 seconds, stop
-					star = false;
-					starTime = 0;
+			if(estrella){
+				tiempoEstrella += JGameMaker.time();
+				if(tiempoEstrella > 10000/15){ //if you've been in starman mode for more than 10 seconds, stop
+					estrella = false;
+					tiempoEstrella = 0;
 					setSpriteColor(spriteColor,true);
 				}else{
 					setSpriteColor((int)(Math.random()*6),true);
 				}
 			}
 			
-			if(invulerable){
-				invulerableTime += JGameMaker.time();
-				if(invulerableTime > 5000/15){
-					invulerable = false;
-					invulerableTime = 0;
+			if(invulnerable){
+				tiempoInvulnerable += JGameMaker.time();
+				if(tiempoInvulnerable > 5000/15){
+					invulnerable = false;
+					tiempoInvulnerable = 0;
 				}
 			}
 			
-			if(cape){
-				capeTime += JGameMaker.time();
-				if(capeTime > 10000/15){
-					cape = false;
-					capeTime = 0;
-				}
-			}
+			
 			
 			
 
-			updatePosition();
+			actualizarPosicion();
 			xOffset += pos.x - posLast.x;
 			if(xOffset > X_OFFSET)
 				xOffset = X_OFFSET;
@@ -588,7 +546,7 @@ public class Hero extends Thing{
 				xOffset = -X_OFFSET;
 				
 			yOffset += pos.y - posLast.y;
-			if(!(muerte || falling)){
+			if(!(muerte || cayendo)){
 				if(yOffset > Y_OFFSET)
 					yOffset = Y_OFFSET;
 				else if(yOffset < Y_OFFSET/8)
@@ -599,20 +557,20 @@ public class Hero extends Thing{
 			//if(v > 0 && vel.y < 0){
 			//	System.out.println("position: " + pos.y);
 			//}
-			falling = false;
+			cayendo = false;
 		}
 		
 		private void updateVelocity(){
-			if(piped){
+			if(tuberiado){
 				return;
 			}
-			if(jumpAdd > 0){
-				jumpAdd-= JGameMaker.time();
-				jumpAdd();
+			if(addSalto > 0){
+				addSalto-= JGameMaker.time();
+				addSalto();
 				acc.y = 0;
 			}
-			if(jumping){
-				jumping = false;
+			if(saltando){
+				saltando = false;
 			}else if(!muerte){
 				int tempMove = move;
 				if(move == 0){
@@ -624,12 +582,12 @@ public class Hero extends Thing{
 				double xadd;
 				//stopping
 				if(vel.x > 0 && move <= 0 || vel.x < 0 && move >= 0){
-					xadd = tempMove*X_VEL_PER_TICK*2.0*JGameMaker.time();
+					xadd = tempMove*X_VEL_POR_T*2.0*JGameMaker.time();
 				//moving forward
 				}else{
-					xadd = tempMove*X_VEL_PER_TICK*JGameMaker.time();
+					xadd = tempMove*X_VEL_POR_T*JGameMaker.time();
 				}
-				if(vel.y < 0 && !metal){
+				if(vel.y < 0){
 					vel.x += xadd/3;
 				}else{
 					vel.x += xadd;
@@ -637,7 +595,7 @@ public class Hero extends Thing{
 				if(move == 0 && tempMove*vel.x > 0){
 					vel.x = 0;
 				}
-				if(!infSpeed){
+				if(!infVelocidad){
 					if(vel.x < -MAX_X_VEL)
 						vel.x = -MAX_X_VEL;
 					else if(vel.x > MAX_X_VEL)
@@ -645,54 +603,52 @@ public class Hero extends Thing{
 				}
 			}
 			
-			if(vel.x < X_VEL_PER_TICK*JGameMaker.time() && vel.x > -X_VEL_PER_TICK*JGameMaker.time())
+			if(vel.x < X_VEL_POR_T*JGameMaker.time() && vel.x > -X_VEL_POR_T*JGameMaker.time())
 				vel.x = 0;
 			
 			vel.x += acc.x*JGameMaker.time();
 			vel.y += acc.y*JGameMaker.time();
 			
 			//S//ystem.out.println(acc.y);
-			if(falling && invulerable){
-				falling = false;
+			if(cayendo && invulnerable){
+				cayendo = false;
 			}
-			if(pos.y > 0 && !(cape && movingUp) || falling){
+			if(pos.y > 0 && !(movimientoArriba) || cayendo){
 				acc.y = -JGameMaker.GRAVEDAD;
-				if(cape){
-					acc.y /= 4;
-				}
-			}else if(cape && movingUp && vel.y > 5){
+				
+			}else if(movimientoArriba && vel.y > 5){
 				acc.y = 0;
 				vel.y = 5;
 			}
-			else if(!jumping && !muerte && !(cape && movingUp)){
+			else if(!saltando && !muerte && !(movimientoArriba)){
 				vel.y = 0;
 				acc.y = 0;
 			}
 		}
 		
-		private void updatePosition(){
+		private void actualizarPosicion(){
 			updatePosLast();
 			
 			pos.setLocation(pos.x+vel.x*JGameMaker.time(),pos.y+vel.y*JGameMaker.time());
 
 			if(!muerte && pos.y+JGameMaker.NIVEL_SUELO < 0){
-				kill(true);
+				matar(true);
 				//pos.y = pos.y + JGameMaker.NIVEL_SUELO + 1;
-				falling = false;
-			}else if(pos.y < 0 && !muerte && !piped && (!falling || invulerable)){
+				cayendo = false;
+			}else if(pos.y < 0 && !muerte && !tuberiado && (!cayendo || invulnerable)){
 				setPos(pos.x,0);
 				//yOffset = JGameMaker.NIVEL_SUELO;
 			}
 			
-			if(pos.x > lastX + 20 || pos.x < lastX - 20){
-				rightFoot = !rightFoot;
-				lastX = pos.x;
+			if(pos.x > ultimaX + 20 || pos.x < ultimaX - 20){
+				pieDerecho = !pieDerecho;
+				ultimaX = pos.x;
 			}
-			if(piped && pos.y + height< lineToCross && vel.y < 0) changeWorlds = true;
-			if(piped && pos.y > lineToCross && vel.y > 0){
+			if(tuberiado && pos.y + height< lineaMeta && vel.y < 0) cambiarMundos = true;
+			if(tuberiado && pos.y > lineaMeta && vel.y > 0){
 				vel.y = 0;
-				pos.y = lineToCross;
-				piped = false;
+				pos.y = lineaMeta;
+				tuberiado = false;
 			}
 			
 		}

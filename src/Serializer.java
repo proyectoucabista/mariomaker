@@ -13,7 +13,7 @@ public class Serializer implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7925582856184491464L;
-	private Class instance;
+	private Class instancia;
 	/**
 	 * ints to be written to file
 	 */
@@ -33,10 +33,10 @@ public class Serializer implements Serializable {
 	
 	/**
 	 * 
-	 * @param instance the class of the object this Serializer should represent
+	 * @param instancia the class of the object this Serializer should represent
 	 */
-	public Serializer(Class instance){
-		this.instance = instance;
+	public Serializer(Class instancia){
+		this.instancia = instancia;
 		ints = null;
 		doubles = null;
 		bools = null;
@@ -44,11 +44,11 @@ public class Serializer implements Serializable {
 	}
 	
 	public Class getInstance(){
-		return instance;
+		return instancia;
 	}
 	
 	/**
-	 * writes s to f (using GZIP compression algorithm)
+	 * escribe s a f (usando el algoritmo de compresión GZIP)
 	 * @param f
 	 * @param s
 	 * @return
@@ -69,15 +69,7 @@ public class Serializer implements Serializable {
 			return false;
 		}
 	}
-	/**
-	 * gets Serializable from file
-	 * @param f
-	 * @return
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 */
+	
 	public static Serializable fromFile(File f) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException{
 		if(f == null)return null;
 		FileInputStream fin = new FileInputStream(f);

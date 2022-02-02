@@ -22,9 +22,9 @@ public class THorizontalBound extends TBound {
 		super(color);
 	}
 	
-	public boolean touching(Thing t){
+	public boolean tocando(Thing t){
 
-		if(t.dying())return false;
+		if(t.muriendo())return false;
 		double
 			x1 = pos.x,
 			x2 = t.pos.x;
@@ -56,15 +56,15 @@ public class THorizontalBound extends TBound {
 		return FROM_NONE;
 	}
 	
-	public int[] getDrawCoords(Hero hero){
-		int[] c = super.getDrawCoords(hero);
+	public int[] getDrawCoords(Heroe heroe){
+		int[] c = super.getDrawCoords(heroe);
 		c[1] = 0;
 		c[3] = JGameMaker.screenHeight;
 		return c;
 	}
 	
 
-	public boolean inPlayerView(Hero hero){
-		return JGameMaker.screenWidth-hero.viewX()+pos.x+width > 0 && JGameMaker.screenWidth-hero.viewX()+pos.x < JGameMaker.screenWidth;
+	public boolean inPlayerView(Heroe heroe){
+		return JGameMaker.screenWidth-heroe.viewX()+pos.x+width > 0 && JGameMaker.screenWidth-heroe.viewX()+pos.x < JGameMaker.screenWidth;
 	}
 }

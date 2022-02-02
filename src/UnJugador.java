@@ -23,8 +23,8 @@ public class UnJugador extends GameScreen{
 		mensaje2 = new TextButton("RECICLA LOS MATERIALES REUTILIZABLES",JGameMaker.FONT_GRANDE, 10, 12 + mensaje1.getHeight(), java.awt.Color.WHITE);
 	}
 
-	public void init(int marioImage){
-		super.init(marioImage);
+	public void init(int marioImagen){
+		super.init(marioImagen);
 		ganador = false;
 		debeCargarNivel = false;
 		tiempoCelebracion = 0;
@@ -32,7 +32,7 @@ public class UnJugador extends GameScreen{
 	
 	public void draw(Graphics g) {
 		super.draw(g);
-		if(loading)return;
+		if(cargando)return;
 		mensaje1.draw(g);
 		mensaje2.draw(g);
 		if(ganador)
@@ -40,8 +40,8 @@ public class UnJugador extends GameScreen{
 	}
 	public void think() {
 		super.think();
-		currentRoom().think(hero,false);
-		if(hero.ganador() && !ganador){
+		lobbyActual().think(heroe,false);
+		if(heroe.ganador() && !ganador){
 			ganador = true;
 			tiempoCelebracion = 6500/15.0;
                         AePlayWave.fondoMusica.finalizarMusica(); // acabar musica de fondo
@@ -51,17 +51,17 @@ public class UnJugador extends GameScreen{
 		}
 		if(debeCargarNivel){
 			debeCargarNivel = false;
-			controller.nextLevel();
+			controller.proximoNivel();
 
-			loading = false;
+			cargando = false;
 		}
-		if(loading){
+		if(cargando){
 			debeCargarNivel = true;
 		}
 		if(ganador && tiempoCelebracion > 0){
 			tiempoCelebracion -= JGameMaker.time();
 			if(tiempoCelebracion <= 0){
-				loading = true;
+				cargando = true;
 				ganador = false;
 			}
 		}
@@ -74,8 +74,8 @@ public class UnJugador extends GameScreen{
 	}
 	
 	public void reiniciar() {
-		if(hero == null)return;
-		if(hero.isDead() && !ganador){
+		if(heroe == null)return;
+		if(heroe.vMuerte() && !ganador){
 			controller.pause(true);
 		}else{
 			setSpawn();

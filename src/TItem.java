@@ -26,29 +26,29 @@ public abstract class TItem extends Thing{
 	
 	public void init(){
 		super.init();
-		if(!dying())
+		if(!muriendo())
 			vel.y = 1;
 	}
 	
 	
-	public void onTouch(Thing t){
-		if(t instanceof Hero){
-			giveItem((Hero)t);
-			kill();
+	public void enContacto(Thing t){
+		if(t instanceof Heroe){
+			giveItem((Heroe)t);
+			matar();
 		}
 	}
 	/**
-	 * called when a Hero touches this
-	 * @param hero the Hero that touched this
+	 * called when a Heroe touches this
+	 * @param heroe the Heroe that touched this
 	 */
-	public abstract void giveItem(Hero hero);
+	public abstract void giveItem(Heroe heroe);
 	
-	/*public boolean touching(Thing t){
+	/*public boolean tocando(Thing t){
 		if(!exited) return false;
-		return super.touching(t);
+		return super.tocando(t);
 	}*/
 	
-	public boolean enableGravity(){
+	public boolean activarGravedad(){
 		return exited;
 	}
 	
@@ -57,14 +57,14 @@ public abstract class TItem extends Thing{
 	 */
 	public void onBlockExit(){
 		exited = true;
-		if(!dying()){
+		if(!muriendo()){
 			vel.y = 0;
 			vel.x = 0;
 		}
 	}
 	
-	/*public void draw(Graphics2D g, ImageObserver o, Hero hero){
+	/*public void draw(Graphics2D g, ImageObserver o, Heroe heroe){
 		//if(exitingBlock)
-		//	block.draw(g,o,hero);
+		//	block.draw(g,o,heroe);
 	}*/
 }

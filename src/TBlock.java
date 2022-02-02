@@ -136,14 +136,14 @@ public class TBlock extends TGridded{
 		return BLOCK[image].getBuffer();
 	}
 
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		if(!t.isStatic() && movesWhenHit && vel.x == 0 && vel.y == 0 && hit == FROM_NONE && !spawning){
 			
 			//System.out.println(pos.x + " " + oldX);
 			
 			byte where = fromWhere(t);
 			
-			if(where == FROM_BELOW && t instanceof Hero){
+			if(where == FROM_BELOW && t instanceof Heroe){
 				hit(where);
 				vel.y = 3;
 			}else{
@@ -157,7 +157,7 @@ public class TBlock extends TGridded{
 				}
 			}
 		}
-		super.onTouch(t);
+		super.enContacto(t);
 	}
 	/**
 	 * Called when a player or a game object hits the block (for spawning TItems)
@@ -249,10 +249,10 @@ public class TBlock extends TGridded{
 		return BLOCK[image].getBuffer();
 	}
 	
-	public void draw(Graphics g, ImageObserver o, Hero hero){
-		if(inPlayerView(hero) && spawning)
-			item.draw(g,o,hero);
-		super.draw(g,o,hero);
+	public void draw(Graphics g, ImageObserver o, Heroe heroe){
+		if(inPlayerView(heroe) && spawning)
+			item.draw(g,o,heroe);
+		super.draw(g,o,heroe);
 	}
 
 }

@@ -19,7 +19,7 @@ public class SpawnScreen extends Pantalla {
 	
 	private boolean visible;
 	private int chosenThing;
-	private Hero hero;
+	private Heroe heroe;
 	private int hoveredThing;
 	private boolean toggleLevel, toggleFreeze;
 	
@@ -63,14 +63,14 @@ public class SpawnScreen extends Pantalla {
 		new GroundHole(),
 	};
 	
-	public SpawnScreen(Hero hero){
+	public SpawnScreen(Heroe heroe){
 		visible = false;
 		toggleLevel = false;
 		chosenThing = 0;
 		hoveredThing = -1;
 		changeLevel = new TextButton("CAMBIAR FONDO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10);
 		freezeTime = new TextButton("CONGELAR TIEMPO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10 + 20 + changeLevel.getHeight());
-		this.hero = hero;
+		this.heroe = heroe;
 	}
 
 	public void draw(Graphics g) {
@@ -100,7 +100,7 @@ public class SpawnScreen extends Pantalla {
 			Thing t = things[chosenThing];
 			//makes the graphics object draw opaquely
 			((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
-			t.draw((Graphics2D)g,null,hero);
+			t.draw((Graphics2D)g,null,heroe);
 		}
 		//set it back to normal
 		((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
@@ -191,7 +191,7 @@ public class SpawnScreen extends Pantalla {
 	 */
 	public Color highlightColor(Thing t){
 		Thing chosen = things[chosenThing];
-		if(!(chosen.touching(t) && t.touching(chosen))){
+		if(!(chosen.tocando(t) && t.tocando(chosen))){
 			return null;
 		}
 		if(chosen instanceof TRemover){
@@ -212,7 +212,7 @@ public class SpawnScreen extends Pantalla {
 	}
 	
 	/**
-	 * gets the Thing that should be spawned and returns it. The returned Thing is removed from the SpawnScreen and new instance of it is created to take its place.
+	 * gets the Thing that should be spawned and returns it. The returned Thing is removed from the SpawnScreen and new instancia of it is created to take its place.
 	 * @return the Thing to be spawned
 	 */
 	public Thing getSpawn(){
@@ -262,7 +262,7 @@ public class SpawnScreen extends Pantalla {
 
 	public void think() {
 		Thing t = things[chosenThing];
-		t.setSpawnPos(ScreenManager.mouse.x +hero.pos.x - (JGameMaker.screenWidth/2.0 + hero.xOffset()),JGameMaker.screenHeight + hero.pos.y + 32 - (ScreenManager.mouse.y + hero.yOffset()));
+		t.setSpawnPos(ScreenManager.mouse.x +heroe.pos.x - (JGameMaker.screenWidth/2.0 + heroe.xOffset()),JGameMaker.screenHeight + heroe.pos.y + 32 - (ScreenManager.mouse.y + heroe.yOffset()));
 		t.vel.x = 0;
 		t.vel.y = 0;
 		t.acc.x = 0;

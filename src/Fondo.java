@@ -51,11 +51,11 @@ public class Fondo{
      * draws the backdrop to the screen
      * @param g
      * @param o
-     * @param hero to be used to check against for parallax scrolling
+     * @param heroe to be used to check against for parallax scrolling
      */
-    public void draw(Graphics g, java.awt.image.ImageObserver o, Hero hero){
-		double viewX = hero.viewX();
-		double viewY = hero.viewY();
+    public void draw(Graphics g, java.awt.image.ImageObserver o, Heroe heroe){
+		double viewX = heroe.viewX();
+		double viewY = heroe.viewY();
 		if(underground)
 			g.setColor(UNDERGROUND_COLOR);
 		else

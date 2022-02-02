@@ -62,21 +62,21 @@ public class GroundHole extends TColoredBlock {
 			adjacentSkies -= direction;
 		}
 	}
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		if(t instanceof TGridded && !(t instanceof GroundHole || t instanceof TBGBlock) && getGridPos().equals(((TGridded)t).getGridPos())){
-			kill();
+			matar();
 		}
-		if(!t.enableGravity()) return;
+		if(!t.activarGravedad()) return;
 		if((t.pos.x >= pos.x || hasAdjacentSky(FROM_LEFT)) && (t.pos.x + t.width <= pos.x + width || hasAdjacentSky(FROM_RIGHT))){
-			t.falling = true;
+			t.cayendo = true;
 		}else{
 			if(t.pos.y >= pos.y + height*2/3 - 10){
-				t.falling = false;
+				t.cayendo = false;
 			}
 		}
 	}
-	public int[] getDrawCoords(Hero hero){
-		int[] c = super.getDrawCoords(hero);
+	public int[] getDrawCoords(Heroe heroe){
+		int[] c = super.getDrawCoords(heroe);
 		c[3] = JGameMaker.screenHeight - c[1];
 		return c;
 	}

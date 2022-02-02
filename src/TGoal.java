@@ -16,7 +16,7 @@ public class TGoal extends THorizontalBound{
 	public BufferedImage preview(){
 		return PREVIEW.getBuffer();
 	}
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		
 	}
 }

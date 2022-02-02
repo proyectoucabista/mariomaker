@@ -46,9 +46,9 @@ public class MainScreen extends Pantalla {
 		editorSeleccionado = false;
 		cargaFallida = false;
 		for(int i = 0; i < MARIO_COLORS.length; i++){
-			Hero h = new Hero();
+			Heroe h = new Heroe();
 			h.setSpriteColor(i);
-			MARIO_COLORS[i] = (h.IMAGE[0]).getBuffer();
+			MARIO_COLORS[i] = (h.IMAGEN[0]).getBuffer();
 		}
 		marioSeleccionado = (int)(Math.random()*6);
 		boolean underground = Math.random() > 0.5;
@@ -76,7 +76,7 @@ public class MainScreen extends Pantalla {
 		cargarJuego = new TextButton("CARGAR JUEGO", JGameMaker.FONT_GRANDE);
 		editorButton = new TextButton("CREAR MAPA", JGameMaker.FONT_GRANDE);
 		botonUnico = new TextButton("UN SOLO JUGADOR", JGameMaker.FONT_GRANDE);
-		errorCargar = new TextButton("CARGAR JUEGO FAILED", JGameMaker.FONT_GRANDE, TextButton.TITULO);
+		errorCargar = new TextButton("ERROR AL CARGAR JUEGO", JGameMaker.FONT_GRANDE, TextButton.TITULO);
 		//multiButton = new TextRect("ONLINE", JGameMaker.FONT_GRANDE);
 		titulo = new TextButton("JGameMaker", FONT_TITULO, Color.WHITE);
 		salir = new TextButton("SALIR", JGameMaker.FONT_GRANDE);
@@ -153,7 +153,7 @@ public class MainScreen extends Pantalla {
 		
 		//if(ip == null){
 		if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE || code == KeyEvent.VK_ESCAPE){
-			controller.levelEditor(marioSeleccionado);
+			controller.nivelEditor(marioSeleccionado);
 		}
 		return; //continue only if you're typing the IP of the server to connect to
 		//}
@@ -175,14 +175,14 @@ public class MainScreen extends Pantalla {
 		}else{
 			if(cargarJuego.contains(x,y)){
 				cargaFallida = false;
-				controller.loadLevelEditor(marioSeleccionado);
+				controller.cargarNivelEditor(marioSeleccionado);
 			}else if(nuevoJuego.contains(x,y)){
-				controller.levelEditor(marioSeleccionado);
+				controller.nivelEditor(marioSeleccionado);
 			}
 		}
 		if(botonUnico.contains(x,y)){
 			cargaFallida = false;
-			controller.singlePlayer(marioSeleccionado);
+			controller.unJugador(marioSeleccionado);
 		}
 		
 		

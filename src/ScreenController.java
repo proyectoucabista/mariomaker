@@ -6,85 +6,85 @@ import java.io.File;
  *
  */
 public class ScreenController {
-	private ScreenManager screenPanel;
+	private ScreenManager pantallaPanel;
 	private FileOpener opener;
-	private File level;
-	private File currentLevel;
-	private int marioImage;
+	private File nivel;
+	private File nivelActual;
+	private int marioImagen;
 	/**
-	 * Creates a new instance of ScreenController, controlling manager and using opener as the file opener.
+	 * Creates a new instancia of ScreenController, controlling manager and using opener as the file opener.
 	 * @param manager the ScreenManager to be controlled
 	 * @param opener the FileOpener to be used when opening files
 	 */
 	public ScreenController(ScreenManager manager, FileOpener opener){
-		this.screenPanel = manager;
+		this.pantallaPanel = manager;
 		this.opener = opener;
-		level = null;
-		marioImage = -1;
+		nivel = null;
+		marioImagen = -1;
 	}
 	/**
 	 * pauses / unpauses the game
 	 * @param pause true if wants to pause, false if wants to unpause
 	 */
 	public void pause(boolean pause){
-		screenPanel.pause(pause);
+		pantallaPanel.pause(pause);
 	}
 	/**
 	 * creates a new LevelEditor
-	 * @param marioImage the color of the Hero
+	 * @param marioImagen the color of the Heroe
 	 */
-	public void levelEditor(int marioImage){
-		screenPanel.levelEditor(marioImage);
+	public void nivelEditor(int marioImagen){
+		pantallaPanel.nivelEditor(marioImagen);
 		pause(false);
 	}
 	
 	/**
 	 * creates a new UnJugador
-	 * @param marioImage the color of the Hero
+	 * @param marioImagen the color of the Heroe
 	 */
-	public void singlePlayer(int marioImage){
-		level = opener.openFile();
-		currentLevel = level;
-		this.marioImage = marioImage;
-		screenPanel.singlePlayer(marioImage, level);
+	public void unJugador(int marioImagen){
+		nivel = opener.openFile();
+		nivelActual = nivel;
+		this.marioImagen = marioImagen;
+		pantallaPanel.unJugador(marioImagen, nivel);
 	}
 	
 	/**
-	 * called when RESET LEVEL is pressed in the PauseScreen in UnJugador. It resets the current level back to what it originally was so it can be played through again
+	 * called when RESET LEVEL is pressed in the PauseScreen in UnJugador. It resets the current nivel back to what it originally was so it can be played through again
 	 */
-	public void resetSinglePlayer(){
-		screenPanel.singlePlayer(marioImage, currentLevel);
+	public void reiniciarUnJugador(){
+		pantallaPanel.unJugador(marioImagen, nivelActual);
 	}
 	
 	/**
 	 * returns to the main menu
 	 */
 	public void menuPrincipal(){
-		screenPanel.renew();
+		pantallaPanel.renew();
 	}
 	
 	/**
-	 * If in level editor mode, prompts the user to select a file and saves the level to that file
+	 * If in nivel editor mode, prompts the user to select a file and saves the nivel to that file
 	 * @return true if game was saved, false if not
 	 */
 	public boolean guardarJuego(){
-		return screenPanel.guardarJuego(opener.saveFile());
+		return pantallaPanel.guardarJuego(opener.saveFile());
 	}
 	
 	/**
 	 * Prompts the user to select a file and opens the Level editor to edit that file
-	 * @param marioImage the color of the Hero
+	 * @param marioImagen the color of the Heroe
 	 */
-	public void loadLevelEditor(int marioImage){
-		screenPanel.levelEditor(marioImage,opener.openFile());
+	public void cargarNivelEditor(int marioImagen){
+		pantallaPanel.nivelEditor(marioImagen,opener.openFile());
 	}
 	
 	/**
-	 * called when in UnJugador the Hero reaches the goal. Tries to open the next level using the .wcfg. If it cannot be found then it returns to the main menu
+	 * called when in UnJugador the Heroe reaches the goal. Tries to open the next nivel using the .wcfg. If it cannot be found then it returns to the main menu
 	 */
-	public void nextLevel(){
+	public void proximoNivel(){
 		
-		String lvl = level.getPath();
+		String lvl = nivel.getPath();
 		String path, filename;
 		{
 			String[] split = lvl.split("/");
@@ -105,16 +105,16 @@ public class ScreenController {
 		if(opener.readFile(file)){
 			String line;
 			while((line = opener.readLine()) != null){
-				if(line.equals(currentLevel.getName())){
+				if(line.equals(nivelActual.getName())){
 					line = opener.readLine();
 					if(line == null){
 						break;
 					}
 					try {
 						File fcLevel = new File(path + line);
-						if(!fcLevel.getPath().equals(currentLevel.getPath()) && opener.readFile(fcLevel)){	
-							currentLevel = fcLevel;
-							screenPanel.singlePlayer(marioImage, currentLevel);
+						if(!fcLevel.getPath().equals(nivelActual.getPath()) && opener.readFile(fcLevel)){	
+							nivelActual = fcLevel;
+							pantallaPanel.unJugador(marioImagen, nivelActual);
 							loaded = true;
 							break;
 						}else{

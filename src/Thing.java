@@ -41,26 +41,26 @@ public class Thing{
 	 */
 	public Point2D.Double acc;
 	/**
-	 * if this is falling to its death because of a hole in the floor
+	 * if this is cayendo to its death because of a hole in the floor
 	 */
-	public boolean falling;
+	public boolean cayendo;
 	
 	private Sprite sprite;
 	
 	
 	public int width,height;
-	private boolean killed,dying;
+	private boolean killed,muriendo;
 	
 	/**
 	 * returns an array of values that is used to determine where this should be drawn on the screen
-	 * @param hero
+	 * @param heroe
 	 * @return {x coord, y coord, width, height}
 	 */
-	public int[] getDrawCoords(Hero hero){
+	public int[] getDrawCoords(Heroe heroe){
 		int[] r = new int[4];
-		r[0] = JGameMaker.scaleW(JGameMaker.screenWidth-(hero.viewX()-pos.x));
+		r[0] = JGameMaker.scaleW(JGameMaker.screenWidth-(heroe.viewX()-pos.x));
 		//r[1] = (int)(Global.H - Global.NIVEL_SUELO - (h + pos.y) + 0.5);
-		r[1] = JGameMaker.scaleH(hero.viewY()-pos.y-height);
+		r[1] = JGameMaker.scaleH(heroe.viewY()-pos.y-height);
 		r[2] = JGameMaker.scaleW(width);
 		r[3] = JGameMaker.scaleH(height);
 		return r;
@@ -76,25 +76,25 @@ public class Thing{
 	 * draws this to g
 	 * @param g
 	 * @param o
-	 * @param hero
+	 * @param heroe
 	 */
-	public void draw(Graphics g, ImageObserver o, Hero hero){
-		if(inPlayerView(hero)){
+	public void draw(Graphics g, ImageObserver o, Heroe heroe){
+		if(inPlayerView(heroe)){
 			g.setColor(Color.WHITE);
-			int[] c = getDrawCoords(hero);
+			int[] c = getDrawCoords(heroe);
 			
 	
 			g.drawImage(figureOutDrawImage(),c[0],c[1],c[2],c[3], o);
 		}
 	}
 	/**
-	 * determines whether or not this is in the view of the Hero specified
-	 * @param hero
+	 * determines whether or not this is in the view of the Heroe specified
+	 * @param heroe
 	 * @return true if this can be seen on screen, false if not
 	 */
-	public boolean inPlayerView(Hero hero){
-		return JGameMaker.screenWidth-hero.viewX()+pos.x+width > 0 && JGameMaker.screenWidth-hero.viewX()+pos.x < JGameMaker.screenWidth
-		&& hero.viewY()-pos.y > 0 && hero.viewY()-pos.y-height < JGameMaker.screenHeight;
+	public boolean inPlayerView(Heroe heroe){
+		return JGameMaker.screenWidth-heroe.viewX()+pos.x+width > 0 && JGameMaker.screenWidth-heroe.viewX()+pos.x < JGameMaker.screenWidth
+		&& heroe.viewY()-pos.y > 0 && heroe.viewY()-pos.y-height < JGameMaker.screenHeight;
 	}
 	/**
 	 * Creates a new Thing with coordinates (x,y) and the  specified width and height
@@ -110,7 +110,7 @@ public class Thing{
 		this.width=width;
 		this.height=height;
 		killed = false;
-		falling = false;
+		cayendo = false;
 		init();
 	}
 	/**
@@ -203,25 +203,25 @@ public class Thing{
 		posLast.setLocation(pos);
 	}
 	/**
-	 * returns true if this is moving through the air as a result of kill(double x, double y), false if not
-	 * @return true if this is moving through the air as a result of kill(double x, double y), false if not
+	 * returns true if this is moving through the air as a result of matar(double x, double y), false if not
+	 * @return true if this is moving through the air as a result of matar(double x, double y), false if not
 	 */
-	public boolean dying(){
+	public boolean muriendo(){
 		/*boolean r = getDying;
-		getDying = dying;
+		getDying = muriendo;
 		return r;*/
-		return dying;
+		return muriendo;
 	}
 	/**
-	 * determines if t is touching this
+	 * determines if t is tocando this
 	 * @param t
-	 * @return true if this is touching t
+	 * @return true if this is tocando t
 	 */
-	public boolean touching(Thing t){
+	public boolean tocando(Thing t){
 		if(t instanceof TBound){
-			return t.touching(this);
+			return t.tocando(this);
 		}
-		if(dying() || t.dying())return false;
+		if(muriendo() || t.muriendo())return false;
 		double
 			x1 = pos.x,
 			y1 = pos.y,
@@ -264,7 +264,7 @@ public class Thing{
 	 * called when this Thing touches another Thing
 	 * @param t the other Thing
 	 */
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		if(!t.isStatic()){
 			
 			byte where = fromWhere(t);
@@ -340,7 +340,7 @@ public class Thing{
 	/**
 	 * queues the parent Lobby, if any, to remove this
 	 */
-	public void kill(){
+	public void matar(){
 		killed = true;
 	}
 	/**
@@ -353,8 +353,8 @@ public class Thing{
 	 * sets the velocity of the object to a value, once it is off screen then it is removed from the lobby
 	 * @param vel the velocity that it will move
 	 */
-	public void kill(Point2D.Double vel){
-		dying = true;
+	public void matar(Point2D.Double vel){
+		muriendo = true;
 		this.vel.setLocation(vel);
 	}
 	/**
@@ -394,13 +394,13 @@ public class Thing{
 		updatePosLast();
 		pos.setLocation(pos.x+vel.x*JGameMaker.time(), pos.y+vel.y*JGameMaker.time());
 		vel.setLocation(vel.x + acc.x*JGameMaker.time(), vel.y + acc.y*JGameMaker.time());
-		if(enableGravity()){
+		if(activarGravedad()){
 			if(pos.y+JGameMaker.NIVEL_SUELO < 0){
-				kill();
-				falling = false;
-			}else if(pos.y > 0 || dying || falling){
+				matar();
+				cayendo = false;
+			}else if(pos.y > 0 || muriendo || cayendo){
 				acc.y = -JGameMaker.GRAVEDAD;
-			}else if(enableGravity()){
+			}else if(activarGravedad()){
 				pos.y = 0;
 				bumpY();
 			}
@@ -438,8 +438,8 @@ public class Thing{
 		return false;
 	}
 	/**
-	 * determines if this is fast enough to kill TEnemies
-	 * @return true if this Thing moves fast enough to kill TEnemies, false if it does not
+	 * determines if this is fast enough to matar TEnemies
+	 * @return true if this Thing moves fast enough to matar TEnemies, false if it does not
 	 */
 	public boolean isFast(){
 		return false;
@@ -457,6 +457,6 @@ public class Thing{
 	 * determines if this should be affected by gravity
 	 * @return true if gravity should effect this Thing, false if it should not
 	 */
-	public boolean enableGravity(){return false;}
+	public boolean activarGravedad(){return false;}
 	
 }

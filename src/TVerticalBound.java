@@ -21,9 +21,9 @@ public class TVerticalBound extends TBound {
 		}
 	}
 	
-	public boolean touching(Thing t){
+	public boolean tocando(Thing t){
 
-		if(t.dying())return false;
+		if(t.muriendo())return false;
 		double
 			y1 = pos.y,
 			y2 = t.pos.y;
@@ -55,15 +55,15 @@ public class TVerticalBound extends TBound {
 		return FROM_NONE;
 	}
 	
-	public int[] getDrawCoords(Hero hero){
-		int[] c = super.getDrawCoords(hero);
+	public int[] getDrawCoords(Heroe heroe){
+		int[] c = super.getDrawCoords(heroe);
 		c[0] = 0;
 		c[2] = JGameMaker.screenWidth;
 		return c;
 	}
 	
 
-	public boolean inPlayerView(Hero hero){
-		return hero.viewY()-pos.y > 0 && hero.viewY()-pos.y-height < JGameMaker.screenHeight;
+	public boolean inPlayerView(Heroe heroe){
+		return heroe.viewY()-pos.y > 0 && heroe.viewY()-pos.y-height < JGameMaker.screenHeight;
 	}
 }

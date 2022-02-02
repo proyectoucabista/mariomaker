@@ -16,7 +16,7 @@ public class TSpawn extends TVisibleTool {
 	public BufferedImage figureOutDrawImage(){
 		return preview();
 	}
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		
 	}
 }

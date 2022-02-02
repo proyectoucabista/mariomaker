@@ -89,7 +89,7 @@ public class TTuberia extends TGridded{
 	public void addPirhana(TPirhana pirana){
 		this.pirana = pirana;
 		pirana.setPos(pos.x + (width - pirana.width)/2, height - pirana.height);
-		pirana.onTouch(this);
+		pirana.enContacto(this);
 		pirana.startBite(height);
 	}
 	
@@ -114,7 +114,7 @@ public class TTuberia extends TGridded{
 	}
 	
 	
-	public boolean touching(Thing t){
+	public boolean tocando(Thing t){
 		if(t == pirana)return false;
 		return supertouching(t);
 	}
@@ -122,13 +122,13 @@ public class TTuberia extends TGridded{
 	public Rectangle representation(){
 		return new Rectangle(getGridPos().x, 0, width/32, height/32);
 	}
-	public void draw(Graphics g, ImageObserver o, Hero hero){
-		if(inPlayerView(hero)){
+	public void draw(Graphics g, ImageObserver o, Heroe heroe){
+		if(inPlayerView(heroe)){
 			if(pirana != null){
-				pirana.drawPipe(g,o,hero);
+				pirana.drawPipe(g,o,heroe);
 			}
 
-			int[] c = getDrawCoords(hero);
+			int[] c = getDrawCoords(heroe);
 
 			int bodyHeight = JGameMaker.screenHeight - (c[1] + c[2]/2);
 			g.drawImage(PIPE[0].getBuffer(), c[0], c[1], c[2]/2, c[2]/2, null);
@@ -142,15 +142,15 @@ public class TTuberia extends TGridded{
 		return PIPE[0].getBuffer();
 	}
 	
-	public void onTouch(Thing t){
-		super.onTouch(t);
-		if(t instanceof Hero){
+	public void enContacto(Thing t){
+		super.enContacto(t);
+		if(t instanceof Heroe){
 			if(pirana != null){
 				pirana.warnHero();
 			}
-			if(lobby != -1 && telePos != null && !((Hero)t).piping()){
+			if(lobby != -1 && telePos != null && !((Heroe)t).piping()){
 				if(/*fromWhere(t) == facing() &&*/ t.pos.x - 4 > pos.x && t.pos.x + t.width + 4 < pos.x + width){
-					Hero h = (Hero)t;
+					Heroe h = (Heroe)t;
 					h.tuberia(pos.y + height, teleRoom, telePos);
 				}
 			}
@@ -164,11 +164,11 @@ public class TTuberia extends TGridded{
 		return telePos != null;
 	}
 	
-	public void kill(){
+	public void matar(){
 		if(pirana != null){
-			pirana.kill();
+			pirana.matar();
 		}
-		super.kill();
+		super.matar();
 	}
 	
 	public void think(){
@@ -197,7 +197,7 @@ public class TTuberia extends TGridded{
 	public void link(Thing t){
 		TTuberia tuberia = (TTuberia)t;
 		teleRoom = tuberia.lobby;
-		telePos = new Point2D.Double(tuberia.pos.x + (tuberia.width - Hero.WIDTH)/2, tuberia.pos.y + tuberia.height - Hero.HEIGHT);
+		telePos = new Point2D.Double(tuberia.pos.x + (tuberia.width - Heroe.WIDTH)/2, tuberia.pos.y + tuberia.height - Heroe.HEIGHT);
 	}
 	
 	

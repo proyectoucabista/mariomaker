@@ -20,8 +20,8 @@ public abstract class TEnemy extends Thing {
 		this(0,0,1,1);
 	}
 	/**
-	 * determines the direction(s) in which when touched, this will kill a player.
-	 * @return the direction(s) in which when touched, this will kill a player.
+	 * determines the direction(s) in which when touched, this will matar a player.
+	 * @return the direction(s) in which when touched, this will matar a player.
 	 */
 	public byte killDirection(){
 		return FROM_EVERYWHERE;
@@ -31,14 +31,14 @@ public abstract class TEnemy extends Thing {
 	 * @param block the block that hit it
 	 */
 	public void blockHit(Thing block){
-		kill(new Point2D.Double((pos.x - block.pos.x)/10, Math.random()*3 + 6));
+		matar(new Point2D.Double((pos.x - block.pos.x)/10, Math.random()*3 + 6));
 	}
 	/**
-	 * called when a hero touches this from a non-lethal direction, as indicated by killDirection(). By default, this is killed.
-	 * @param hero
+	 * called when a heroe touches this from a non-lethal direction, as indicated by killDirection(). By default, this is killed.
+	 * @param heroe
 	 */
-	public void heroTouch(Hero hero){
-		kill();
+	public void heroTouch(Heroe heroe){
+		matar();
 	}
 	/**
 	 * called when this touches a non-player and non-block entity
@@ -48,37 +48,37 @@ public abstract class TEnemy extends Thing {
 		
 	}
 	/**
-	 * called when a hero touches this from a lethal direction, as indicated by killDirection(). By default, the hero is killed.
-	 * @param hero
+	 * called when a heroe touches this from a lethal direction, as indicated by killDirection(). By default, the heroe is killed.
+	 * @param heroe
 	 */
-	public void heroKill(Hero hero){
-		hero.kill();
+	public void heroKill(Heroe heroe){
+		heroe.matar();
 	}
 	/**
 	 * gives the player the ability for an extra saltar, usually called when this is hit from above
-	 * @param hero
+	 * @param heroe
 	 */
-	public void stomp(Hero hero){
-		hero.setPos(hero.pos.x, pos.y+height + 1);
-		if(hero.jumpDown()){
-			hero.vel.y = 0;
-			hero.saltar(true,false);
+	public void stomp(Heroe heroe){
+		heroe.setPos(heroe.pos.x, pos.y+height + 1);
+		if(heroe.saltoAbajo()){
+			heroe.vel.y = 0;
+			heroe.saltar(true,false);
 		}else{
-			hero.vel.y = 7;
+			heroe.vel.y = 7;
 		}
 	}
 	
-	public void onTouch(Thing t){
-		if(dying())return;
+	public void enContacto(Thing t){
+		if(muriendo())return;
 		byte where = fromWhere(t);
 		if(t instanceof TBlock && where == FROM_BELOW && t.vel.y > 1){
 			blockHit(t);
-		}else if(t instanceof Hero){
-			Hero hero = (Hero)t;
+		}else if(t instanceof Heroe){
+			Heroe heroe = (Heroe)t;
 			if((where & killDirection()) > 0){
-				heroKill(hero);
-			}else if(!hero.isInStarMode()){
-				heroTouch(hero);
+				heroKill(heroe);
+			}else if(!heroe.vModoEstrella()){
+				heroTouch(heroe);
 			}
 		}
 		thingTouch(t);

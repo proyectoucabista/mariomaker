@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Represents a tool used in the level editor. By default, it has a width and height of 1 and is killed right after
+ * Represents a tool used in the nivel editor. By default, it has a width and height of 1 and is killed right after
  * it is put into the lobby (after it performs the desired action, of course).<br/>
  * <br/>
  * These are visible in the Level Editor but are invisible in UnJugador
@@ -34,13 +34,13 @@ public class TTool extends Thing {
 		return image.getBuffer();
 	}
 	
-	public boolean enableGravity(){
+	public boolean activarGravedad(){
 		return false;
 	}
 	
 	public void think(){
 		super.think();
-		kill();
+		matar();
 	}
 	
 }

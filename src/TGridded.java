@@ -88,9 +88,9 @@ public class TGridded extends Thing{
 		}
 	}
 	
-	public boolean touching(Thing t){
-		boolean touching = super.touching(t);
-		if(!touching){
+	public boolean tocando(Thing t){
+		boolean tocando = super.tocando(t);
+		if(!tocando){
 			return false;
 		}else{
 			byte from = fromWhere(t);
@@ -113,10 +113,10 @@ public class TGridded extends Thing{
 	}
 	
 	/**
-	 * used to bypass the TGridded method of touching, calls Thing.touch()
+	 * used to bypass the TGridded method of tocando, calls Thing.touch()
 	 */
 	public boolean supertouching(Thing t){
-		return super.touching(t);
+		return super.tocando(t);
 	}
 	
 	/**

@@ -10,9 +10,9 @@ public class TRemover extends TTool {
 	public TRemover(){
 		super();
 	}
-	public void onTouch(Thing t){
-		t.kill();
-		kill();
+	public void enContacto(Thing t){
+		t.matar();
+		matar();
 	}
 	public BufferedImage preview(){
 		return preview.getBuffer();

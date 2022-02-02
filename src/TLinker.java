@@ -34,7 +34,7 @@ public class TLinker extends TTool {
 		return link != null && link.canLink(t);
 	}
 	
-	public void onTouch(Thing t){
+	public void enContacto(Thing t){
 		if(t.canLink(link)){
 			if(link == null){
 				link = t;
@@ -45,10 +45,10 @@ public class TLinker extends TTool {
 		}
 	}
 	
-	public void draw(Graphics g, ImageObserver o, Hero hero){
-		super.draw(g,o,hero);
-		if(link == null || !link.inPlayerView(hero))return;
-		int[] c = link.getDrawCoords(hero);
+	public void draw(Graphics g, ImageObserver o, Heroe heroe){
+		super.draw(g,o,heroe);
+		if(link == null || !link.inPlayerView(heroe))return;
+		int[] c = link.getDrawCoords(heroe);
 		g.setColor(Color.YELLOW);
 		g.fillRect(c[0],c[1],c[2],c[3]);
 	}
