@@ -30,7 +30,7 @@ public class SpawnScreen extends Pantalla {
 	private Thing[] things = {
 		new TGoomba(0, 0),
 		new TKoopa(0,0),
-		new TPirhana(),
+		new TPirana(),
 		new TTuberia(0,0),
 		new TBlock(0,0,TBlock.LADRILLO_MARRON,null),
 		new TBlock(TBlock.SUELO),
@@ -192,8 +192,8 @@ public class SpawnScreen extends Pantalla {
 			if(t.canLink(linker.getLink())){
 				return YELLOW;
 			}
-		}else if(chosen instanceof TPirhana){
-			if(t instanceof TTuberia && ((TTuberia)t).getPirhana() == null){
+		}else if(chosen instanceof TPirana){
+			if(t instanceof TTuberia && ((TTuberia)t).getPirana() == null){
 				return YELLOW;
 			}
 		}else if(chosen instanceof TItem && t instanceof TBlock && ((TBlock)t).canAcceptItem()){

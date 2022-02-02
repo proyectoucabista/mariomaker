@@ -66,10 +66,10 @@ public class MainScreen extends Pantalla {
 		lobby.add(new TBlock(32*7,32*2, TBlock.LADRILLOS));
 		TTuberia tuberia = new TTuberia();
 		tuberia.setPos(-32*7, 32*5);
-		TPirhana pirana = new TPirhana();
+		TPirana pirana = new TPirana();
 		lobby.add(tuberia);
 		lobby.add(pirana);
-		tuberia.addPirhana(pirana);
+		tuberia.addPirana(pirana);
 		lobby.add(new TBlock(-32*5, 0, TBlock.LADRILLOS, null, true));
 		
 		nuevoJuego = new TextButton("NUEVO JUEGO", JGameMaker.FONT_GRANDE);

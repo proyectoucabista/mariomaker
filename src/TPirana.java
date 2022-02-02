@@ -9,17 +9,17 @@ import java.awt.image.ImageObserver;
  * @author Reed Weichler
  *
  */
-public class TPirhana extends TEnemy{
+public class TPirana extends TEnemy{
 	private static final String PATH = "Imagenes/sprites/tuberia/pirana/";
-	private static final double MOVE_VELOCITY = 0.75;
-	private static final int IDLE_TIME = 1500/15;
+	private static final double VELOCIDAD_MOVIMIENTO = 0.75;
+	private static final int TIEMPO_INACTIVIDAD = 1500/15;
 	
 	
-	private boolean hasHero;
-	private boolean hasPipe;
-	private boolean harmless;
+	private boolean tieneHeroe;
+	private boolean tieneTuberia;
+	private boolean inofensiva;
 	private double biteYCoord;
-	private double idleTime;
+	private double tiempoInactividad;
 	private Sprite[] IMAGEN = {
 			new Sprite(PATH+"open.png"),
 			new Sprite(PATH+"closed.png"),
@@ -38,21 +38,21 @@ public class TPirhana extends TEnemy{
 	};
 
 	
-	public TPirhana(){
+	public TPirana(){
 		this(0,0);
 	}
-	public TPirhana(double x, double y){
+	public TPirana(double x, double y){
 		super(x,y,16*2,24*2);
-		hasHero = false;
-		hasPipe = false;
+		tieneHeroe = false;
+		tieneTuberia = false;
 		biteYCoord = -1;
-		idleTime = 0;
-		harmless = true;
+		tiempoInactividad = 0;
+		inofensiva = true;
 	}
 	
 
 	public byte direccionMuerte(){
-		if(harmless)
+		if(inofensiva)
 			return DESDE_NINGUNO;
 		else
 			return DE_TODASPARTES;
@@ -73,7 +73,7 @@ public class TPirhana extends TEnemy{
 	 * called when a heroe is tocando the parent TTuberia
 	 */
 	public void warnHero(){
-		hasHero = true;
+		tieneHeroe = true;
 	}
 	
 	public void startBite(double y){
@@ -82,44 +82,44 @@ public class TPirhana extends TEnemy{
 	
 	public void think(){
 		super.think();
-		if(!hasPipe){
+		if(!tieneTuberia){
 			matar();
 			return;
 		}
 
 		if(biteYCoord != -1){
 			//waiting to move up and now can
-			if(pos.y < biteYCoord && vel.y == 0 && idleTime <= 0 && !hasHero){
-				vel.y = MOVE_VELOCITY;
-				harmless = false;
+			if(pos.y < biteYCoord && vel.y == 0 && tiempoInactividad <= 0 && !tieneHeroe){
+				vel.y = VELOCIDAD_MOVIMIENTO;
+				inofensiva = false;
 			//waiting to move down and now can
-			}else if(pos.y >= biteYCoord && vel.y == 0 && idleTime <= 0){
-				vel.y = -MOVE_VELOCITY;
+			}else if(pos.y >= biteYCoord && vel.y == 0 && tiempoInactividad <= 0){
+				vel.y = -VELOCIDAD_MOVIMIENTO;
 			//just finished moving up and now must idle
-			}else if(pos.y > biteYCoord && vel.y > 0 && idleTime <= 0){
-				idleTime = IDLE_TIME;
+			}else if(pos.y > biteYCoord && vel.y > 0 && tiempoInactividad <= 0){
+				tiempoInactividad = TIEMPO_INACTIVIDAD;
 				pos.y = biteYCoord;
 				vel.y = 0;
 			//just finished moving down and must idle
-			}else if(pos.y < biteYCoord - height && vel.y < 0 && idleTime <= 0){
-				hide();
+			}else if(pos.y < biteYCoord - height && vel.y < 0 && tiempoInactividad <= 0){
+				quitar();
 			}
 		}
-		if(pos.y == biteYCoord - height && vel.y == 0 && hasHero){
-			hasHero = false;
-			idleTime = IDLE_TIME;
-		}else if(idleTime > 0){
-			idleTime -= JGameMaker.time();
+		if(pos.y == biteYCoord - height && vel.y == 0 && tieneHeroe){
+			tieneHeroe = false;
+			tiempoInactividad = TIEMPO_INACTIVIDAD;
+		}else if(tiempoInactividad > 0){
+			tiempoInactividad -= JGameMaker.time();
 		}
 		
 		
 	}
 	
-	private void hide(){
-		idleTime = IDLE_TIME;
+	private void quitar(){
+		tiempoInactividad = TIEMPO_INACTIVIDAD;
 		pos.y = biteYCoord - height;
 		vel.y = 0;
-		harmless = true;
+		inofensiva = true;
 	}
 	
 	public boolean activarGravedad(){
@@ -127,37 +127,37 @@ public class TPirhana extends TEnemy{
 	}
 	
 	
-	public void heroKill(Heroe heroe){
-		if(harmless)return;
-		super.heroKill(heroe);
+	public void heroeMatar(Heroe heroe){
+		if(inofensiva)return;
+		super.heroeMatar(heroe);
 		if(heroe.tuberiando()){
-			hide();
-			hasHero = true;
+			quitar();
+			tieneHeroe = true;
 		}
 	}
 
 	public void thingTouch(Thing t){
 		if(t instanceof TTuberia){
 			TTuberia tuberia = (TTuberia)t;
-			if(tuberia.getPirhana() == null){
-				tuberia.addPirhana(this);
+			if(tuberia.getPirana() == null){
+				tuberia.addPirana(this);
 			}
-			if(tuberia.getPirhana() == this){
-				hasPipe = true;
+			if(tuberia.getPirana() == this){
+				tieneTuberia = true;
 				revive();
 			}
 		}
 	}
 	
 	public void draw(Graphics g, ImageObserver o, Heroe heroe){
-		if(hasPipe)return;
+		if(tieneTuberia)return;
 		super.draw(g,o,heroe);
 	}
 	
 	/**
 	 * parent tuberia calls this so this is drawn under it on the screen
 	 */
-	public void drawPipe(Graphics g, ImageObserver o, Heroe heroe){
+	public void drawTuberia(Graphics g, ImageObserver o, Heroe heroe){
 		super.draw(g,o,heroe);
 	}
 	

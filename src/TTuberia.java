@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
- * A long green thing with a hole in the top. The hole can have a TPirhana and also can be used as a teleport for the player.
+ * A long green thing with a hole in the top. The hole can have a TPirana and also can be used as a teleport for the player.
  * @author rweichler
  *
  */
@@ -35,7 +35,7 @@ public class TTuberia extends TGridded{
 			new Sprite(PIPE_PATH+"mid_right.gif"),
 	};
 	
-	private TPirhana pirana;
+	private TPirana pirana;
 	
 	public TTuberia(){
 		this(0,0);
@@ -82,11 +82,11 @@ public class TTuberia extends TGridded{
 		//}
 	}
 	
-	public TPirhana getPirhana(){
+	public TPirana getPirana(){
 		return pirana;
 	}
 	
-	public void addPirhana(TPirhana pirana){
+	public void addPirana(TPirana pirana){
 		this.pirana = pirana;
 		pirana.setPos(pos.x + (width - pirana.width)/2, height - pirana.height);
 		pirana.enContacto(this);
@@ -125,7 +125,7 @@ public class TTuberia extends TGridded{
 	public void draw(Graphics g, ImageObserver o, Heroe heroe){
 		if(inPlayerView(heroe)){
 			if(pirana != null){
-				pirana.drawPipe(g,o,heroe);
+				pirana.drawTuberia(g,o,heroe);
 			}
 
 			int[] c = getDrawCoords(heroe);

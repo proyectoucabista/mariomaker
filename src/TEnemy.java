@@ -51,7 +51,7 @@ public abstract class TEnemy extends Thing {
 	 * called when a heroe touches this from a lethal direction, as indicated by direccionMuerte(). By default, the heroe is asesinado.
 	 * @param heroe
 	 */
-	public void heroKill(Heroe heroe){
+	public void heroeMatar(Heroe heroe){
 		heroe.matar();
 	}
 	/**
@@ -76,7 +76,7 @@ public abstract class TEnemy extends Thing {
 		}else if(t instanceof Heroe){
 			Heroe heroe = (Heroe)t;
 			if((where & direccionMuerte()) > 0){
-				heroKill(heroe);
+				heroeMatar(heroe);
 			}else if(!heroe.vModoEstrella()){
 				heroeContacto(heroe);
 			}
