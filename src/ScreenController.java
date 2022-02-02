@@ -23,7 +23,7 @@ public class ScreenController {
 		marioImagen = -1;
 	}
 	/**
-	 * pauses / unpauses the game
+	 * pauses / unpauses the juego
 	 * @param pause true if wants to pause, false if wants to unpause
 	 */
 	public void pause(boolean pause){
@@ -65,7 +65,7 @@ public class ScreenController {
 	
 	/**
 	 * If in nivel editor mode, prompts the user to select a file and saves the nivel to that file
-	 * @return true if game was saved, false if not
+	 * @return true if juego was saved, false if not
 	 */
 	public boolean guardarJuego(){
 		return pantallaPanel.guardarJuego(opener.saveFile());

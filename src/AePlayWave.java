@@ -8,7 +8,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 /**
- * This class is used to play sounds in-game. This creates a new Thread to play the sound.
+ * This class is used to play sounds in-juego. This creates a new Thread to play the sound.
  * @author Reed Weichler and the people who wrote the book Java Methods A&AB
  *
  */

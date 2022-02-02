@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 
 
 /**
- * Represents the screen that comes up when there is a current game and is paused.
+ * Represents the screen that comes up when there is a current juego and is pausado.
  * @author Reed Weichler
  *
  */

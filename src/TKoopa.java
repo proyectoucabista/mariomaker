@@ -7,7 +7,7 @@ import java.awt.image.*;
 import java.awt.geom.*;
 
 /**
- * This represents a Koopa in game. It can be jumped on top of to turn it into a shell. The shell can be made to move quickly left or right if a Heroe jumps on it again.
+ * This represents a Koopa in juego. It can be jumped on top of to turn it into a shell. The shell can be made to move quickly left or right if a Heroe jumps on it again.
  * @author Reed Weichler
  *
  */

@@ -2,7 +2,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 /**
- * An infinitely wide and 32-unit tall structure that impermeable by all in-game objects. Seen as orange in the Level editor.
+ * An infinitely wide and 32-unit tall structure that impermeable by all in-juego objects. Seen as orange in the Level editor.
  * @author Reed Weichler
  *
  */

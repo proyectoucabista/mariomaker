@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * The Level Editor part of the game. It contains a SpawnScreen that is used to create and manipulate Things in the game.
+ * The Level Editor part of the juego. It contains a SpawnScreen that is used to create and manipulate Things in the juego.
  * @author rweichler
  *
  */

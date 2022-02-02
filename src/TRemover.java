@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 
 /**
- * removes objects from the game
+ * removes objects from the juego
  * @author Reed Weichler
  *
  */

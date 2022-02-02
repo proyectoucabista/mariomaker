@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.ImageObserver;
 
 /**
- * This represents a lobby that contains all of the Things that are in the game. This handles all interactions between each Thing and also the Heroe, if there is one.
+ * This represents a lobby that contains all of the Things that are in the juego. This handles all interactions between each Thing and also the Heroe, if there is one.
  * @author Reed Weichler
  *
  */

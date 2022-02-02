@@ -5,7 +5,7 @@
 import javax.swing.*;
 import java.awt.*;
 /**
- * Stores game constants and initializes the game
+ * Stores juego constants and initializes the juego
  * @author Reed Weichler
  *
  */
@@ -48,7 +48,7 @@ public class JGameMaker extends JPanel{
 	}
 	
 	/**
-	 * used for in-game objects to round for drawing to the screen (x coordinate)
+	 * used for in-juego objects to round for drawing to the screen (x coordinate)
 	 * @param x
 	 * @return
 	 */
@@ -56,7 +56,7 @@ public class JGameMaker extends JPanel{
 		return (int)(x + 0.5);
 	}
 	/**
-	 * used for in-game objects to round for drawing to the screen (y coordinate)
+	 * used for in-juego objects to round for drawing to the screen (y coordinate)
 	 * @param y
 	 * @return
 	 */
@@ -77,7 +77,7 @@ public class JGameMaker extends JPanel{
 	}
 	
 	/**
-	 * makes the game go full screen
+	 * makes the juego go full screen
 	 * @param w JFrame to be made full screen
 	 */
 	public void colocarPantallaCompleta(JFrame w){
@@ -88,7 +88,7 @@ public class JGameMaker extends JPanel{
 	}
 	
 	/**
-	 * creates the entire game
+	 * creates the entire juego
 	 */
 	public JGameMaker(){
 		//(new AePlayWaveLoop("Sonidos/eyeoftiger/eyeoftigere.wav")).start();

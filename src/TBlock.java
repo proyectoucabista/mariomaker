@@ -160,7 +160,7 @@ public class TBlock extends TGridded{
 		super.enContacto(t);
 	}
 	/**
-	 * Called when a player or a game object hits the block (for spawning TItems)
+	 * Called when a player or a juego object hits the block (for spawning TItems)
 	 * @param where
 	 * Where it hit.
 	 */

@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 
 /**
- * The most important feature of the Level Editor. This holds all of the spawnable Things in the game and has the ability to add them to the game.
+ * The most important feature of the Level Editor. This holds all of the spawnable Things in the juego and has the ability to add them to the juego.
  * @author Reed Weichler
  *
  */
@@ -164,7 +164,7 @@ public class SpawnScreen extends Pantalla {
 		}
 	}
 	/**
-	 * returns true if this should toggle whether or not all the Things in the game should stop moving
+	 * returns true if this should toggle whether or not all the Things in the juego should stop moving
 	 * @return
 	 */
 	public boolean shouldToggleFreeze(){

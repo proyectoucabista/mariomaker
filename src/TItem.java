@@ -1,6 +1,6 @@
 
 /**
- * This is an Item that can be spawned in game, can be equipped to a player and can be put inside TBlocks.
+ * This is an Item that can be spawned in juego, can be equipped to a player and can be put inside TBlocks.
  * @author rweichler
  *
  */

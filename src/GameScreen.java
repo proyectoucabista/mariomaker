@@ -6,13 +6,13 @@ import java.io.File;
 import java.util.Vector;
 
 /**
- * Draws any current game going on. It has a Heroe and an array of Rooms that can be drawn and interacted with.
+ * Draws any current juego going on. It has a Heroe and an array of Rooms that can be drawn and interacted with.
  * @author Reed Weichler
  *
  */
 public class GameScreen extends Pantalla{
 	/**
-	 * The Rooms in the game
+	 * The Rooms in the juego
 	 */
 	public Vector<Lobby> lobbys;
 	/**
@@ -70,7 +70,7 @@ public class GameScreen extends Pantalla{
 	}
 	
 	/**
-	 * Initializes the game by cargando a file
+	 * Initializes the juego by cargando a file
 	 * @param f file to be opened
 	 * @return true if successful, false if not
 	 * @throws Exception if could not be initialized
@@ -80,7 +80,7 @@ public class GameScreen extends Pantalla{
 	}
 	
 	/**
-	 * Initializes the game by cargando a file and changing the color of the Heroe
+	 * Initializes the juego by cargando a file and changing the color of the Heroe
 	 * @param marioColor the color of the Heroe
 	 * @param f file to be opened
 	 * @return true if successful, false if not
@@ -127,7 +127,7 @@ public class GameScreen extends Pantalla{
 		return Serializer.toFile(f, serializers);
 	}
 	/**
-	 * initializes the game (no opening of files)
+	 * initializes the juego (no opening of files)
 	 */
 	public void init(){
 		heroe.init();
@@ -149,7 +149,7 @@ public class GameScreen extends Pantalla{
 
 	}
 	/**
-	 * initializes the game (no opening of files) while setting the color of the Heroe
+	 * initializes the juego (no opening of files) while setting the color of the Heroe
 	 * @param marioColor the color of the Heroe
 	 */
 	public void init(int marioColor) {

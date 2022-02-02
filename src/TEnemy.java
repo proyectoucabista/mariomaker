@@ -1,7 +1,7 @@
 import java.awt.geom.Point2D;
 
 /**
- * Enemy in game. Has the capability of killing a player.
+ * Enemy in juego. Has the capability of killing a player.
  * @author Reed Weichler
  *
  */

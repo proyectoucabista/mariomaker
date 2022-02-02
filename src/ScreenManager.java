@@ -7,16 +7,16 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- * This class holds all the Screens to be displayed in the game and also switches to/from them when necessary. When creating a new screen it sets it's ScreenController to the same as this one, so to change anything in ScreenManager just call the methods in the ScreenController and it should work.
+ * This class holds all the Screens to be displayed in the juego and also switches to/from them when necessary. When creating a new screen it sets it's ScreenController to the same as this one, so to change anything in ScreenManager just call the methods in the ScreenController and it should work.
  * @author Reed Weichler
  *
  */
 public class ScreenManager implements MouseListener, MouseMotionListener,KeyListener{
 	
-	private GameScreen game;
+	private GameScreen juego;
 	private Pantalla menu;
 	
-	private boolean paused;
+	private boolean pausado;
 	private ScreenController controller;
 	
 	/**
@@ -29,7 +29,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	
 	public static Connector connection;*/
 
-	private ArrayList<Integer> pressedKeys;
+	private ArrayList<Integer> teclaPresionada;
 	
 	
 	private boolean thinked = true;
@@ -39,7 +39,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param opener the FileOpener that will be put inside the created ScreenController
 	 */
 	public ScreenManager(FileOpener opener){
-		pressedKeys = new ArrayList<Integer>();
+		teclaPresionada = new ArrayList<Integer>();
 		controller = new ScreenController(this,opener);
 		renew();
 	}
@@ -48,10 +48,10 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * refreshes everything to where it's like you just opened the program
 	 */
 	public void renew(){
-		game = null;
+		juego = null;
 		menu = new MainScreen();
 		menu.controller = controller;
-		paused = true;
+		pausado = true;
 		
 		AePlayWave.fondoMusica = new AePlayWave("Sonidos/fondo.wav");
                
@@ -68,7 +68,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	}
 	
 	/**
-	 * draws the menu Pantalla and game GameScreen
+	 * draws the menu Pantalla and juego GameScreen
 	 * @param g the Graphics to be drawn to
 	 */
 	public void draw(Graphics g){
@@ -76,11 +76,11 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 		((Graphics2D)g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
 
-		if(!paused && game != null){
-			game.draw(g);
+		if(!pausado && juego != null){
+			juego.draw(g);
 		}else{
 			if(menu instanceof PauseScreen)
-				game.draw(g);
+				juego.draw(g);
 			menu.draw(g);
 		}
 		thinked = false;
@@ -102,11 +102,11 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param marioColor the color the Heroe should be
 	 */
 	public void nivelEditor(int marioColor){
-		game = new LevelEditor();
+		juego = new LevelEditor();
 		menu = new PauseScreen(true);
-		game.controller = controller;
+		juego.controller = controller;
 		menu.controller = controller;
-		game.init(marioColor);
+		juego.init(marioColor);
 		
 	}
 	
@@ -116,23 +116,23 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param f the file to be opened which contains the nivel data
 	 */
 	public void nivelEditor(int marioColor, File f){
-		game = new LevelEditor();
+		juego = new LevelEditor();
 		boolean init;
 		try{
-			init = game.init(marioColor, f);
+			init = juego.init(marioColor, f);
 		}catch(Exception ex){
 			if(menu instanceof MainScreen)
 				((MainScreen)menu).cargaFallida();
-			game = null;
+			juego = null;
 			return;
 		}
 		if(!init){
-			game = null;
+			juego = null;
 			return;
 		}
-		paused = false;
+		pausado = false;
 		menu = new PauseScreen(true);
-		game.controller = controller;
+		juego.controller = controller;
 		menu.controller = controller;
 		
 	}
@@ -143,8 +143,8 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @return true if successfully written, false if not
 	 */
 	public boolean guardarJuego(File f){
-		if(game != null){
-			return game.guardarJuego(f);
+		if(juego != null){
+			return juego.guardarJuego(f);
 		}
 		return false;
 	}
@@ -156,25 +156,25 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param f the file to be opened and read
 	 */
 	public void unJugador(int marioColor, File f){
-		if(game == null || !(game instanceof UnJugador))
-			game = new UnJugador();
+		if(juego == null || !(juego instanceof UnJugador))
+			juego = new UnJugador();
 		boolean init;
-		game.cargando = true;
+		juego.cargando = true;
 		try{
-			init = game.init(marioColor, f);
+			init = juego.init(marioColor, f);
 		}catch(Exception ex){
 			if(menu instanceof MainScreen)
 				((MainScreen)menu).cargaFallida();
-			game = null;
+			juego = null;
 			return;
 		}
 		if(!init){
-			game = null;
+			juego = null;
 			return;
 		}
-		paused = false;
+		pausado = false;
 		menu = new PauseScreen(false);
-		game.controller = controller;
+		juego.controller = controller;
 		menu.controller = controller;
 	}
 	
@@ -183,8 +183,8 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 */
 	public void think(){
 		//System.out.println("Think");
-		if(!paused){
-			game.think();
+		if(!pausado){
+			juego.think();
 		}else{
 			menu.think();
 		}
@@ -192,11 +192,11 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	}
 	
 	/**
-	 * pauses/unpauses the game, if one is in session
-	 * @param pause if true, the game pauses. if false, it unpauses
+	 * pauses/unpauses the juego, if one is in session
+	 * @param pause if true, the juego pauses. if false, it unpauses
 	 */
 	public void pause(boolean pause){
-		paused = pause;
+		pausado = pause;
 	}
 	
 	/**
@@ -205,8 +205,8 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param pressed is true if the key was pressed down, is false if not
 	 */
 	public void key(KeyEvent event, boolean pressed){
-		if(!paused){
-			game.key(event, pressed);
+		if(!pausado){
+			juego.key(event, pressed);
 		}else{
 			menu.key(event, pressed);
 		}
@@ -218,25 +218,25 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param pressed is true if the mouse was pressed down, is false if not
 	 */
 	public void mouse(MouseEvent event, boolean pressed){
-		if(paused){
+		if(pausado){
 			menu.mouse(event, pressed);
 		}else{
-			game.mouse(event,pressed);
+			juego.mouse(event,pressed);
 		}
 	}
 	
 	public void keyPressed(KeyEvent event){
 		int code = event.getKeyCode();
-		if(pressedKeys.size() != 0 && pressedKeys.get(pressedKeys.size()-1).equals(code) || pressedKeys.indexOf(code) != -1)
+		if(teclaPresionada.size() != 0 && teclaPresionada.get(teclaPresionada.size()-1).equals(code) || teclaPresionada.indexOf(code) != -1)
 			return;
-		pressedKeys.add(code);
+		teclaPresionada.add(code);
 		key(event,true);
 	}
 	public void keyReleased(KeyEvent event){
 		int code = event.getKeyCode();
-		int index = pressedKeys.indexOf(code);
+		int index = teclaPresionada.indexOf(code);
 		if(index != -1)
-			pressedKeys.remove(index);
+			teclaPresionada.remove(index);
 		key(event,false);
 	}
 	
@@ -244,16 +244,16 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 		if (high < low)
 			return -1;
 		if(low == high){
-			if(pressedKeys.get(low) == value){
+			if(teclaPresionada.get(low) == value){
 				return low;
 			}else{
 				return -1;
 			}
 		}
 		int mid = low + (high - low) / 2;
-		if (pressedKeys.get(mid) > value)
+		if (teclaPresionada.get(mid) > value)
 			return findKey(value, low, mid-1);
-		else if (pressedKeys.get(mid) < value)
+		else if (teclaPresionada.get(mid) < value)
 			return findKey(value, mid+1, high);
 		return mid; // found
 	}*/

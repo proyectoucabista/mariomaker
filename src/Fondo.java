@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 
 /**
- * Represents the Background in the game
+ * Represents the Background in the juego
  * @author Reed Weichler
  *
  */

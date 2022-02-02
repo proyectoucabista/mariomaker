@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 /**
- * Represents a hole in the ground that Things in the game can fall through and die.
+ * Represents a hole in the ground that Things in the juego can fall through and die.
  * @author Reed Weichler
  *
  */

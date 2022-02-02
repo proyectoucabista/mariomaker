@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.awt.geom.*;
 /**
- * This represents an object that can be put in the game.
+ * This represents an object that can be put in the juego.
  * @author Reed Weichler
  *
  */
@@ -66,8 +66,8 @@ public class Thing{
 		return r;
 	}
 	/**
-	 * returns the in-game image
-	 * @return in-game image
+	 * returns the in-juego image
+	 * @return in-juego image
 	 */
 	public BufferedImage figureOutDrawImage(){
 		return sprite.getBuffer();
@@ -255,7 +255,7 @@ public class Thing{
 		return false;
 	}
 	/**
-	 * changes the in-game image of this Thing to the underground theme, if it has one
+	 * changes the in-juego image of this Thing to the underground theme, if it has one
 	 */
 	public void makeSpriteUnderground(){
 		

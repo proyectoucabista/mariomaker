@@ -4,7 +4,7 @@
 import java.awt.*;
 import java.awt.event.*;
 /**
- * This represents an in-game Pantalla. Like a menu, or a pause screen, or the game itself.
+ * This represents an in-juego Pantalla. Like a menu, or a pause screen, or the juego itself.
  * These are switches to and from eachother mainly in the ScreenManager, but Screens can
  * contain and draw other Screens if the situation calls for it.
  * @author Reed Weichler
