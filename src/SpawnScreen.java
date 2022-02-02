@@ -45,12 +45,7 @@ public class SpawnScreen extends Screen {
 		new TBlock(TBlock.SHROOM_RIGHT),
 		new TBGBlock(TBlock.SHROOM_TOP),
 		new TBGBlock(TBlock.SHROOM_BOTTOM),
-		null,
-		null,
-		null,
-		null,
-		null,
-		new TStar(),
+                new TStar(),
 		
 		null,
 		null,
@@ -73,8 +68,8 @@ public class SpawnScreen extends Screen {
 		toggleLevel = false;
 		chosenThing = 0;
 		hoveredThing = -1;
-		changeLevel = new TextButton("TOGGLE UNDERGROUND", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10);
-		freezeTime = new TextButton("TOGGLE TIME FREEZE", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10 + 20 + changeLevel.getHeight());
+		changeLevel = new TextButton("CAMBIAR FONDO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10);
+		freezeTime = new TextButton("CONGELAR TIEMPO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10 + 20 + changeLevel.getHeight());
 		this.hero = hero;
 	}
 

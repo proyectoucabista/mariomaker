@@ -23,9 +23,9 @@ public class TVisibleTool extends TTool {
 	}
 	
 	public void think(){
-		boolean dead = this.killed();
+		boolean muerte = this.killed();
 		super.think();
-		if(!dead){
+		if(!muerte){
 			revive();
 		}
 	}

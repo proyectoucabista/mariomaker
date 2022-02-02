@@ -82,6 +82,7 @@ public class PauseScreen extends Screen {
 		Point mouse = e.getPoint();
 		if(menuPrincipalSeleccionado){
 			if(aceptar.contains(mouse)){
+                                AePlayWave.fondoMusica.finalizarMusica();// quitar musica del juego, si se sale al menu principal
 				controller.menuPrincipal();
 			}else if(cancelar.contains(mouse)){
 				menuPrincipalSeleccionado = false;

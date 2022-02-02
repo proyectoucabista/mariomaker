@@ -140,6 +140,12 @@ public class GameScreen extends Screen{
 		roomIndex = 0;
 		reset();
 		loading = false;
+                if(AePlayWave.fondoMusica != null){
+                  AePlayWave.fondoMusica.finalizarMusica();// quitar musica del lobby si se ha jugado una partida  
+                }
+                 
+                AePlayWave.fondoMusica = new AePlayWave("Sonidos/fondo2.wav");
+                AePlayWave.fondoMusica.start(); // iniciar musica del Lobby
 
 	}
 	/**

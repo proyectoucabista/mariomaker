@@ -19,7 +19,7 @@ public class Hero extends Thing{
 		
 		private boolean jumpDown;
 		
-		private boolean dead;
+		private boolean muerte;
 		private double deadTime;
 		
 		/**
@@ -80,7 +80,7 @@ public class Hero extends Thing{
 		
 		private int spriteColor = 0;
 		
-		private boolean won;
+		private boolean ganador;
 		private static TextButton ammo;
 		
 		private int numBullets;
@@ -101,13 +101,13 @@ public class Hero extends Thing{
 			jumpDown = false;
 			movingUp = false;
 			
-			dead = false;
+			muerte = false;
 			deadTime = 0;
 			
 			star = false;
 			starTime = 0;
 			
-			won = false;
+			ganador = false;
 			
 			cape = false;
 			capeTime = 0;
@@ -147,11 +147,16 @@ public class Hero extends Thing{
 				deathPos.y = 0;
 			}
 			
-			dead = true;
+			muerte = true;
 			falling = false;
 			acc = new Point2D.Double();
 			vel = new Point2D.Double();
 			deadTime = 25;
+                        
+                        AePlayWave.fondoMusica.finalizarMusica();// si se muere, quitar musica de fondo
+                        
+                        AePlayWave.fondoMusica = new AePlayWave("Sonidos/muerte.wav"); 
+                        AePlayWave.fondoMusica.start(); // colocar musica de muerte de fondo
 		}
 		
 		/**
@@ -360,7 +365,7 @@ public class Hero extends Thing{
 		 * @param sound true if should play sound
 		 */
 		public void saltar(boolean pressed, boolean sound){
-			if(dead) return;
+			if(muerte) return;
 			if(pressed)
 				jumpDown = true;
 			else
@@ -392,7 +397,7 @@ public class Hero extends Thing{
 		}
 		//double jolt = 
 		private void jumpAdd(){
-			if(vel.y == 0 || dead){
+			if(vel.y == 0 || muerte){
 				jumpAdd = 0;
 			}else{
 				double add = 0.4*jumpAdd/JGameMaker.TIEMPO_SALTO_COMPLETO*JGameMaker.time();
@@ -413,28 +418,28 @@ public class Hero extends Thing{
 		}
 		
 		public boolean touching(Thing t){
-			if(piped && vel.y < 0 || dead)
+			if(piped && vel.y < 0 || muerte)
 				return false;
 			else
 				return super.touching(t);
 		}
 		
 		public void onTouch(Thing t){
-			if(dead) return;
+			if(muerte) return;
 			if(star && t instanceof TEnemy ){
 				new AePlayWave("Sonidos/patada.wav").start();
 				t.kill(new Point2D.Double(vel.x*2, Math.random()*16+3));
 			}else if(t instanceof TGoal){
-				won = true;
+				ganador = true;
 			}
 		}
 		/**
 		 * determines if this hit a TGoal
 		 * @return true if this hit the goal
 		 */
-		public boolean won(){
-			boolean temp = won;
-			won = false;
+		public boolean ganador(){
+			boolean temp = ganador;
+			ganador = false;
 			return temp;
 		}
 		
@@ -469,7 +474,7 @@ public class Hero extends Thing{
 		private BufferedImage figureOutDrawImage(Sprite[] imgs){
 			
 			Sprite img;
-			if(dead){
+			if(muerte){
 				return imgs[5].getBuffer();
 			}
 			
@@ -525,18 +530,18 @@ public class Hero extends Thing{
 		}
 		
 		public boolean dying(){
-			return dead;
+			return muerte;
 		}
 		/**
 		 * determines if the player died, and already went to the bottom of the screen after the little saltar upward
-		 * @return true if dead, false if not
+		 * @return true if muerte, false if not
 		 */
 		public boolean isDead(){
-			return dead && yOffset < -300;
+			return muerte && yOffset < -300;
 		}
 		
 		public void think(){
-			if(dead && deadTime > 0){
+			if(muerte && deadTime > 0){
 				deadTime -= JGameMaker.time();
 				if(deadTime < 0){
 					vel.x = 0;
@@ -583,7 +588,7 @@ public class Hero extends Thing{
 				xOffset = -X_OFFSET;
 				
 			yOffset += pos.y - posLast.y;
-			if(!(dead || falling)){
+			if(!(muerte || falling)){
 				if(yOffset > Y_OFFSET)
 					yOffset = Y_OFFSET;
 				else if(yOffset < Y_OFFSET/8)
@@ -608,7 +613,7 @@ public class Hero extends Thing{
 			}
 			if(jumping){
 				jumping = false;
-			}else if(!dead){
+			}else if(!muerte){
 				int tempMove = move;
 				if(move == 0){
 					if(vel.x > 0)
@@ -659,7 +664,7 @@ public class Hero extends Thing{
 				acc.y = 0;
 				vel.y = 5;
 			}
-			else if(!jumping && !dead && !(cape && movingUp)){
+			else if(!jumping && !muerte && !(cape && movingUp)){
 				vel.y = 0;
 				acc.y = 0;
 			}
@@ -670,11 +675,11 @@ public class Hero extends Thing{
 			
 			pos.setLocation(pos.x+vel.x*JGameMaker.time(),pos.y+vel.y*JGameMaker.time());
 
-			if(!dead && pos.y+JGameMaker.NIVEL_SUELO < 0){
+			if(!muerte && pos.y+JGameMaker.NIVEL_SUELO < 0){
 				kill(true);
 				//pos.y = pos.y + JGameMaker.NIVEL_SUELO + 1;
 				falling = false;
-			}else if(pos.y < 0 && !dead && !piped && (!falling || invulerable)){
+			}else if(pos.y < 0 && !muerte && !piped && (!falling || invulerable)){
 				setPos(pos.x,0);
 				//yOffset = JGameMaker.NIVEL_SUELO;
 			}

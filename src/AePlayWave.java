@@ -13,11 +13,12 @@ import javax.sound.sampled.SourceDataLine;
  *
  */
 public class AePlayWave{
-private SourceDataLine line = null;
+private SourceDataLine linea = null;
 private byte[] audioBytes;
 	private int numBytes;
 	private AudioFormat audioFormat;
 	private DataLine.Info info;
+        public static AePlayWave fondoMusica; // musica de fondo del juego
 
 	/**
 	 * Opens the file specified by the path and loads it to be memory so it can be played
@@ -37,14 +38,14 @@ private byte[] audioBytes;
 		info = new DataLine.Info(SourceDataLine.class,
 								 audioFormat);
 		try{
-			line = (SourceDataLine)AudioSystem.getLine(info);
-			line.open(audioFormat);
+			linea = (SourceDataLine)AudioSystem.getLine(info);
+			linea.open(audioFormat);
 		}catch (LineUnavailableException ex){
-			//System.out.println("*** Audio line unavailable ***");
+			//System.out.println("*** Audio linea unavailable ***");
 			//System.exit(1);
 		}
 
-		line.start();
+		linea.start();
 
 		audioBytes = new byte[(int)soundFile.length()];
 
@@ -63,15 +64,19 @@ private byte[] audioBytes;
 		new Thread(){
 			public void run(){
 				try{
-					line = (SourceDataLine)AudioSystem.getLine(info);
-					line.open(audioFormat);
+					linea = (SourceDataLine)AudioSystem.getLine(info);
+					linea.open(audioFormat);
 				}catch (LineUnavailableException ex){
-					//System.out.println("*** Audio line unavailable ***");
+					//System.out.println("*** Audio linea unavailable ***");
 					//System.exit(1);
 				}
-				line.start();
-				line.write(audioBytes, 0, numBytes);
+				linea.start();
+				linea.write(audioBytes, 0, numBytes);
 			}
 		}.start();
 	}
+        
+        public void finalizarMusica(){
+            linea.close();
+        }
 }

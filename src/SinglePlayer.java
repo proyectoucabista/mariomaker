@@ -9,25 +9,25 @@ public class SinglePlayer extends GameScreen{
 
 	TextButton rect,rect2;
 	
-	private boolean won;
+	private boolean ganador;
 	
 	private boolean shouldLoadLevel;
 	
 	private static final Image HAS_GANADO = new Sprite("Imagenes/marioganador.gif").getImage();
 	
-	private double wonTimer;
+	private double tiempoCelebracion;
 	
 	public SinglePlayer(){
 		super();
-		rect = new TextButton("HIIIIIIII",JGameMaker.FONT_GRANDE, 10,10, java.awt.Color.WHITE);
-		rect2 = new TextButton("FULLY WORK YET",JGameMaker.FONT_GRANDE, 10, 12 + rect.getHeight(), java.awt.Color.WHITE);
+		rect = new TextButton("CUIDA TU AMBIENTE",JGameMaker.FONT_GRANDE, 10,10, java.awt.Color.WHITE);
+		rect2 = new TextButton("RECICLA LOS MATERIALES REUTILIZABLES",JGameMaker.FONT_GRANDE, 10, 12 + rect.getHeight(), java.awt.Color.WHITE);
 	}
 
 	public void init(int marioImage){
 		super.init(marioImage);
-		won = false;
+		ganador = false;
 		shouldLoadLevel = false;
-		wonTimer = 0;
+		tiempoCelebracion = 0;
 	}
 	
 	public void draw(Graphics g) {
@@ -35,15 +35,19 @@ public class SinglePlayer extends GameScreen{
 		if(loading)return;
 		rect.draw(g);
 		rect2.draw(g);
-		if(won)
+		if(ganador)
 			g.drawImage(HAS_GANADO, (JGameMaker.screenWidth - HAS_GANADO.getWidth(null))/2, (JGameMaker.screenHeight - HAS_GANADO.getHeight(null))/2, null);
 	}
 	public void think() {
 		super.think();
 		currentRoom().think(hero,false);
-		if(hero.won() && !won){
-			won = true;
-			wonTimer = 2500/15.0;
+		if(hero.ganador() && !ganador){
+			ganador = true;
+			tiempoCelebracion = 6500/15.0;
+                        AePlayWave.fondoMusica.finalizarMusica(); // acabar musica de fondo
+                        
+                        AePlayWave.fondoMusica = new AePlayWave("Sonidos/ganador.wav"); 
+                        AePlayWave.fondoMusica.start(); // colocar musica de muerte de fondo
 		}
 		if(shouldLoadLevel){
 			shouldLoadLevel = false;
@@ -54,11 +58,11 @@ public class SinglePlayer extends GameScreen{
 		if(loading){
 			shouldLoadLevel = true;
 		}
-		if(won && wonTimer > 0){
-			wonTimer -= JGameMaker.time();
-			if(wonTimer <= 0){
+		if(ganador && tiempoCelebracion > 0){
+			tiempoCelebracion -= JGameMaker.time();
+			if(tiempoCelebracion <= 0){
 				loading = true;
-				won = false;
+				ganador = false;
 			}
 		}
 	}
@@ -74,7 +78,7 @@ public class SinglePlayer extends GameScreen{
 	
 	public void reset() {
 		if(hero == null)return;
-		if(hero.isDead() && !won){
+		if(hero.isDead() && !ganador){
 			controller.pause(true);
 		}else{
 			setSpawn();

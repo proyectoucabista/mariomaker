@@ -52,22 +52,11 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 		menu = new MainScreen();
 		menu.controller = controller;
 		paused = true;
-		//setBackground(Color.BLACK);
-		//topLeftBox = new Point(Global.W/2 - 50,Global.H -Global.NIVEL_SUELO - 100);
-		//wBox = 32;
-		//hBox = 100;
-		////bgMusic = new AePlayWaveLoop("Sonidos/original_theme.wav");
-		////bgMusic.start();
-		//main = new MainClass(this.getFontMetrics(CHAT_BOLD));
-		//inGame = false;
-		//pw = password.toCharArray();
-		//nextChar = 0;
-		//updateBox();
-		//for(int i = 0; i < MARIO_COLORS.length; i++){
-		//	Hero h = new Hero();
-		//	h.setSpriteColor(i);
-		//	MARIO_COLORS[i] = (h.IMAGE[0]).getBuffer();
-		//}
+		
+		AePlayWave.fondoMusica = new AePlayWave("Sonidos/fondo.wav");
+               
+                AePlayWave.fondoMusica.start(); // inicia musica principal del juego
+		
 	}
 	
 	/**

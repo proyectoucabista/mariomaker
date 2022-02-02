@@ -3,8 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/GameScreen.java</file>
-            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/Hero.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/AePlayWave.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/Room.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/SinglePlayer.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/MainScreen.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/ScreenManager.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/SpawnScreen.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/PauseScreen.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/TKoopa.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/JGameMaker.java</file>
+            <file>file:/C:/Users/DELL/Documents/NetBeansProjects/JuegoMario/src/TGoomba.java</file>
         </group>
     </open-files>
 </project-private>

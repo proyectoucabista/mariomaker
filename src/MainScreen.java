@@ -113,42 +113,11 @@ public class MainScreen extends Screen {
 			couldntLoad.draw(g);
 		}
 	    singleButton.draw(g);
-	    //multiButton.draw(g);
 	    salir.draw(g);
 	    
-	    //unused multiplayer code
-	    /*g.setColor(Color.WHITE);
-		g.setFont(JGameMaker.FONT_GRANDE);
-		if(connection != null && connection.disconnect){
-				g.setColor(Color.RED);
-				g.setFont(JGameMaker.FONT_MEDIO);
-				g.drawString("Lost connection", 5,360);
-			}
-		}else if(ip != null){ //you chose client
-			g.setFont(JGameMaker.FONT_GRANDE);
-			g.setColor(Color.RED);
-			g.drawString("Type the IP:", 5,340);
-			g.setColor(Color.WHITE);
-			g.drawString(ip, 5,380);
-		}else{
-			g.setFont(JGameMaker.FONT_GRANDE);
-			if(ScreenPanel.mouse.y > 300 && ScreenPanel.mouse.y < 340)
-				g.setColor(Color.GREEN);
-			g.drawString("Make a Call", 5,340);
-			if(ScreenPanel.mouse.y > 340 && ScreenPanel.mouse.y < 380)
-				g.setColor(Color.GREEN);
-			else
-				g.setColor(Color.WHITE);
-			g.drawString("Wait for Call", 5,380);
-		}
-		g.setFont(JGameMaker.FONT_GRANDE);
-		if(connection != null && connection.waitingForConnect){
-			g.setColor(Color.RED);
-			g.drawString("Waiting for connection", 5,JGameMaker.H-10);
-		}*/
+	    
 		((Graphics2D)g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.25f));
 		for(int i = 0; i < 6; i++){
-			//figure out coordinates of mario
 			int x = i, y= 0;
 			if(i > 2){
 				x -= 3;
@@ -190,23 +159,7 @@ public class MainScreen extends Screen {
 		return; //continue only if you're typing the IP of the server to connect to
 		//}
 		
-		/*if(code == KeyEvent.VK_ENTER ){
-			Connector connection = ScreenPanel.connection;
-			connection = new Client(ip, 3456);
-			connection.waitingForConnect = true;
-			connection.start();
-			return;
-		}
-		if(code == KeyEvent.VK_BACK_SPACE ){
-			if(ip.length() > 0)
-				ip = (new StringBuffer(ip).deleteCharAt(ip.length()-1)).toString();
-			return;
-		}
-		if(c != KeyEvent.CHAR_UNDEFINED){
-			ip += c;
-			return;
-		}*/
-
+	
 	}
 
 	public void mouse(MouseEvent e, boolean down) {
@@ -232,18 +185,7 @@ public class MainScreen extends Screen {
 			loadFailed = false;
 			controller.singlePlayer(selectedMario);
 		}
-		/*Connector connection = ScreenPanel.connection;
-		if(multiButton.contains(x,y) && !choosingMultiplayer){
-			choosingMultiplayer = true;
-		}else if(choosingMultiplayer && connection == null && ip == null){
-			if(y > 300 && y < 340){
-				ip = ""; //this means that we chose client
-			}else if(y > 340 && y < 380){
-				connection = new Server(3456);
-				connection.waitingForConnect = true;
-				connection.start();
-			}
-		}*/
+		
 		
 		for(int i = 0; i < 6; i++){
 			int xpos = i, ypos= 0;
@@ -261,21 +203,7 @@ public class MainScreen extends Screen {
 	}
 
 	public void think() {
-		/*Connector connection = ScreenPanel.connection;
-		if(connection != null && connection.waitingForConnect && !connection.connected){
-			String m = connection.getLastMessage();
-			if(m != null){
-				if(m.equals("connect")){
-					connection.connected = true;
-					connection.waitingForConnect = false;
-					controller.levelEditor(selectedMario);
-				}else if(m.equals("disconnect")){
-					connection.disconnect();
-				}else{
-					connection.message(m); //throw the message back in
-				}
-			}
-		}*/
+		
 		room.think(null,true);
 
 	}

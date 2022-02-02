@@ -182,7 +182,7 @@ public class TColoredBlock extends TGridded {
 	}
 	
 	/**
-	 * Changes the color of the block to the next one in line, called when c is pressed in LevelEditor
+	 * Changes the color of the block to the next one in linea, called when c is pressed in LevelEditor
 	 */
 	public static void cycleColors(){
 		int old = colorIndex;

@@ -103,15 +103,15 @@ public class ScreenController {
 		String file = path + filename.substring(0,filename.length() - "jgamemaker".length()) + "wcfg";
 		boolean loaded = false;
 		if(opener.readFile(file)){
-			String line;
-			while((line = opener.readLine()) != null){
-				if(line.equals(currentLevel.getName())){
-					line = opener.readLine();
-					if(line == null){
+			String linea;
+			while((linea = opener.readLine()) != null){
+				if(linea.equals(currentLevel.getName())){
+					linea = opener.readLine();
+					if(linea == null){
 						break;
 					}
 					try {
-						File fcLevel = new File(path + line);
+						File fcLevel = new File(path + linea);
 						if(!fcLevel.getPath().equals(currentLevel.getPath()) && opener.readFile(fcLevel)){	
 							currentLevel = fcLevel;
 							screenPanel.singlePlayer(marioImage, currentLevel);
