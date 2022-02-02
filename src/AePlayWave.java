@@ -16,7 +16,7 @@ public class AePlayWave{
 private SourceDataLine line = null;
 private byte[] audioBytes;
 	private int numBytes;
-	private AudioFormat audioFormato;
+	private AudioFormat audioFormat;
 	private DataLine.Info info;
         public static AePlayWave fondoMusica; // musica de fondo del juego
 
@@ -34,11 +34,11 @@ private byte[] audioBytes;
 			//System.exit(1);
 		}
 		if(audioInputStream == null)return;
-		audioFormato = audioInputStream.getFormat();
-		info = new DataLine.Info(SourceDataLine.class,audioFormato);
+		audioFormat = audioInputStream.getFormat();
+		info = new DataLine.Info(SourceDataLine.class,audioFormat);
 		try{
 			line = (SourceDataLine)AudioSystem.getLine(info);
-			line.open(audioFormato);
+			line.open(audioFormat);
 		}catch (LineUnavailableException ex){
 			//System.out.println("*** Audio line unavailable ***");
 			//System.exit(1);
@@ -64,7 +64,7 @@ private byte[] audioBytes;
 			public void run(){
 				try{
 					line = (SourceDataLine)AudioSystem.getLine(info);
-					line.open(audioFormato);
+					line.open(audioFormat);
 				}catch (LineUnavailableException ex){
 					//System.out.println("*** Audio line unavailable ***");
 					//System.exit(1);

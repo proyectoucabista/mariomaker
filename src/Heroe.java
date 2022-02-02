@@ -297,7 +297,7 @@ public class Heroe extends Thing{
 		 * determines if the player is moving through a tuberia
 		 * @return true if moving through a tuberia
 		 */
-		public boolean piping(){
+		public boolean tuberiando(){
 			return tuberiado;
 		}
 		/**

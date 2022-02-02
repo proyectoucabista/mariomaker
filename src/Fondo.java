@@ -48,7 +48,7 @@ public class Fondo{
 		return underground;
 	}
     /**
-     * draws the backdrop to the screen
+     * draws the fondo to the screen
      * @param g
      * @param o
      * @param heroe to be used to check against for parallax scrolling

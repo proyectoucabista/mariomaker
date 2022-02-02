@@ -148,7 +148,7 @@ public class TTuberia extends TGridded{
 			if(pirana != null){
 				pirana.warnHero();
 			}
-			if(lobby != -1 && telePos != null && !((Heroe)t).piping()){
+			if(lobby != -1 && telePos != null && !((Heroe)t).tuberiando()){
 				if(/*fromWhere(t) == facing() &&*/ t.pos.x - 4 > pos.x && t.pos.x + t.width + 4 < pos.x + width){
 					Heroe h = (Heroe)t;
 					h.tuberia(pos.y + height, teleRoom, telePos);

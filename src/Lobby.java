@@ -11,12 +11,12 @@ import java.awt.image.ImageObserver;
 public class Lobby {
 	
 	private Vector<Thing> things;
-	private Fondo backdrop;
+	private Fondo fondo;
 	
 	private int index;
-	private Class removeSpawn;
+	private Class removerSpawn;
 	
-	private int numRemoves;
+	private int numRemover;
 	
 	/**
 	 * creates a new Lobby
@@ -25,10 +25,10 @@ public class Lobby {
 	 */
 	public Lobby(boolean underground, int index){
 		this.index = index;
-		backdrop = new Fondo(underground);
+		fondo = new Fondo(underground);
 		things = new Vector<Thing>();
-		numRemoves = 0;
-		removeSpawn = null;
+		numRemover = 0;
+		removerSpawn = null;
 	}
 	/**
 	 * draws this to the screen. by default it does not handle any spawnscreen
@@ -53,8 +53,8 @@ public class Lobby {
 			heroe = new Heroe();
 			shouldDrawHero = false;
 		}
-		backdrop.draw(g, o, heroe);
-		if(heroe.piping() && shouldDrawHero){
+		fondo.draw(g, o, heroe);
+		if(heroe.tuberiando() && shouldDrawHero){
 			heroe.draw(g, o);
 		}
 		boolean alreadyHighlighted = spawn == null;
@@ -73,7 +73,7 @@ public class Lobby {
 				}
 			}
 		}
-		if(!heroe.piping() && shouldDrawHero){
+		if(!heroe.tuberiando() && shouldDrawHero){
 			heroe.draw(g, o);
 		}
 	}
@@ -91,18 +91,18 @@ public class Lobby {
 	/**
 	 * called every frame
 	 * @param heroe
-	 * @param editMode true if in LevelEditor
+	 * @param modoEditar true if in LevelEditor
 	 */
-	public void think(Heroe heroe, boolean editMode){
-		think(heroe,editMode,false);
+	public void think(Heroe heroe, boolean modoEditar){
+		think(heroe,modoEditar,false);
 	}
 	/**
 	 * called every frame
 	 * @param heroe
-	 * @param editMode true if in LevelEditor
-	 * @param shouldFreeze if true, then none of the Things that are contained within this will think
+	 * @param modoEditar true if in LevelEditor
+	 * @param debeCongelar if true, then none of the Things that are contained within this will think
 	 */
-	public void think(Heroe heroe, boolean editMode,boolean shouldFreeze){
+	public void think(Heroe heroe, boolean modoEditar,boolean debeCongelar){
 		if(heroe != null)
 			heroe.think();
 		//ArrayList<Thing> removeQueue = new ArrayList<Thing>();
@@ -116,7 +116,7 @@ public class Lobby {
 				continue;
 			}
 			
-			if( heroe != null && !heroe.muriendo() && !(shouldFreeze && t instanceof TEnemy) && t.tocando(heroe) && heroe.tocando(t) ){
+			if( heroe != null && !heroe.muriendo() && !(debeCongelar && t instanceof TEnemy) && t.tocando(heroe) && heroe.tocando(t) ){
 				t.enContacto(heroe);
 				heroe.enContacto(t);
 			}
@@ -133,7 +133,7 @@ public class Lobby {
 					
 				}
 			}
-			if(!shouldFreeze && !t.isStatic() && (editMode || !(t instanceof TEnemy) || t.inPlayerView(heroe)))
+			if(!debeCongelar && !t.isStatic() && (modoEditar || !(t instanceof TEnemy) || t.inPlayerView(heroe)))
 				t.think();
 			Thing add = t.getSpawn();
 			if(add != null)
@@ -189,7 +189,7 @@ public class Lobby {
 	public void add(Thing add, boolean shouldInit){
 		if(shouldInit)
 			add.init();
-		if(backdrop.isUnderground()){
+		if(fondo.isUnderground()){
 			add.makeSpriteUnderground();
 		}
 		if(add instanceof TGridded){
@@ -215,7 +215,7 @@ public class Lobby {
 			((TTuberia)add).lobby = index;
 		}
 		if(add instanceof TSpawn || add instanceof TGoal){
-			removeSpawnFromOtherRooms(add.getClass());
+			removerSpawnOtrosLobbys(add.getClass());
 		}
 		if(add instanceof GroundHole){
 			things.add(0,add);
@@ -227,24 +227,24 @@ public class Lobby {
 	 * makes every other Lobby contained in the parent GameScreen remove its spawn if it contains any
 	 * @param spawn
 	 */
-	public void removeSpawnFromOtherRooms(Class spawn){
-		removeSpawn = spawn;
-		removeSpawns(spawn);
+	public void removerSpawnOtrosLobbys(Class spawn){
+		removerSpawn = spawn;
+		removerSpawns(spawn);
 	}
 	/**
 	 * determines if the spawn should be removed
 	 * @return the class type of the spawn if it has one, null if not
 	 */
-	public Class shouldRemoveSpawnFromOtherRooms(){
-		Class temp = removeSpawn;
-		removeSpawn = null;
+	public Class debeRemoverSpawnOtrosLobbys(){
+		Class temp = removerSpawn;
+		removerSpawn = null;
 		return temp;
 	}
 	/**
 	 * removes all spawns / goals, specified by the class
 	 * @param spawn can be either a TGoal or a TSpawn, this instancia to be removed
 	 */
-	public void removeSpawns(Class spawn){
+	public void removerSpawns(Class spawn){
 		for(Thing t: things){
 			if(t.getClass().equals(spawn)){
 				remove(t);

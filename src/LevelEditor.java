@@ -100,11 +100,11 @@ public class LevelEditor extends GameScreen{
 		super.think();
 		pantallaSpawn.think();
 		lobbyActual().think(heroe,true,congelar);
-		Class spawn = lobbyActual().shouldRemoveSpawnFromOtherRooms();
+		Class spawn = lobbyActual().debeRemoverSpawnOtrosLobbys();
 		if(spawn != null){
 			for(Lobby lobby: lobbys){
 				if(lobby != lobbyActual()){
-					lobby.removeSpawns(spawn);
+					lobby.removerSpawns(spawn);
 				}
 			}
 		}

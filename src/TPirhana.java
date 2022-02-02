@@ -130,7 +130,7 @@ public class TPirhana extends TEnemy{
 	public void heroKill(Heroe heroe){
 		if(harmless)return;
 		super.heroKill(heroe);
-		if(heroe.piping()){
+		if(heroe.tuberiando()){
 			hide();
 			hasHero = true;
 		}
