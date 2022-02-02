@@ -9,7 +9,7 @@ import java.awt.image.ImageObserver;
  * @author Reed Weichler
  *
  */
-public class TPirana extends TEnemy{
+public class TPirana extends TEnemigo{
 	private static final String PATH = "Imagenes/sprites/tuberia/pirana/";
 	private static final double VELOCIDAD_MOVIMIENTO = 0.75;
 	private static final int TIEMPO_INACTIVIDAD = 1500/15;

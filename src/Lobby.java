@@ -116,7 +116,7 @@ public class Lobby {
 				continue;
 			}
 			
-			if( heroe != null && !heroe.muriendo() && !(debeCongelar && t instanceof TEnemy) && t.tocando(heroe) && heroe.tocando(t) ){
+			if( heroe != null && !heroe.muriendo() && !(debeCongelar && t instanceof TEnemigo) && t.tocando(heroe) && heroe.tocando(t) ){
 				t.enContacto(heroe);
 				heroe.enContacto(t);
 			}
@@ -133,7 +133,7 @@ public class Lobby {
 					
 				}
 			}
-			if(!debeCongelar && !t.isStatic() && (modoEditar || !(t instanceof TEnemy) || t.inPlayerView(heroe)))
+			if(!debeCongelar && !t.isStatic() && (modoEditar || !(t instanceof TEnemigo) || t.inPlayerView(heroe)))
 				t.think();
 			Thing add = t.getSpawn();
 			if(add != null)

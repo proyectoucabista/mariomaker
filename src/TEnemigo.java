@@ -5,18 +5,18 @@ import java.awt.geom.Point2D;
  * @author Reed Weichler
  *
  */
-public abstract class TEnemy extends Thing {
+public abstract class TEnemigo extends Thing {
 	
 	/**
-	 * Creates a new TEnemy with the coordinates (x,y) and the specified width and height.
+	 * Creates a new TEnemigo with the coordinates (x,y) and the specified width and height.
 	 */
-	public TEnemy(double x, double y, int width, int height){
+	public TEnemigo(double x, double y, int width, int height){
 		super(x,y,width,height);
 	}
 	/**
-	 * Creatse a new TEnemy width coordinates (0,0), width of 1 and height of 1.
+	 * Creatse a new TEnemigo width coordinates (0,0), width of 1 and height of 1.
 	 */
-	public TEnemy(){
+	public TEnemigo(){
 		this(0,0,1,1);
 	}
 	/**

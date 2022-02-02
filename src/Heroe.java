@@ -404,7 +404,7 @@ public class Heroe extends Thing{
 		
 		public void enContacto(Thing t){
 			if(muerte) return;
-			if(estrella && t instanceof TEnemy ){
+			if(estrella && t instanceof TEnemigo ){
 				new AePlayWave("Sonidos/patada.wav").start();
 				t.matar(new Point2D.Double(vel.x*2, Math.random()*16+3));
 			}else if(t instanceof TGoal){

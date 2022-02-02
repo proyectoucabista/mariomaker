@@ -11,7 +11,7 @@ import java.awt.geom.*;
  * @author Reed Weichler
  *
  */
-public class TKoopa extends TEnemy{
+public class TKoopa extends TEnemigo{
 	/**
 	 * speed of the shell when jumped on top of
 	 */
@@ -187,7 +187,7 @@ public class TKoopa extends TEnemy{
 	public void thingTouch(Thing t){
 		byte where = fromWhere(t);
 
-		if((where & DE_LADO) > 0 && t instanceof TEnemy && vCaparazon && vel.x != 0){//collided with a moving enemy to murderize painfully and not so nicily lololol
+		if((where & DE_LADO) > 0 && t instanceof TEnemigo && vCaparazon && vel.x != 0){//collided with a moving enemy to murderize painfully and not so nicily lololol
 			
 			double x = vel.x;
 			if(viviendoVel != null)

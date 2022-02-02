@@ -13,7 +13,7 @@ import java.awt.image.*;
  * @author Reed Weichler
  *
  */
-public class TGoomba extends TEnemy{
+public class TGoomba extends TEnemigo{
 	
 	private boolean fueGolpeado;
 	private boolean pieDerecho;
