@@ -13,8 +13,8 @@ public class TBGBloque extends TBloque {
 	public TBGBloque(byte img) {
 		super(img);
 	}
-	public TBGBloque(double x, double y, byte img, TItem item, boolean movesWhenHit){
-		super(x,y,img,item,movesWhenHit);
+	public TBGBloque(double x, double y, byte img, TItem item, boolean movCuandoGolpea){
+		super(x,y,img,item,movCuandoGolpea);
 	}
 	public TBGBloque(double x, double y, byte img){
 		super(x,y,img);

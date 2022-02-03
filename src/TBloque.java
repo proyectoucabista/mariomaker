@@ -12,22 +12,22 @@ public class TBloque extends TGridded{
 	private byte hit;
 	private byte image;
 	private TItem item;
-	private boolean spawning;
-	private boolean movesWhenHit;
+	private boolean apareciendo;
+	private boolean movCuandoGolpea;
 	
-	public static final String BLOCK_PATH = "Imagenes/sprites/bloque/";
+	public static final String BLOQUE_PATH = "Imagenes/sprites/bloque/";
 	
-	private Sprite[] BLOCK = {
-			new Sprite(BLOCK_PATH+"ladrillo.png"),
-			new Sprite(BLOCK_PATH+"b_activado.gif"),
-			new Sprite(BLOCK_PATH+"b_desactivado.gif"),
-			new Sprite(BLOCK_PATH+"piso.png"),
-			new Sprite(BLOCK_PATH+"pilar.png"),
-			new Sprite(BLOCK_PATH+"hongo/left.png"),
-			new Sprite(BLOCK_PATH+"hongo/mid.png"),
-			new Sprite(BLOCK_PATH+"hongo/right.png"),
-			new Sprite(BLOCK_PATH+"hongo/top.png"),
-			new Sprite(BLOCK_PATH+"hongo/bottom.png"),
+	private Sprite[] BLOQUE = {
+			new Sprite(BLOQUE_PATH+"ladrillo.png"),
+			new Sprite(BLOQUE_PATH+"b_activado.gif"),
+			new Sprite(BLOQUE_PATH+"b_desactivado.gif"),
+			new Sprite(BLOQUE_PATH+"piso.png"),
+			new Sprite(BLOQUE_PATH+"pilar.png"),
+			new Sprite(BLOQUE_PATH+"hongo/left.png"),
+			new Sprite(BLOQUE_PATH+"hongo/mid.png"),
+			new Sprite(BLOQUE_PATH+"hongo/right.png"),
+			new Sprite(BLOQUE_PATH+"hongo/top.png"),
+			new Sprite(BLOQUE_PATH+"hongo/bottom.png"),
 	};
 	
 	public static final byte
@@ -74,23 +74,23 @@ public class TBloque extends TGridded{
 	 * @param y
 	 * @param image
 	 * @param item
-	 * @param movesWhenHit
+	 * @param movCuandoGolpea
 	 */
-	public TBloque(double x, double y, byte image, TItem item, boolean movesWhenHit){
+	public TBloque(double x, double y, byte image, TItem item, boolean movCuandoGolpea){
 		super(x,y,WIDTH,WIDTH);
-		this.movesWhenHit = movesWhenHit;
+		this.movCuandoGolpea = movCuandoGolpea;
 		init();
-		spawning = false;
+		apareciendo = false;
 		hit = DESDE_NINGUNO;
 		this.image = image;
 		this.item = item;
 	}
 	
 	public void makeSpriteUnderground(){
-		for(Sprite s: BLOCK){
+		for(Sprite s: BLOQUE){
 			s.replaceColors(aboveGround,underGround);
 		}
-		//System.out.println(BLOCK[image]);
+		//System.out.println(BLOQUE[image]);
 	}
 	
 	public void init(){
@@ -100,7 +100,7 @@ public class TBloque extends TGridded{
 	}
 	public void init(Serializer s){
 		image = (byte)s.ints[super.numInts()];
-		movesWhenHit = s.bools[super.numBools()];
+		movCuandoGolpea = s.bools[super.numBools()];
 		Class c = s.classes[super.numClasses()];
 		if(c != null){
 			try {
@@ -115,7 +115,7 @@ public class TBloque extends TGridded{
 	public Serializer serialize(){
 		Serializer s = super.serialize();
 		s.ints[super.numInts()] = image;
-		s.bools[super.numBools()] = movesWhenHit;
+		s.bools[super.numBools()] = movCuandoGolpea;
 		if(item != null){
 			s.classes[super.numClasses()] = item.getClass();
 		}
@@ -133,11 +133,11 @@ public class TBloque extends TGridded{
 	}*/
 	
 	public BufferedImage preview(){
-		return BLOCK[image].getBuffer();
+		return BLOQUE[image].getBuffer();
 	}
 
 	public void enContacto(Thing t){
-		if(!t.isStatic() && movesWhenHit && vel.x == 0 && vel.y == 0 && hit == DESDE_NINGUNO && !spawning){
+		if(!t.isStatic() && movCuandoGolpea && vel.x == 0 && vel.y == 0 && hit == DESDE_NINGUNO && !apareciendo){
 			
 			//System.out.println(pos.x + " " + oldX);
 			
@@ -160,7 +160,7 @@ public class TBloque extends TGridded{
 		super.enContacto(t);
 	}
 	/**
-	 * Called when a player or a juego object hits the block (for spawning TItems)
+	 * Called when a player or a juego object hits the block (for apareciendo TItems)
 	 * @param where
 	 * Where it hit.
 	 */
@@ -173,13 +173,13 @@ public class TBloque extends TGridded{
 	private void spawnItem(){
 		addSpawn(item);
 		item = null;
-		spawning = false;
-		movesWhenHit = false;
+		apareciendo = false;
+		movCuandoGolpea = false;
 	}
 	
 	private void beginSpawn(){
 		if(item == null)return;
-		spawning = true;
+		apareciendo = true;
 		item.setPos(pos);
 		image = BLOQUE_PREGUNTA_DESACTIVADO;
 	}
@@ -188,7 +188,7 @@ public class TBloque extends TGridded{
 	public void think(){
 		super.think();
 		
-		if(spawning){
+		if(apareciendo){
 			item.think();
 			//System.out.println(item.pos.y + " > " + pos.y + " + " + height);
 			if(item.pos.y > pos.y + height){
@@ -222,7 +222,7 @@ public class TBloque extends TGridded{
 	}
 	
 	public boolean isStatic(){
-		return !movesWhenHit;
+		return !movCuandoGolpea;
 	}
 	
 	/**
@@ -230,7 +230,7 @@ public class TBloque extends TGridded{
 	 * @return true if this can contain a new TItem, false if not
 	 */
 	public boolean canAcceptItem(){
-		return item == null && (movesWhenHit || image == TBloque.BLOQUE_PREGUNTA_DESACTIVADO);
+		return item == null && (movCuandoGolpea || image == TBloque.BLOQUE_PREGUNTA_DESACTIVADO);
 	}
 	
 	/**
@@ -240,17 +240,17 @@ public class TBloque extends TGridded{
 	public void addItem(TItem item){
 		if(image == BLOQUE_PREGUNTA_DESACTIVADO){
 			image = BLOQUE_PREGUNTA;
-			movesWhenHit = true;
+			movCuandoGolpea = true;
 		}
 		this.item = item;
 	}	
 	
 	public BufferedImage figureOutDrawImage(){
-		return BLOCK[image].getBuffer();
+		return BLOQUE[image].getBuffer();
 	}
 	
 	public void draw(Graphics g, ImageObserver o, Heroe heroe){
-		if(inPlayerView(heroe) && spawning)
+		if(inPlayerView(heroe) && apareciendo)
 			item.draw(g,o,heroe);
 		super.draw(g,o,heroe);
 	}
