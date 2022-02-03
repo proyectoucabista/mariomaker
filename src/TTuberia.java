@@ -16,9 +16,9 @@ import javax.swing.ImageIcon;
  */
 public class TTuberia extends TGridded{
 	
-	public static final String PIPE_PATH = "Imagenes/sprites/tuberia/";
+	public static final String TUBERIA_PATH = "Imagenes/sprites/tuberia/";
 	
-	public static final int SQUARE_WIDTH = 32;
+	public static final int ANCHO_CUADRADO = 32;
 	
 	/**
 	 * the lobby this tuberia is in
@@ -28,11 +28,11 @@ public class TTuberia extends TGridded{
 	private Point2D.Double telePos;
 	
 	
-	private Sprite[] PIPE = {
-			new Sprite(PIPE_PATH+"top_left.gif"),
-			new Sprite(PIPE_PATH+"top_right.gif"),
-			new Sprite(PIPE_PATH+"mid_left.gif"),
-			new Sprite(PIPE_PATH+"mid_right.gif"),
+	private Sprite[] TUBERIA = {
+			new Sprite(TUBERIA_PATH+"top_left.gif"),
+			new Sprite(TUBERIA_PATH+"top_right.gif"),
+			new Sprite(TUBERIA_PATH+"mid_left.gif"),
+			new Sprite(TUBERIA_PATH+"mid_right.gif"),
 	};
 	
 	private TPirana pirana;
@@ -42,13 +42,13 @@ public class TTuberia extends TGridded{
 	}
 	
 	public TTuberia(double x, double y){
-		super(x,0,SQUARE_WIDTH*2,(int)y);
+		super(x,0,ANCHO_CUADRADO*2,(int)y);
 		lobby = 0;
 		teleRoom = -1;
 		telePos = null;
 		pirana = null;
-		if(height<SQUARE_WIDTH)
-			height = SQUARE_WIDTH;
+		if(height<ANCHO_CUADRADO)
+			height = ANCHO_CUADRADO;
 	}
 	
 	
@@ -77,9 +77,7 @@ public class TTuberia extends TGridded{
 		super.setPos(x,0);
 		this.pos.x = getGridCoord(x)*32;
 		this.height = (int)getGridCoord(y)*32;
-		//if(height < SQUARE_WIDTH*2){
-		//	height = SQUARE_WIDTH*2;
-		//}
+		
 	}
 	
 	public TPirana getPirana(){
@@ -131,15 +129,15 @@ public class TTuberia extends TGridded{
 			int[] c = getDrawCoords(heroe);
 
 			int bodyHeight = JGameMaker.screenHeight - (c[1] + c[2]/2);
-			g.drawImage(PIPE[0].getBuffer(), c[0], c[1], c[2]/2, c[2]/2, null);
-			g.drawImage(PIPE[1].getBuffer(), c[0] + c[2]/2, c[1], c[2]/2, c[2]/2, null);
-			g.drawImage(PIPE[2].getBuffer(), c[0], c[1] + c[2]/2, c[2]/2, bodyHeight, null);
-			g.drawImage(PIPE[3].getBuffer(), c[0] + c[2]/2, c[1] + c[2]/2, c[2]/2, bodyHeight, null);
+			g.drawImage(TUBERIA[0].getBuffer(), c[0], c[1], c[2]/2, c[2]/2, null);
+			g.drawImage(TUBERIA[1].getBuffer(), c[0] + c[2]/2, c[1], c[2]/2, c[2]/2, null);
+			g.drawImage(TUBERIA[2].getBuffer(), c[0], c[1] + c[2]/2, c[2]/2, bodyHeight, null);
+			g.drawImage(TUBERIA[3].getBuffer(), c[0] + c[2]/2, c[1] + c[2]/2, c[2]/2, bodyHeight, null);
 		}
 	}
 	
 	public BufferedImage preview(){
-		return PIPE[0].getBuffer();
+		return TUBERIA[0].getBuffer();
 	}
 	
 	public void enContacto(Thing t){
@@ -178,7 +176,7 @@ public class TTuberia extends TGridded{
 		}
 	}
 	
-	public boolean canLink(Thing t){
+	public boolean colocarEnlace(Thing t){
 		if(t == this)return false;
 		if(telePos != null)return false;
 		if(t == null)return true;
@@ -194,7 +192,7 @@ public class TTuberia extends TGridded{
 		setPos(x - 16, y + 32);
 	}
 	
-	public void link(Thing t){
+	public void enlace(Thing t){
 		TTuberia tuberia = (TTuberia)t;
 		teleRoom = tuberia.lobby;
 		telePos = new Point2D.Double(tuberia.pos.x + (tuberia.width - Heroe.WIDTH)/2, tuberia.pos.y + tuberia.height - Heroe.HEIGHT);

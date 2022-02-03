@@ -359,17 +359,17 @@ public class Thing{
 	}
 	/**
 	 * links this Thing to another (pipes, etc.)
-	 * @param other Thing to link to
+	 * @param other Thing to enlace to
 	 */
-	public void link(Thing other){
+	public void enlace(Thing other){
 		
 	}
 	/**
-	 * determines whether or not this Thing can link with other
+	 * determines whether or not this Thing can enlace with other
 	 * @param other the Thing that is checked against
 	 * @return true if it can, false if it cannot
 	 */
-	public boolean canLink(Thing other){
+	public boolean colocarEnlace(Thing other){
 		return false;
 	}
 	/**

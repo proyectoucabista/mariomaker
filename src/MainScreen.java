@@ -28,7 +28,7 @@ public class MainScreen extends Pantalla {
 		null
 	};
 	
-	private TextButton	editorButton,
+	private TextoBoton	editorButton,
 						nuevoJuego,
 						cargarJuego,
 						botonUnico,
@@ -58,28 +58,28 @@ public class MainScreen extends Pantalla {
 		lobby.add(koopa);
 		koopa.crearCaparazon(true);
 		koopa.vel.x = -TKoopa.VELOCIDAD_CAPARAZON;
-		lobby.add(new TBloque(32*5,32*4, TBloque.BLOQUE_PREGUNTA));
-		lobby.add(new TBloque(32*4,32*2, TBloque.LADRILLOS));
-		lobby.add(new TBloque(32*3,32*2, TBloque.LADRILLOS));
-		lobby.add(new TBloque(32*5,32*2, TBloque.LADRILLOS));
-		lobby.add(new TBloque(32*6,32*2, TBloque.BLOQUE_PREGUNTA_DESACTIVADO));
-		lobby.add(new TBloque(32*7,32*2, TBloque.LADRILLOS));
+		lobby.add(new TBlock(32*5,32*4, TBlock.BLOQUE_PREGUNTA));
+		lobby.add(new TBlock(32*4,32*2, TBlock.LADRILLOS));
+		lobby.add(new TBlock(32*3,32*2, TBlock.LADRILLOS));
+		lobby.add(new TBlock(32*5,32*2, TBlock.LADRILLOS));
+		lobby.add(new TBlock(32*6,32*2, TBlock.BLOQUE_PREGUNTA_DESACTIVADO));
+		lobby.add(new TBlock(32*7,32*2, TBlock.LADRILLOS));
 		TTuberia tuberia = new TTuberia();
 		tuberia.setPos(-32*7, 32*5);
 		TPirana pirana = new TPirana();
 		lobby.add(tuberia);
 		lobby.add(pirana);
 		tuberia.addPirana(pirana);
-		lobby.add(new TBloque(-32*5, 0, TBloque.LADRILLOS, null, true));
+		lobby.add(new TBlock(-32*5, 0, TBlock.LADRILLOS, null, true));
 		
-		nuevoJuego = new TextButton("NUEVO JUEGO", JGameMaker.FONT_GRANDE);
-		cargarJuego = new TextButton("CARGAR JUEGO", JGameMaker.FONT_GRANDE);
-		editorButton = new TextButton("CREAR MAPA", JGameMaker.FONT_GRANDE);
-		botonUnico = new TextButton("UN SOLO JUGADOR", JGameMaker.FONT_GRANDE);
-		errorCargar = new TextButton("ERROR AL CARGAR JUEGO", JGameMaker.FONT_GRANDE, TextButton.TITULO);
+		nuevoJuego = new TextoBoton("NUEVO JUEGO", JGameMaker.FONT_GRANDE);
+		cargarJuego = new TextoBoton("CARGAR JUEGO", JGameMaker.FONT_GRANDE);
+		editorButton = new TextoBoton("CREAR MAPA", JGameMaker.FONT_GRANDE);
+		botonUnico = new TextoBoton("UN SOLO JUGADOR", JGameMaker.FONT_GRANDE);
+		errorCargar = new TextoBoton("ERROR AL CARGAR JUEGO", JGameMaker.FONT_GRANDE, TextoBoton.TITULO);
 		//multiButton = new TextRect("ONLINE", JGameMaker.FONT_GRANDE);
-		titulo = new TextButton("JGameMaker", FONT_TITULO, Color.WHITE);
-		salir = new TextButton("SALIR", JGameMaker.FONT_GRANDE);
+		titulo = new TextoBoton("JGameMaker", FONT_TITULO, Color.WHITE);
+		salir = new TextoBoton("SALIR", JGameMaker.FONT_GRANDE);
 		int height = editorButton.getHeight();
 		
 		titulo.setPos(0, ESPACIO_ARRIBA - titulo.getHeight() - 50);

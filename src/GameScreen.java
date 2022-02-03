@@ -29,12 +29,12 @@ public class GameScreen extends Pantalla{
 	 */
 	public boolean cargando;
 	
-	private TextButton etiquetaCarga;
+	private TextoBoton etiquetaCarga;
 	
 	public GameScreen(){
 		lobbys = new Vector<Lobby>();
 		heroe = new Heroe();
-		etiquetaCarga = new TextButton("CARGANDO", JGameMaker.FONT_GRANDE, Color.WHITE);
+		etiquetaCarga = new TextoBoton("CARGANDO", JGameMaker.FONT_GRANDE, Color.WHITE);
 		etiquetaCarga.setPos((JGameMaker.screenWidth - etiquetaCarga.getWidth())/2, (JGameMaker.screenHeight - etiquetaCarga.getHeight())/2);
 		cargando = false;
 	}

@@ -10,12 +10,12 @@ import java.awt.image.ImageObserver;
  */
 public class TLinker extends TTool {
 	
-	Thing link;
-	private Sprite preview = new Sprite("Imagenes/sprites/tools/link.png");
+	Thing enlace;
+	private Sprite preview = new Sprite("Imagenes/sprites/tools/enlace.png");
 	
 	public TLinker(){
 		super();
-		link = null;
+		enlace = null;
 		//isInWorld = false;
 	}
 	public BufferedImage preview(){
@@ -24,31 +24,31 @@ public class TLinker extends TTool {
 	
 	/**
 	 * 
-	 * @return the link that's in the queue, if there is none then null
+	 * @return the enlace that's in the queue, if there is none then null
 	 */
 	public Thing getLink(){
-		return link;
+		return enlace;
 	}
 	
-	public boolean canLink(Thing t){
-		return link != null && link.canLink(t);
+	public boolean colocarEnlace(Thing t){
+		return enlace != null && enlace.colocarEnlace(t);
 	}
 	
 	public void enContacto(Thing t){
-		if(t.canLink(link)){
-			if(link == null){
-				link = t;
+		if(t.colocarEnlace(enlace)){
+			if(enlace == null){
+				enlace = t;
 			}else{
-				t.link(link);
-				link.link(t);
+				t.enlace(enlace);
+				enlace.enlace(t);
 			}
 		}
 	}
 	
 	public void draw(Graphics g, ImageObserver o, Heroe heroe){
 		super.draw(g,o,heroe);
-		if(link == null || !link.inPlayerView(heroe))return;
-		int[] c = link.getDrawCoords(heroe);
+		if(enlace == null || !enlace.inPlayerView(heroe))return;
+		int[] c = enlace.getDrawCoords(heroe);
 		g.setColor(Color.YELLOW);
 		g.fillRect(c[0],c[1],c[2],c[3]);
 	}

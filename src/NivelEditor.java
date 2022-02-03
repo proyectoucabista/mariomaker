@@ -12,20 +12,20 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * The Level Editor part of the juego. It contains a SpawnScreen that is used to create and manipulate Things in the juego.
+ * The Level Editor part of the juego. It contains a PantallaSpawn that is used to create and manipulate Things in the juego.
  * @author rweichler
  *
  */
-public class LevelEditor extends GameScreen{
+public class NivelEditor extends GameScreen{
 	//private CreativeBox box;
-	private SpawnScreen pantallaSpawn;
+	private PantallaSpawn pantallaSpawn;
 	private boolean mouseAbajo;
 	private Vector<TGridded> arrastreSpawn;
 	private boolean congelar;
 	
-	public LevelEditor(){
+	public NivelEditor(){
 		super();
-		pantallaSpawn = new SpawnScreen(heroe);
+		pantallaSpawn = new PantallaSpawn(heroe);
 		mouseAbajo = false;
 		arrastreSpawn = null;
 		congelar = false;

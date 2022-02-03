@@ -27,8 +27,8 @@ public abstract class TEnemigo extends Thing {
 		return DE_TODASPARTES;
 	}
 	/**
-	 * Called when this is cabezaso by a block from below. By default, it is asesinado.
-	 * @param block the block that cabezaso it
+	 * Called when this is hit by a block from below. By default, it is asesinado.
+	 * @param block the block that hit it
 	 */
 	public void golpeBloque(Thing block){
 		matar(new Point2D.Double((pos.x - block.pos.x)/10, Math.random()*3 + 6));
@@ -55,7 +55,7 @@ public abstract class TEnemigo extends Thing {
 		heroe.matar();
 	}
 	/**
-	 * gives the player the ability for an extra saltar, usually called when this is cabezaso from above
+	 * gives the player the ability for an extra saltar, usually called when this is hit from above
 	 * @param heroe
 	 */
 	public void pisar(Heroe heroe){
@@ -71,7 +71,7 @@ public abstract class TEnemigo extends Thing {
 	public void enContacto(Thing t){
 		if(muriendo())return;
 		byte where = fromWhere(t);
-		if(t instanceof TBloque && where == DESDE_ABAJO && t.vel.y > 1){
+		if(t instanceof TBlock && where == DESDE_ABAJO && t.vel.y > 1){
 			golpeBloque(t);
 		}else if(t instanceof Heroe){
 			Heroe heroe = (Heroe)t;

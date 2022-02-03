@@ -15,9 +15,9 @@ public class PauseScreen extends Pantalla {
 	
 	private static final int TOP = 150,ESPACIADO = 5;
 	
-	private TextButton continuar,menuPrincipal,guardar,salir;
+	private TextoBoton continuar,menuPrincipal,guardar,salir;
 	
-	private TextButton estasSeguro,datosNoGuardados,aceptar,cancelar;
+	private TextoBoton estasSeguro,datosNoGuardados,aceptar,cancelar;
 	
 	private boolean menuPrincipalSeleccionado,quitSelected,puedeGuardar;
 	
@@ -25,20 +25,20 @@ public class PauseScreen extends Pantalla {
 		this.puedeGuardar = puedeGuardar;
 		menuPrincipalSeleccionado = false;
 		
-		continuar = new TextButton("Continuar", JGameMaker.FONT_GRANDE);
-		menuPrincipal = new TextButton("Menu Principal", JGameMaker.FONT_GRANDE);
-		salir = new TextButton("Salir", JGameMaker.FONT_GRANDE);
-		estasSeguro = new TextButton("Estas Seguro?", JGameMaker.FONT_GRANDE, TextButton.TITULO,TextButton.TITULO);
+		continuar = new TextoBoton("Continuar", JGameMaker.FONT_GRANDE);
+		menuPrincipal = new TextoBoton("Menu Principal", JGameMaker.FONT_GRANDE);
+		salir = new TextoBoton("Salir", JGameMaker.FONT_GRANDE);
+		estasSeguro = new TextoBoton("Estas Seguro?", JGameMaker.FONT_GRANDE, TextoBoton.TITULO,TextoBoton.TITULO);
 		int textheight = continuar.getHeight();
 		if(puedeGuardar){
-			datosNoGuardados = new TextButton("Los datos no guardados. (se perderan)", JGameMaker.FONT_MEDIO, TextButton.TITULO,TextButton.TITULO);
-			guardar = new TextButton("Guardar nivel", JGameMaker.FONT_GRANDE);
+			datosNoGuardados = new TextoBoton("Los datos no guardados. (se perderan)", JGameMaker.FONT_MEDIO, TextoBoton.TITULO,TextoBoton.TITULO);
+			guardar = new TextoBoton("Guardar nivel", JGameMaker.FONT_GRANDE);
 		}else{
-			datosNoGuardados = new TextButton("TODOS LOS PROGRESOS SE PERDERAN", JGameMaker.FONT_MEDIO, TextButton.TITULO,TextButton.TITULO);
-			guardar = new TextButton("Reiniciar Nivel", JGameMaker.FONT_GRANDE);
+			datosNoGuardados = new TextoBoton("TODOS LOS PROGRESOS SE PERDERAN", JGameMaker.FONT_MEDIO, TextoBoton.TITULO,TextoBoton.TITULO);
+			guardar = new TextoBoton("REINICIAR NIVEL", JGameMaker.FONT_GRANDE);
 		}
-		aceptar = new TextButton("Aceptar", JGameMaker.FONT_GRANDE);
-		cancelar = new TextButton("Cancelar", JGameMaker.FONT_GRANDE);
+		aceptar = new TextoBoton("Aceptar", JGameMaker.FONT_GRANDE);
+		cancelar = new TextoBoton("Cancelar", JGameMaker.FONT_GRANDE);
 		
 		continuar.setPos((JGameMaker.screenWidth - continuar.getWidth())/2,		TOP);
 		menuPrincipal.setPos((JGameMaker.screenWidth - menuPrincipal.getWidth())/2,	TOP + (ESPACIADO + textheight)*1);

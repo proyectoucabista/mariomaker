@@ -2,12 +2,12 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.File;
 /**
- * This class actually plays through the levels that are created with LevelEditor.
+ * This class actually plays through the levels that are created with NivelEditor.
  * @author Reed Weichler
  */
 public class UnJugador extends GameScreen{
 
-	TextButton mensaje1,mensaje2;
+	TextoBoton mensaje1,mensaje2;
 	
 	private boolean ganador;
 	
@@ -19,8 +19,8 @@ public class UnJugador extends GameScreen{
 	
 	public UnJugador(){
 		super();
-		mensaje1 = new TextButton("CUIDA TU AMBIENTE",JGameMaker.FONT_GRANDE, 10,10, java.awt.Color.WHITE);
-		mensaje2 = new TextButton("RECICLA LOS MATERIALES REUTILIZABLES",JGameMaker.FONT_GRANDE, 10, 12 + mensaje1.getHeight(), java.awt.Color.WHITE);
+		mensaje1 = new TextoBoton("CUIDA TU AMBIENTE",JGameMaker.FONT_GRANDE, 10,10, java.awt.Color.WHITE);
+		mensaje2 = new TextoBoton("RECICLA LOS MATERIALES REUTILIZABLES",JGameMaker.FONT_GRANDE, 10, 12 + mensaje1.getHeight(), java.awt.Color.WHITE);
 	}
 
 	public void init(int marioImagen){

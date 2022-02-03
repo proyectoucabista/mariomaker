@@ -41,13 +41,13 @@ public class Lobby {
 	}
 
 	/**
-	 * draws this to the screen, and handles the SpawnScreen if not null
+	 * draws this to the screen, and handles the PantallaSpawn if not null
 	 * @param g
 	 * @param o
 	 * @param heroe
 	 * @param spawn
 	 */
-	public void draw(Graphics g, ImageObserver o, Heroe heroe, SpawnScreen spawn){
+	public void draw(Graphics g, ImageObserver o, Heroe heroe, PantallaSpawn spawn){
 		boolean shouldDrawHero = true;
 		if(heroe == null){
 			heroe = new Heroe();
@@ -91,7 +91,7 @@ public class Lobby {
 	/**
 	 * called every frame
 	 * @param heroe
-	 * @param modoEditar true if in LevelEditor
+	 * @param modoEditar true if in NivelEditor
 	 */
 	public void think(Heroe heroe, boolean modoEditar){
 		think(heroe,modoEditar,false);
@@ -99,7 +99,7 @@ public class Lobby {
 	/**
 	 * called every frame
 	 * @param heroe
-	 * @param modoEditar true if in LevelEditor
+	 * @param modoEditar true if in NivelEditor
 	 * @param debeCongelar if true, then none of the Things that are contained within this will think
 	 */
 	public void think(Heroe heroe, boolean modoEditar,boolean debeCongelar){
@@ -197,15 +197,15 @@ public class Lobby {
 			for(Thing t: things){
 				if(!(t instanceof TGridded)) continue;
 				TGridded tgrid = (TGridded)t;
-				addgrid.addAdyacente(tgrid);
-				tgrid.addAdyacente((TGridded)add);
+				addgrid.addAdjacent(tgrid);
+				tgrid.addAdjacent((TGridded)add);
 			}
 		}
 		if(add instanceof TItem){
 			TItem item = (TItem)add;
 			for(Thing t: things){
-				if(t instanceof TBloque && ((TBloque)t).canAcceptItem() && t.tocando(add)){
-					((TBloque)t).addItem(item);
+				if(t instanceof TBlock && ((TBlock)t).canAcceptItem() && t.tocando(add)){
+					((TBlock)t).addItem(item);
 					return;
 				}
 			}
@@ -262,7 +262,7 @@ public class Lobby {
 			for(Thing t: things){
 				if(!(t instanceof TGridded)) continue;
 				TGridded tgrid = (TGridded)t;
-				tgrid.removerAdyacente(removegrid);
+				tgrid.removeAdjacent(removegrid);
 			}
 		}
 		things.remove(remove);

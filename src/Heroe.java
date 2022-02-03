@@ -412,8 +412,8 @@ public class Heroe extends Thing{
 			}
 		}
 		/**
-		 * determines if this cabezaso a TMeta
-		 * @return true if this cabezaso the goal
+		 * determines if this hit a TMeta
+		 * @return true if this hit the goal
 		 */
 		public boolean ganador(){
 			boolean temp = ganador;

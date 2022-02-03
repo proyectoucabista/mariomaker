@@ -30,7 +30,7 @@ public class ScreenController {
 		pantallaPanel.pause(pause);
 	}
 	/**
-	 * creates a new LevelEditor
+	 * creates a new NivelEditor
 	 * @param marioImagen the color of the Heroe
 	 */
 	public void nivelEditor(int marioImagen){

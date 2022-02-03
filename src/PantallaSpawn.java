@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  * @author Reed Weichler
  *
  */
-public class SpawnScreen extends Pantalla {
+public class PantallaSpawn extends Pantalla {
 	
 	private boolean visible;
 	private int cosaElegida;
@@ -23,7 +23,7 @@ public class SpawnScreen extends Pantalla {
 	private int cosaFlotante;
 	private boolean nivelPartida, congelarPartida;
 	
-	private TextButton cambiarNivel, congelarTiempo;
+	private TextoBoton cambiarNivel, congelarTiempo;
 	
 	private static final Color  YELLOW = new Color(255,255,0,120),GREEN = new Color(0,255,0,120),RED = new Color(255,0,0,120);
 	
@@ -32,17 +32,17 @@ public class SpawnScreen extends Pantalla {
 		new TKoopa(0,0),
 		new TPirana(),
 		new TTuberia(0,0),
-		new TBloque(0,0,TBloque.LADRILLO_MARRON,null),
-		new TBloque(TBloque.SUELO),
-		new TBloque(TBloque.PILAR),
-		new TBloque(TBloque.BLOQUE_PREGUNTA_DESACTIVADO),
+		new TBlock(0,0,TBlock.LADRILLO_MARRON,null),
+		new TBlock(TBlock.SUELO),
+		new TBlock(TBlock.PILAR),
+		new TBlock(TBlock.BLOQUE_PREGUNTA_DESACTIVADO),
 		null,
 		null,
-		new TBloque(TBloque.HONGO_IZQUIERDO),
-		new TBloque(TBloque.HONGO_MEDIO),
-		new TBloque(TBloque.HONGO_DERECHO),
-		new TBGBloque(TBloque.HONGO_ARRIBA),
-		new TBGBloque(TBloque.HONGO_ABAJO),
+		new TBlock(TBlock.HONGO_IZQUIERDO),
+		new TBlock(TBlock.HONGO_MEDIO),
+		new TBlock(TBlock.HONGO_DERECHO),
+		new TBGBloque(TBlock.HONGO_ARRIBA),
+		new TBGBloque(TBlock.HONGO_ABAJO),
                 new TStar(),
 		new TSpawn(),
 		new TMeta(),
@@ -50,16 +50,17 @@ public class SpawnScreen extends Pantalla {
 		new TVerticalBound(),
 		new TLinker(),
 		new TRemover(),
+		new TBloquesColores(),
 		new AgujeroTierra(),
 	};
 	
-	public SpawnScreen(Heroe heroe){
+	public PantallaSpawn(Heroe heroe){
 		visible = false;
 		nivelPartida = false;
 		cosaElegida = 0;
 		cosaFlotante = -1;
-		cambiarNivel = new TextButton("CAMBIAR FONDO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10);
-		congelarTiempo = new TextButton("CONGELAR TIEMPO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10 + 20 + cambiarNivel.getHeight());
+		cambiarNivel = new TextoBoton("CAMBIAR FONDO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10);
+		congelarTiempo = new TextoBoton("CONGELAR TIEMPO", JGameMaker.FONT_MEDIO, 160, 160 + 48*(things.length - 1 + 10)/10 + 20 + cambiarNivel.getHeight());
 		this.heroe = heroe;
 	}
 
@@ -188,21 +189,21 @@ public class SpawnScreen extends Pantalla {
 			return RED;
 		}else if(chosen instanceof TLinker){
 			TLinker linker = (TLinker)chosen;
-			if(t.canLink(linker.getLink())){
+			if(t.colocarEnlace(linker.getLink())){
 				return YELLOW;
 			}
 		}else if(chosen instanceof TPirana){
 			if(t instanceof TTuberia && ((TTuberia)t).getPirana() == null){
 				return YELLOW;
 			}
-		}else if(chosen instanceof TItem && t instanceof TBloque && ((TBloque)t).canAcceptItem()){
+		}else if(chosen instanceof TItem && t instanceof TBlock && ((TBlock)t).canAcceptItem()){
 			return GREEN;
 		}
 		return null;
 	}
 	
 	/**
-	 * gets the Thing that should be spawned and returns it. The returned Thing is removed from the SpawnScreen and new instancia of it is created to take its place.
+	 * gets the Thing that should be spawned and returns it. The returned Thing is removed from the PantallaSpawn and new instancia of it is created to take its place.
 	 * @return the Thing to be spawned
 	 */
 	public Thing getSpawn(){
@@ -223,8 +224,8 @@ public class SpawnScreen extends Pantalla {
 		return temp;
 	}
 	/**
-	 * returns the Thing that is selected in the SpawnScreen
-	 * @return the Thing that is selected in the SpawnScreen
+	 * returns the Thing that is selected in the PantallaSpawn
+	 * @return the Thing that is selected in the PantallaSpawn
 	 */
 	public Thing pasarSpawn(){
 		return things[cosaElegida];

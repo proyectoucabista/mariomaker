@@ -102,7 +102,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param marioColor the color the Heroe should be
 	 */
 	public void nivelEditor(int marioColor){
-		juego = new LevelEditor();
+		juego = new NivelEditor();
 		menu = new PauseScreen(true);
 		juego.controller = controller;
 		menu.controller = controller;
@@ -116,7 +116,7 @@ public class ScreenManager implements MouseListener, MouseMotionListener,KeyList
 	 * @param f the file to be opened which contains the nivel data
 	 */
 	public void nivelEditor(int marioColor, File f){
-		juego = new LevelEditor();
+		juego = new NivelEditor();
 		boolean init;
 		try{
 			init = juego.init(marioColor, f);

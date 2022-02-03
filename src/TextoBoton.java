@@ -9,7 +9,7 @@ import java.awt.geom.*;
  * @author Reed Weichler
  *
  */
-public class TextButton {
+public class TextoBoton {
 	private String str;
 	private Font font;
 	private Rectangle bounds;
@@ -18,12 +18,10 @@ public class TextButton {
 	/**
 	 * default colors
 	 */
-	public static final Color	TITULO = Color.RED,
-								TEXT = Color.WHITE,
-								HIGHLIGHT = new Color(180,180,180);
+	public static final Color	TITULO = Color.RED,TEXT = Color.WHITE,HIGHLIGHT = new Color(180,180,180);
 	
 	/**
-	 * Creates a new TextButton with the specified attributes
+	 * Creates a new TextoBoton with the specified attributes
 	 * @param str text to be displayed
 	 * @param font font of text
 	 * @param x the very left part of the text
@@ -31,7 +29,7 @@ public class TextButton {
 	 * @param color default color
 	 * @param highlight color when the mouse hovers over
 	 */
-	public TextButton(String str, Font font, int x, int y, Color color, Color highlight){
+	public TextoBoton(String str, Font font, int x, int y, Color color, Color highlight){
 		this.str = str;
 		this.color = color;
 		this.highlight = highlight;
@@ -39,22 +37,22 @@ public class TextButton {
 		Rectangle stringBounds = stringBounds(str,font);
 		bounds = new Rectangle(x,y,stringBounds.width, stringBounds.height);
 	}
-	public TextButton(String str, Font font, int x, int y){
+	public TextoBoton(String str, Font font, int x, int y){
 		this(str,font);
 		setPos(x,y);
 	}
 	
-	public TextButton(String str, Font font, int x, int y, Color color){
+	public TextoBoton(String str, Font font, int x, int y, Color color){
 		this(str,font,x,y,color,color);
 	}
 
-	public TextButton(String str, Font font, Color color, Color highlight){
+	public TextoBoton(String str, Font font, Color color, Color highlight){
 		this(str,font,0,0,color,highlight);
 	}
-	public TextButton(String str, Font font, Color color){
+	public TextoBoton(String str, Font font, Color color){
 		this(str,font,color,color);
 	}
-	public TextButton(String str, Font font){
+	public TextoBoton(String str, Font font){
 		this(str,font,TEXT,HIGHLIGHT);
 	}
 	

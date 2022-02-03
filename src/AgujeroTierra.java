@@ -12,11 +12,11 @@ public class AgujeroTierra extends TBloquesColores {
 	
 	private static final BufferedImage preview = new Sprite("Imagenes/sprites/tools/agujero.png").getBuffer();
 	
-	private byte nubesAdyacentes;
+	private byte adjacentSkies;
 	
 	public AgujeroTierra(){
 		super(Fondo.COLOR_NUBES, DESDE_NINGUNO);
-		nubesAdyacentes = DESDE_NINGUNO;
+		adjacentSkies = DESDE_NINGUNO;
 		height = height*3/2;
 	}
 	public void makeSpriteUnderground(){
@@ -38,28 +38,28 @@ public class AgujeroTierra extends TBloquesColores {
 	}
 	
 	
-	private boolean tieneNubesAdyacentes(byte direction){
+	private boolean hasAdjacentSky(byte direction){
 		if(direction == DESDE_NINGUNO)return false;
-		return (nubesAdyacentes & direction) != 0;
+		return (adjacentSkies & direction) != 0;
 	}
 	
-	public void addAdyacente(TGridded other){
-		super.addAdyacente(other);
+	public void addAdjacent(TGridded other){
+		super.addAdjacent(other);
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
-		if(!tieneNubesAdyacentes(direction)){
-			nubesAdyacentes += direction;
+		if(!hasAdjacentSky(direction)){
+			adjacentSkies += direction;
 		}
 	}
 	
 	
 
-	public void removerAdyacente(TGridded other){
-		super.removerAdyacente(other);
+	public void removeAdjacent(TGridded other){
+		super.removeAdjacent(other);
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
-		if(tieneNubesAdyacentes(direction)){
-			nubesAdyacentes -= direction;
+		if(hasAdjacentSky(direction)){
+			adjacentSkies -= direction;
 		}
 	}
 	public void enContacto(Thing t){
@@ -67,7 +67,7 @@ public class AgujeroTierra extends TBloquesColores {
 			matar();
 		}
 		if(!t.activarGravedad()) return;
-		if((t.pos.x >= pos.x || tieneNubesAdyacentes(DESDE_IZQUIERDA)) && (t.pos.x + t.width <= pos.x + width || tieneNubesAdyacentes(DESDE_DERECHA))){
+		if((t.pos.x >= pos.x || hasAdjacentSky(DESDE_IZQUIERDA)) && (t.pos.x + t.width <= pos.x + width || hasAdjacentSky(DESDE_DERECHA))){
 			t.cayendo = true;
 		}else{
 			if(t.pos.y >= pos.y + height*2/3 - 10){
