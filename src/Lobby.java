@@ -197,15 +197,15 @@ public class Lobby {
 			for(Thing t: things){
 				if(!(t instanceof TGridded)) continue;
 				TGridded tgrid = (TGridded)t;
-				addgrid.addAdjacent(tgrid);
-				tgrid.addAdjacent((TGridded)add);
+				addgrid.addAdyacente(tgrid);
+				tgrid.addAdyacente((TGridded)add);
 			}
 		}
 		if(add instanceof TItem){
 			TItem item = (TItem)add;
 			for(Thing t: things){
-				if(t instanceof TBlock && ((TBlock)t).canAcceptItem() && t.tocando(add)){
-					((TBlock)t).addItem(item);
+				if(t instanceof TBloque && ((TBloque)t).canAcceptItem() && t.tocando(add)){
+					((TBloque)t).addItem(item);
 					return;
 				}
 			}
@@ -262,7 +262,7 @@ public class Lobby {
 			for(Thing t: things){
 				if(!(t instanceof TGridded)) continue;
 				TGridded tgrid = (TGridded)t;
-				tgrid.removeAdjacent(removegrid);
+				tgrid.removerAdyacente(removegrid);
 			}
 		}
 		things.remove(remove);

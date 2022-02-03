@@ -5,13 +5,13 @@ import java.awt.Color;
  * @author Reed Weichler
  *
  */
-public abstract class TUnido extends TVisibleTool {
+public abstract class TLimite extends TVisibleTool {
 
 	private static final Color COLOR = new Color(255,140,0,180);
-	public TUnido(){
+	public TLimite(){
 		this(COLOR);
 	}
-	public TUnido(Color color){
+	public TLimite(Color color){
 		super(32,32,color);
 	}
 }

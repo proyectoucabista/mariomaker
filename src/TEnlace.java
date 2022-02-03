@@ -8,12 +8,12 @@ import java.awt.image.ImageObserver;
  * @author rweichler
  *
  */
-public class TLinker extends TTool {
+public class TEnlace extends TTool {
 	
 	Thing enlace;
 	private Sprite preview = new Sprite("Imagenes/sprites/tools/enlace.png");
 	
-	public TLinker(){
+	public TEnlace(){
 		super();
 		enlace = null;
 		//isInWorld = false;
@@ -26,7 +26,7 @@ public class TLinker extends TTool {
 	 * 
 	 * @return the enlace that's in the queue, if there is none then null
 	 */
-	public Thing getLink(){
+	public Thing getEnlace(){
 		return enlace;
 	}
 	

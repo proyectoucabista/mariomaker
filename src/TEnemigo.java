@@ -71,7 +71,7 @@ public abstract class TEnemigo extends Thing {
 	public void enContacto(Thing t){
 		if(muriendo())return;
 		byte where = fromWhere(t);
-		if(t instanceof TBlock && where == DESDE_ABAJO && t.vel.y > 1){
+		if(t instanceof TBloque && where == DESDE_ABAJO && t.vel.y > 1){
 			golpeBloque(t);
 		}else if(t instanceof Heroe){
 			Heroe heroe = (Heroe)t;

@@ -8,7 +8,7 @@ import java.awt.image.*;
  * @author Reed Weichler
  *
  */
-public class TStar extends TItem{
+public class TEstrella extends TItem{
 	private Sprite IMAGEN = new Sprite("Imagenes/sprites/estrella.gif");
 	
 	

@@ -32,23 +32,23 @@ public class PantallaSpawn extends Pantalla {
 		new TKoopa(0,0),
 		new TPirana(),
 		new TTuberia(0,0),
-		new TBlock(0,0,TBlock.LADRILLO_MARRON,null),
-		new TBlock(TBlock.SUELO),
-		new TBlock(TBlock.PILAR),
-		new TBlock(TBlock.BLOQUE_PREGUNTA_DESACTIVADO),
+		new TBloque(0,0,TBloque.LADRILLO_MARRON,null),
+		new TBloque(TBloque.SUELO),
+		new TBloque(TBloque.PILAR),
+		new TBloque(TBloque.BLOQUE_PREGUNTA_DESACTIVADO),
 		null,
 		null,
-		new TBlock(TBlock.HONGO_IZQUIERDO),
-		new TBlock(TBlock.HONGO_MEDIO),
-		new TBlock(TBlock.HONGO_DERECHO),
-		new TBGBloque(TBlock.HONGO_ARRIBA),
-		new TBGBloque(TBlock.HONGO_ABAJO),
-                new TStar(),
+		new TBloque(TBloque.HONGO_IZQUIERDO),
+		new TBloque(TBloque.HONGO_MEDIO),
+		new TBloque(TBloque.HONGO_DERECHO),
+		new TBGBloque(TBloque.HONGO_ARRIBA),
+		new TBGBloque(TBloque.HONGO_ABAJO),
+                new TEstrella(),
 		new TSpawn(),
 		new TMeta(),
 		new THorizontalBound(),
 		new TVerticalBound(),
-		new TLinker(),
+		new TEnlace(),
 		new TRemover(),
 		new TBloquesColores(),
 		new AgujeroTierra(),
@@ -187,16 +187,16 @@ public class PantallaSpawn extends Pantalla {
 		}
 		if(chosen instanceof TRemover){
 			return RED;
-		}else if(chosen instanceof TLinker){
-			TLinker linker = (TLinker)chosen;
-			if(t.colocarEnlace(linker.getLink())){
+		}else if(chosen instanceof TEnlace){
+			TEnlace linker = (TEnlace)chosen;
+			if(t.colocarEnlace(linker.getEnlace())){
 				return YELLOW;
 			}
 		}else if(chosen instanceof TPirana){
 			if(t instanceof TTuberia && ((TTuberia)t).getPirana() == null){
 				return YELLOW;
 			}
-		}else if(chosen instanceof TItem && t instanceof TBlock && ((TBlock)t).canAcceptItem()){
+		}else if(chosen instanceof TItem && t instanceof TBloque && ((TBloque)t).canAcceptItem()){
 			return GREEN;
 		}
 		return null;
@@ -209,9 +209,9 @@ public class PantallaSpawn extends Pantalla {
 	public Thing getSpawn(){
 		if(visible)return null;
 		Thing temp = things[cosaElegida];
-		if(temp instanceof TLinker && ((TLinker)temp).getLink() == null){
+		if(temp instanceof TEnlace && ((TEnlace)temp).getEnlace() == null){
 			//do not make a new one.
-		//	((TLinker)temp).makeInWorld();
+		//	((TEnlace)temp).makeInWorld();
 		}else{
 			try {
 				things[cosaElegida] = temp.getClass().newInstance();

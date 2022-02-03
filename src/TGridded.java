@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 public class TGridded extends Thing{
 	
 	private Point gridPos;
-	private byte adjacents;
+	private byte adyacentes;
 	
 	public TGridded(){
 		this(0,0);
@@ -18,7 +18,7 @@ public class TGridded extends Thing{
 	public TGridded(double x, double y, int width, int height){
 		super(x,y,width,height);
 		gridPos = new Point(getGridCoord(x),getGridCoord(y));
-		adjacents = Thing.DESDE_NINGUNO;
+		adyacentes = Thing.DESDE_NINGUNO;
 		this.width = getGridCoord(width)*32;
 		this.height = getGridCoord(height)*32;
 		setPos(x,y);
@@ -61,18 +61,18 @@ public class TGridded extends Thing{
 	 */
 	public boolean hasAdjacent(byte direction){
 		if(direction == DESDE_NINGUNO)return false;
-		return (adjacents & direction) != 0;
+		return (adyacentes & direction) != 0;
 	}
 
 	/**
 	 * add other to the list of adjacent blocks
 	 * @param other
 	 */
-	public void addAdjacent(TGridded other){
+	public void addAdyacente(TGridded other){
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
 		if(!hasAdjacent(direction)){
-			adjacents += direction;
+			adyacentes += direction;
 		}
 	}
 	
@@ -80,11 +80,11 @@ public class TGridded extends Thing{
 	 * remove other from the list of adjacent blocks
 	 * @param other
 	 */
-	public void removeAdjacent(TGridded other){
+	public void removerAdyacente(TGridded other){
 		byte direction = getDirection(other);
 		if(direction == DESDE_NINGUNO)return;
 		if(hasAdjacent(direction)){
-			adjacents -= direction;
+			adyacentes -= direction;
 		}
 	}
 	
@@ -101,7 +101,7 @@ public class TGridded extends Thing{
 	}
 	
 	public boolean isStatic(){
-		return adjacents != 0;
+		return adyacentes != 0;
 	}
 	
 	/**

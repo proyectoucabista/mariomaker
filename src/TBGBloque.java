@@ -2,11 +2,11 @@
 import java.awt.Rectangle;
 
 /**
- * Represents a TBlock that can be walked through
+ * Representa un TBloque que se puede recorrer
  * @author Reed Weichler
  *
  */
-public class TBGBloque extends TBlock {
+public class TBGBloque extends TBloque {
 	public TBGBloque(){
 		super();
 	}

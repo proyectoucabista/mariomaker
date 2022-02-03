@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
  * @author Reed Weichler
  *
  */
-public class THorizontalBound extends TUnido {
+public class THorizontalBound extends TLimite {
 
 	private static final Sprite PREVIEW = new Sprite("Imagenes/sprites/tools/hbound.png");
 

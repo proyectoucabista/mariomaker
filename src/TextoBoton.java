@@ -12,7 +12,7 @@ import java.awt.geom.*;
 public class TextoBoton {
 	private String str;
 	private Font font;
-	private Rectangle bounds;
+	private Rectangle limites;
 	private Color highlight, color;
 	
 	/**
@@ -34,8 +34,8 @@ public class TextoBoton {
 		this.color = color;
 		this.highlight = highlight;
 		this.font = font;
-		Rectangle stringBounds = stringBounds(str,font);
-		bounds = new Rectangle(x,y,stringBounds.width, stringBounds.height);
+		Rectangle limitesCadena = limitesCadena(str,font);
+		limites = new Rectangle(x,y,limitesCadena.width, limitesCadena.height);
 	}
 	public TextoBoton(String str, Font font, int x, int y){
 		this(str,font);
@@ -57,44 +57,44 @@ public class TextoBoton {
 	}
 	
 	/**
-	 * determines if p is within the bounds of this
-	 * @return true if p is within the bounds of this, false if not
+	 * determines if p is within the limites of this
+	 * @return true if p is within the limites of this, false if not
 	 */
 	public boolean contains(Point p){
-		return bounds.contains(p);
+		return limites.contains(p);
 	}
 	/**
-	 * determines if a point at coordinates (x,y) is within the bounds of this
-	 * @return true if (x,y) is within the bounds of this, false if not
+	 * determines if a point at coordinates (x,y) is within the limites of this
+	 * @return true if (x,y) is within the limites of this, false if not
 	 */
 	public boolean contains(int x, int y){
-		return bounds.contains(x,y);
+		return limites.contains(x,y);
 	}
 	public int getWidth(){
-		return bounds.width;
+		return limites.width;
 	}
 	public int getHeight(){
-		return bounds.height;
+		return limites.height;
 	}
 	public void setPos(Point p){
-		bounds.setLocation(p);
+		limites.setLocation(p);
 	}
 	public void setPos(int x, int y){
-		bounds.setLocation(x,y);
+		limites.setLocation(x,y);
 	}
 	
 	public void setText(String str){
 		this.str = str;
-		Rectangle stringBounds = stringBounds(str,font);
-		bounds = new Rectangle(bounds.x,bounds.y,stringBounds.width, stringBounds.height);
+		Rectangle limitesCadena = limitesCadena(str,font);
+		limites = new Rectangle(limites.x,limites.y,limitesCadena.width, limitesCadena.height);
 		
 	}
 	
-	//EXTREMELY HACKY. I throw up a little when I look at this code.
-	private Rectangle stringBounds(String str, Font font){
+	//codigo complicado
+	private Rectangle limitesCadena(String str, Font font){
 		Graphics g = (new Sprite(1,1)).getBuffer().getGraphics();
-		Rectangle2D stringBounds = g.getFontMetrics(font).getStringBounds(str,g);
-		return new Rectangle(0,0,(int)(stringBounds.getWidth() + 0.5),(int)((stringBounds.getHeight() + 0.5)/2));
+		Rectangle2D limitesCadena = g.getFontMetrics(font).getStringBounds(str,g);
+		return new Rectangle(0,0,(int)(limitesCadena.getWidth() + 0.5),(int)((limitesCadena.getHeight() + 0.5)/2));
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class TextoBoton {
 		}else{
 			g.setColor(color);
 		}
-		g.drawString(str, bounds.x, bounds.y + bounds.height);
+		g.drawString(str, limites.x, limites.y + limites.height);
 	}
 	/**
 	 * draws this to g, mouse coordinates are determined from ScreenPanel.mouse
