@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
  * @author Reed Weichler
  *
  */
-public class THorizontalBound extends TLimite {
+public class TLimiteHorizontal extends TLimite {
 
 	private static final Sprite PREVIEW = new Sprite("Imagenes/sprites/tools/hbound.png");
 
@@ -15,10 +15,10 @@ public class THorizontalBound extends TLimite {
 		return PREVIEW.getBuffer();
 	}
 	
-	public THorizontalBound(){
+	public TLimiteHorizontal(){
 		
 	}
-	public THorizontalBound(Color color){
+	public TLimiteHorizontal(Color color){
 		super(color);
 	}
 	
