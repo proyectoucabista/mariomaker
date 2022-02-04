@@ -18,7 +18,7 @@ private byte[] audioBytes;
 	private int numBytes;
 	private AudioFormat audioFormat;
 	private DataLine.Info info;
-        public static AePlayWave fondoMusica; // musica de fondo del juego
+        static AePlayWave fondoMusica; // musica de fondo del juego
 
 	/**
 	 * Opens the file specified by the path and loads it to be memory so it can be played
